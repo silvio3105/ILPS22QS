@@ -46,7 +46,8 @@ namespace ILPS22QS
 enum class Return_t : uint8_t
 {
 	OK = 0, /**< @brief OK return value. */
-	NOK = 1 /**< @brief Generic not-OK return value. */
+	NOK, /**< @brief Generic not-OK return value. */
+	Timeout, /**< @brief Return value for timeouted operation. */
 };
 
 /**
@@ -69,78 +70,62 @@ typedef void (*Void_f)(void);
 
 typedef void (*Delay_f)(const uint32_t period);
 typedef uint32_t (*Tick_f)(void);
-typedef Return_t (*Send_f)(const void* data, const uint8_t len);
-typedef Return_t (*Receive_f)(void* data, const uint8_t len);
+typedef Return_t (*I2CRW_f)(const uint8_t address, void* data, const uint8_t len, const uint8_t timeout);
+typedef Return_t (*SPIRXTX_f)(const void* txData, const uint8_t txLen, void* rxData, const uint8_t rxLen, const uint8_t timeout);
+typedef Return_t (*Select_f)(void);
 
 
 // ----- CLASSES
 /**
- * @brief Class for ILPS22QS external handler
- * 
- */
-class ExternalHandler
-{
-	public:
-
-
-	~ExternalHandler(void)
-	{
-		memset(this, 0, sizeof(ExternalHandler));
-	}
-
-
-
-	private:
-};
-
-/**
  * @brief Class for ILPS22QS driver.
  * 
+ * @tparam External Object for external operations.
  */
-class ILPS22QS
+template<class E>
+class Driver
 {
-	public:
+	protected:
 	// ----- METHOD DECLARATIONS
-	ILPS22QS(const Send_f txHandler, const Receive_f rxHandler, const Void_f mspInit = nullptr, const Void_f mspDeinit = nullptr, const Delay_f waitHandler = nullptr, const Tick_f tick = nullptr);
-	~ILPS22QS(void);
-
-	inline void takeSemaphore(void);
-	inline void freeSemaphore(void);
 
 
 	// ----- METHOD DEFINITIONS
 	#ifdef ILPS22QS_IMPLEMENTATION
-	ILPS22QS(const Send_f txHandler, const Receive_f rxHandler, const Void_f mspInit = nullptr, const Void_f mspDeinit = nullptr, const Delay_f waitHandler = nullptr, const Tick_f tick = nullptr)
+	~Driver(void)
 	{
-		sendHandler = txHandler;
-		receiveHandler = rxHandler;
-		mspInitHandler = mspInit;
-		mspDeinitHandler = mspDeinit;
-		delayHandler = waitHandler;
-		tickHandler = tick;
+		if (mspDeinitHandler)
+		{
+			mspDeinitHandler();
+		}
 
-		semaphore = Semaphore_t::Free;
-	}
-
-	~ILPS22QS(void)
-	{
-		memset(this, 0, sizeof(ILPS22QS));
+		memset(this, 0, sizeof(E));
 	}	
 
-	inline void takeSemaphore(void)
-	{
-		semaphore = Semaphore_t::Taken;
-	}
-
+	/**
+	 * @brief Free semaphore for read and write operations.
+	 * 
+	 * This is required if async read and/or write is used(interrupt driven or DMA).
+	 * 
+	 * @return No return value.
+	 */
 	inline void freeSemaphore(void)
 	{
 		semaphore = Semaphore_t::Free;
-	}		
+	}	
+
+	inline Return_t init(void) const
+	{
+		if (whoAmI() == chipID)
+		{
+			return Return_t::OK;			
+		}
+
+		return Return_t::NOK;
+	}	
 	#endif // ILPS22QS_IMPLEMENTATION
 
 
 	private:
-
+	// ----- ENUMS
 	/**
 	 * @brief Enum class with register addresses.
 	 * 
@@ -360,21 +345,111 @@ class ILPS22QS
 
 
 	// ----- VARIABLES
-	static constexpr uint8_t i2cAddress = 0x5C; /**< @brief I2C address of ILPS22QS chip. */
-	Void_f mspInitHandler = nullptr; /**< @brief Pointer to external handler for MSP init. */
-	Void_f mspDeinitHandler = nullptr; /**< @brief Pointer to external handler for MSP deinit. */
-	Delay_f delayHandler = nullptr;
-	Tick_f tickHandler = nullptr;
-	Send_f sendHandler = nullptr;
-	Receive_f receiveHandler = nullptr;
+	static constexpr E& interface = static_cast<E&>(*this); /**< @brief Pointer to interface object. */
+	static constexpr uint8_t timeout = 10; /**< @brief Driver R/W timeout in ms. */
+	static constexpr uint8_t chipID = 0xB4; /**< @brief Chip ID from register \ref Register_t::WhoAmI. */
 
+	Void_f mspDeinitHandler = nullptr; /**< @brief Pointer to external function for MSP deinit. */
+	Delay_f delayHandler = nullptr; /**< @brief Pointer to external function for wait operations. */
+	Tick_f tickHandler = nullptr; /**< @brief Pointer to external function for retrieving tick. */
+
+	uint8_t data[6];
 	Semaphore_t semaphore = Semaphore_t::Free; /**< @brief Bus process semaphore. */ 
-
 
 	// ----- METHOD DECLARATIONS
 
 
 	// ----- METHOD DEFINITIONS
+	uint8_t whoAmI(void) const
+	{
+		const uint8_t tmp = (uint8_t)Register_t::WhoAmI;
+		if (interface->write(&tmp, 1) != Return_t::OK)
+		{
+			return 0;
+		}
+
+		if (interface->read(data, 1) != Return_t::OK)
+		{
+			return 0;
+		}
+
+		return data[0];
+	}
+
+
+	protected:
+	// ----- METHOD DECLARATIONS
+
+
+	// ----- METHOD DEFINITIONS
+	#ifdef ILPS22QS_IMPLEMENTATION
+	/**
+	 * @brief Object constructor.
+	 * 
+	 * @param mspInit Pointer to external function for MSP init.
+	 * @param mspDeinit Pointer to external function for MSP deinit.
+	 * @param wait Pointer to external function for handling wait state.
+	 * @param tick Pointer to external function for fetching tick.
+	 * 
+	 * @return No return value.
+	 */
+	Driver(const Void_f mspInit, const Void_f mspDeinit, const Delay_f wait, const Tick_f tick)
+	{
+		mspDeinitHandler = mspDeinit;
+		delayHandler = wait;
+		tickHandler = tick;
+		semaphore = Semaphore_t::Free;
+		memset(data, 0, sizeof(data));
+
+		if (mspInit)
+		{
+			mspInit();
+		}
+	}
+
+	/**
+	 * @brief Wait function for free semaphore.
+	 * 
+	 * @return \c Return_t::Timeout if function timeouted.
+	 * @return \c Return_t::OK if semaphore is released in time.
+	 */
+	Return_t wait(void) const
+	{
+		// Get system tick if tick handler is provided
+		uint32_t tick = 0;
+		if (tickHandler)
+		{
+			tick = tickHandler();
+		}
+
+		// Check for process semaphore
+		while (isSemaphoreFree() == Return_t::NOK)
+		{
+			// Call wait handler if provided
+			if (delayHandler)
+			{
+				delayHandler(1);
+			}
+
+			// Check for timeout if tick handler is provided
+			if (tickHandler)
+			{
+				if ((tickHandler() - tick) > timeout)
+				{
+					return Return_t::Timeout;
+				}
+			}
+		}
+
+		return Return_t::OK;
+	}
+
+	/**
+	 * @brief Check is semaphore free.
+	 * 
+	 * @return \c Return_t::NOK if semaphore is taken. 
+	 * @return \c Return_t::OK if semaphore is free.
+	 */
 	inline Return_t isSemaphoreFree(void) const
 	{
 		if (semaphore == Semaphore_t::Free)
@@ -383,27 +458,88 @@ class ILPS22QS
 		}
 
 		return Return_t::NOK;
+	}	
+
+	/**
+	 * @brief Take semaphore for read and write operations.
+	 * 
+	 * This is required if async read and/or write is used(interrupt driven or DMA).
+	 * 
+	 * @return No return value.
+	 */
+	inline void takeSemaphore(void)
+	{
+		semaphore = Semaphore_t::Taken;
 	}
 
-	inline Return_t send(const void* data, const uint8_t len) const
+	#endif // ILPS22QS_IMPLEMENTATION	
+};
+
+/**
+ * @brief Class for ILPS22QS I2C operations.
+ * 
+ */
+class I2C : protected Driver<I2C>
+{
+	public:
+	// ----- METHOD DECLARATIONS
+
+
+	// ----- METHOD DEFINITIONS
+	#ifdef ILPS22QS_IMPLEMENTATION
+	I2C(const I2CRW_f i2cRead, const I2CRW_f i2cWrite, const Void_f mspInit = nullptr, const Void_f mspDeinit = nullptr, const Delay_f wait = nullptr, const Tick_f tick = nullptr) : Driver<I2C>(mspInit, mspDeinit, wait, tick)
 	{
-		return sendHandler(data, len);
+		readHandler = i2cRead;
+		writeHandler = i2cWrite;
 	}
 
-	inline Return_t receive(void* data, const uint8_t len) const
+	~I2C(void)
 	{
-		return receiveHandler(data, len);
+
 	}
 
-	inline void delay(const uint32_t period) const
+	Return_t read(uint8_t* data, const uint8_t len)
 	{
-		delayHandler(period);
+		if (wait() != Return_t::OK)
+		{
+			return Return_t::Timeout;
+		}
+
+		takeSemaphore();
+		return readHandler(address, data, len, readTimeout);
 	}
 
-	inline uint32_t getTick(void) const
+	Return_t write(uint8_t* data, const uint8_t len)
 	{
-		return tickHandler();
-	}		
+		if (wait() != Return_t::OK)
+		{
+			return Return_t::Timeout;
+		}
+
+		takeSemaphore();
+		return writeHandler(address, data, len, writeTimeout);
+	}
+
+	#endif // ILPS22QS_IMPLEMENTATION
+
+	private:
+	static constexpr uint8_t address = 0x5C; /**< @brief ILPS22QS' address on I2C bus. */
+	static constexpr uint8_t readTimeout = 10; /**< @brief Timeout in ms for read operation. */
+	static constexpr uint8_t writeTimeout = 10; /**< @brief Timeout in ms for write operation. */
+
+	I2CRW_f readHandler = nullptr; /**< @brief Pointer to external function for I2C transmit. */
+	I2CRW_f writeHandler = nullptr; /**< @brief Pointer to external function for I2C receive. */
+};
+
+/**
+ * @brief Class for ILPS22QS SPI operations.
+ * 
+ */
+class SPI : protected Driver<SPI>
+{
+	public:
+
+	private:
 };
 
 };
