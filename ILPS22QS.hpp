@@ -150,13 +150,6 @@ struct interface_cfg_t
 
 // ----- TYPEDEFS
 /**
- * @brief Typedef for generic function without return value and arguments.
- * 
- * @return No return value.
- */
-typedef void (*Void_f)(void);
-
-/**
  * @brief Typedef for external delay/wait handler.
  * 
  * @param period Delay/wait period in ms.
@@ -180,8 +173,8 @@ typedef uint32_t (*Tick_f)(void);
  * @param len Length of \c data in bytes.
  * @param tiemout Read/write timeout in ms.
  * 
- * @return \c Return::NOK on fail.
- * @return \c Return::OK on success.
+ * @return \c Return_t::NOK on fail.
+ * @return \c Return_t::OK on success.
  */
 typedef Return_t (*I2CRW_f)(const uint8_t address, void* data, const uint8_t len, const uint8_t timeout);
 
@@ -194,11 +187,26 @@ typedef Return_t (*I2CRW_f)(const uint8_t address, void* data, const uint8_t len
  * @param rxLen Length of \c rxData buffer(number of bytes to receive).
  * @param timeout Operation timeout in ms.
  * 
- * @return \c Return::NOK on fail.
- * @return \c Return::OK on success.
+ * @return \c Return_t::NOK on fail.
+ * @return \c Return_t::OK on success.
  */
 typedef Return_t (*SPIRXTX_f)(const void* txData, const uint8_t txLen, void* rxData, const uint8_t rxLen, const uint8_t timeout);
+
+/**
+ * @brief Typedef for external handler for SPI slave select operations.
+ * 
+ * @return \c Return_t::NOK on fail.
+ * @return \c Return_t::OK on success.
+ */
 typedef Return_t (*Select_f)(void);
+
+/**
+ * @brief Typedef for external handler for MSP init and deinit.
+ * 
+ * @return \c Return_t::NOK on fail.
+ * @return \c Return_t::OK on success.
+ */
+typedef Return_t (*MSP_f)(void);
 
 
 // ----- CLASSES
@@ -219,11 +227,6 @@ class Driver
 	 */
 	~Driver(void)
 	{
-		if (mspDeinitHandler)
-		{
-			mspDeinitHandler();
-		}
-
 		memset(this, 0, sizeof(E));
 	}	
 
@@ -252,15 +255,25 @@ class Driver
 	}	
 
 	/**
-	 * @brief Check does ILPS22QS sensor work.
+	 * @brief Init the sensor.
 	 * 
 	 * @param interfaceCfg Pointer to interface config. Optional.
 	 * 
 	 * @return \c Return_t::NOK on failed init.
-	 * @return \c Return::OK on successful init. 
+	 * @return \c Return_t::OK on successful init. 
 	 */
-	inline Return_t init(const interface_cfg_t* interfaceCfg = nullptr) const
+	Return_t init(const interface_cfg_t* interfaceCfg = nullptr) const
 	{
+		// Call MSP init handler if provided
+		if (mspInitHandler)
+		{
+			if (mspInitHandler() != Return_t::OK)
+			{
+				return Return_t::NOK;
+			}
+		}
+
+		// Set interface config
 		if (interfaceCfg)
 		{
 			if (interfaceConfig(interfaceCfg) != Return_t::OK)
@@ -269,6 +282,7 @@ class Driver
 			}
 		}
 
+		// Check sensor ID
 		uint8_t tmp = 0;
 		if (whoAmI(tmp) == Return_t::OK)
 		{
@@ -282,11 +296,26 @@ class Driver
 	}
 
 	/**
+	 * @brief Deinit the sensor.
+	 * 
+	 * @return \c Return_t::NOK on failed init.
+	 * @return \c Return_t::OK on successful init. 
+	 */
+	Return_t deinit(void) const
+	{
+		// Call deinit handler if provided
+		if (mspDeinitHandler)
+		{
+			mspDeinitHandler();
+		}
+	}
+
+	/**
 	 * @brief Configure sensor interrupts.
 	 * 
 	 * @param config Reference to interrupt config. See \ref interrupt_cfg_t
 	 * 
-	 * @return Everything other than \c Return::OK means interrupts are not configured. 
+	 * @return Everything other than \c Return_t::OK means interrupts are not configured. 
 	 * @return \c Return_t::OK on success.
 	 */
 	Return_t interruptConfig(const interrupt_cfg_t& config) const
@@ -310,7 +339,7 @@ class Driver
 	 * @param output Reference for pressure threshold value output.
 	 * 
 	 * @return \c Return_t::NOK on fail.
-	 * @return \c Return::OK on success.
+	 * @return \c Return_t::OK on success.
 	 */
 	Return_t getPressureInterruptThreshold(uint16_t& output) const
 	{
@@ -351,7 +380,7 @@ class Driver
 	 * @param output Reference to pressure scale output. See \ref PressureScale_t
 	 * 
 	 * @return \c Return_t::NOK on fail.
-	 * @return \c Return::OK on success.
+	 * @return \c Return_t::OK on success.
 	 */
 	Return_t getPressureScale(PressureScale_t& output)
 	{
@@ -382,7 +411,7 @@ class Driver
 	 * @param scale Pressure scale. See \ref PressureScale_t
 	 * 
 	 * @return \c Return_t::NOK on fail.
-	 * @return \c Return::OK on success.
+	 * @return \c Return_t::OK on success.
 	 */
 	Return_t setPressureScale(const PressureScale_t scale) const
 	{
@@ -649,7 +678,8 @@ class Driver
 	static constexpr uint8_t timeout = 10; /**< @brief Driver R/W timeout in ms. */
 	static constexpr uint8_t chipID = 0xB4; /**< @brief Chip ID from register \ref Register_t::WhoAmI. */
 
-	Void_f mspDeinitHandler = nullptr; /**< @brief Pointer to external function for MSP deinit. */
+	MSP_f mspInitHandler = nullptr; /**< @brief Pointer to external function for MSP init. */
+	MSP_f mspDeinitHandler = nullptr; /**< @brief Pointer to external function for MSP deinit. */
 	Delay_f delayHandler = nullptr; /**< @brief Pointer to external function for wait operations. */
 	Tick_f tickHandler = nullptr; /**< @brief Pointer to external function for retrieving tick. */
 
@@ -763,8 +793,9 @@ class Driver
 	 * 
 	 * @return No return value.
 	 */
-	Driver(const Void_f mspInit, const Void_f mspDeinit, const TemperatureScale_t tempScale, const Delay_f wait, const Tick_f tick)
+	Driver(const MSP_f mspInit, const MSP_f mspDeinit, const TemperatureScale_t tempScale, const Delay_f wait, const Tick_f tick)
 	{
+		mspInitHandler = mspInit;
 		mspDeinitHandler = mspDeinit;
 		delayHandler = wait;
 		tickHandler = tick;
@@ -772,11 +803,6 @@ class Driver
 		freeSemaphore();
 		setTemperatureScale(tempScale);
 		memset(txBuffer, 0, sizeof(txBuffer));
-
-		if (mspInit)
-		{
-			mspInit();
-		}
 	}
 
 	/**
@@ -855,7 +881,7 @@ class I2C : protected Driver<I2C>
 	 * @return No return value.
 	 */	
 	I2C(const I2CRW_f i2cRead, const I2CRW_f i2cWrite,
-		const Void_f mspInit = nullptr, const Void_f mspDeinit = nullptr,
+		const MSP_f mspInit = nullptr, const MSP_f mspDeinit = nullptr,
 		const TemperatureScale_t tempScale = TemperatureScale_t::Celsius,
 		const Delay_f wait = nullptr, const Tick_f tick = nullptr) :
 		Driver<I2C>(mspInit, mspDeinit, tempScale, wait, tick)
@@ -881,8 +907,8 @@ class I2C : protected Driver<I2C>
 	 * @param len Size of \c data buffer.
 	 * 
 	 * @return \c Return_t::NOK on fail.
-	 * @return \c Return::Timeout on timeout.
-	 * @return \c Return::OK on success.
+	 * @return \c Return_t::Timeout on timeout.
+	 * @return \c Return_t::OK on success.
 	 */
 	Return_t read(uint8_t* data, const uint8_t len)
 	{
@@ -901,8 +927,8 @@ class I2C : protected Driver<I2C>
 	 * @param len Size of \c data buffer.
 	 * 
 	 * @return \c Return_t::NOK on fail.
-	 * @return \c Return::Timeout on timeout.
-	 * @return \c Return::OK on success.
+	 * @return \c Return_t::Timeout on timeout.
+	 * @return \c Return_t::OK on success.
 	 */
 	Return_t write(uint8_t* data, const uint8_t len)
 	{
