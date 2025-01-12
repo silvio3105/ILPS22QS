@@ -262,7 +262,7 @@ class Driver
 	 * @return \c Return_t::NOK on failed init.
 	 * @return \c Return_t::OK on successful init. 
 	 */
-	Return_t init(const interface_cfg_t* interfaceCfg = nullptr) const
+	Return_t init(const interface_cfg_t* interfaceCfg = nullptr)
 	{
 		// Call MSP init handler if provided
 		if (mspInitHandler)
@@ -318,19 +318,18 @@ class Driver
 	 * @return Everything other than \c Return_t::OK means interrupts are not configured. 
 	 * @return \c Return_t::OK on success.
 	 */
-	Return_t interruptConfig(const interrupt_cfg_t& config) const
+	Return_t interruptConfig(const interrupt_cfg_t& config)
 	{	
-		uint8_t tmp[2];	
-		tmp[0] = Register_t::Interrupt;
-		tmp[1] = 	(config.autoREFP << InterruptBitmap_t::AutoREFP) |
-					(config.autoZero << InterruptBitmap_t::AutoZero) |
-					(config.interruptLatch << InterruptBitmap_t::InterruptLatch) |
-					(config.pressureHighInterrupt << InterruptBitmap_t::PressureHighEvent) |
-					(config.pressureLowInterrupt << InterruptBitmap_t::PressureLowEvent) |
-					(config.resetARP << InterruptBitmap_t::ResetAutoREFP) |
-					(config.resetAZ << InterruptBitmap_t::ResetAutoZero);
+		txBuffer[0] = Register_t::Interrupt;
+		txBuffer[1] = 	(config.autoREFP << InterruptBitmap_t::AutoREFP) |
+						(config.autoZero << InterruptBitmap_t::AutoZero) |
+						(config.interruptLatch << InterruptBitmap_t::InterruptLatch) |
+						(config.pressureHighInterrupt << InterruptBitmap_t::PressureHighEvent) |
+						(config.pressureLowInterrupt << InterruptBitmap_t::PressureLowEvent) |
+						(config.resetARP << InterruptBitmap_t::ResetAutoREFP) |
+						(config.resetAZ << InterruptBitmap_t::ResetAutoZero);
 
-		return writeRegister(tmp, sizeof(tmp));
+		return writeRegister(txBuffer, 2);
 	}
 
 	/**
@@ -341,7 +340,7 @@ class Driver
 	 * @return \c Return_t::NOK on fail.
 	 * @return \c Return_t::OK on success.
 	 */
-	Return_t getPressureInterruptThreshold(uint16_t& output) const
+	Return_t getPressureInterruptThreshold(uint16_t& output)
 	{
 		uint16_t tmpOutput = 0;
 		uint8_t tmp = 0;
@@ -373,6 +372,8 @@ class Driver
 		output = tmpOutput / scaleDivider[scale];
 		return Return_t::OK;
 	}
+
+	// SET THRESHOLD PRESSURE
 
 	/**
 	 * @brief Get measuing scale for pressure.
@@ -413,21 +414,21 @@ class Driver
 	 * @return \c Return_t::NOK on fail.
 	 * @return \c Return_t::OK on success.
 	 */
-	Return_t setPressureScale(const PressureScale_t scale) const
+	Return_t setPressureScale(const PressureScale_t scale)
 	{
 		// Read control 2 register
-		uint8_t tmp[2];
+		uint8_t tmp = 0;
 
-		if (readRegister(Register_t::Contorl2, tmp[1]) != Return_t::OK)
+		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
 		{
 			return Return_t::NOK;
 		}
 
-		tmp[0] = Register_t::Contorl2;
-		tmp[1] &= ~(1 << Control2Bitmap_t::FullScale);
-		tmp[1] |= (scale << Control2Bitmap_t::FullScale);
+		txBuffer[0] = Register_t::Contorl2;
+		txBuffer[1] = tmp & ~(1 << Control2Bitmap_t::FullScale);
+		txBuffer[1] |= (scale << Control2Bitmap_t::FullScale);
 
-		return writeRegister(tmp, sizeof(tmp));		
+		return writeRegister(txBuffer, 2);		
 	}
 
 	/**
@@ -698,10 +699,10 @@ class Driver
 	 * 
 	 * @return \c Return_t::OK on success. 
 	 */
-	Return_t readRegister(const Register_t reg, uint8_t* output, const uint8_t len) const
+	Return_t readRegister(const Register_t reg, uint8_t* output, const uint8_t len)
 	{
-		uint8_t tmp = reg;
-		if (interface->write(tmp, 1) != Return_t::OK)
+		txBuffer[0] = reg;
+		if (interface->write(txBuffer, 1) != Return_t::OK)
 		{
 			return Return_t::NOK
 		}
@@ -722,7 +723,7 @@ class Driver
 	 * 
 	 * @return \c Return_t::OK on success.
 	 */
-	Return_t readRegister(const Register_t reg, uint8_t& output) const
+	Return_t readRegister(const Register_t reg, uint8_t& output)
 	{
 		uint8_t tmp = 0;
 		if (readRegister(reg, &tmp, sizeof(tmp)) != Return_t::OK)
@@ -754,7 +755,7 @@ class Driver
 	 * 
 	 * @return \c Return_t::OK on success.
 	 */
-	inline Return_t whoAmI(uint8_t& output) const
+	inline Return_t whoAmI(uint8_t& output)
 	{
 		return readRegister(Register_t::WhoAmI, output);
 	}
@@ -766,17 +767,15 @@ class Driver
 	 * 
 	 * @return \c Return_t::OK on success.
 	 */
-	Return_t interfaceConfig(const interface_cfg_t* config) const
+	Return_t interfaceConfig(const interface_cfg_t* config)
 	{
-		uint8_t tmp[2];
-
-		tmp[0] = Register_t::Interface;
-		tmp[1] =	(config->i2ci3cOff << InterfaceBitmap_t::I2CDisable) |
+		txBuffer[0] = Register_t::Interface;
+		txBuffer[1] =	(config->i2ci3cOff << InterfaceBitmap_t::I2CDisable) |
 					(config->sdaPullUp << InterfaceBitmap_t::SDAPullUpEnable) |
 					(config->SPIRead << InterfaceBitmap_t::SPIReadEnable) |
 					(config->ssPullUpOff << InterfaceBitmap_t::SSPullUpEnable);
 
-		return writeRegister(tmp, sizeof(tmp));
+		return writeRegister(txBuffer, 2);
 	}
 
 
@@ -910,7 +909,7 @@ class I2C : protected Driver<I2C>
 	 * @return \c Return_t::Timeout on timeout.
 	 * @return \c Return_t::OK on success.
 	 */
-	Return_t read(uint8_t* data, const uint8_t len)
+	Return_t read(uint8_t* data, const uint8_t len) const
 	{
 		if (wait() != Return_t::OK)
 		{
@@ -930,7 +929,7 @@ class I2C : protected Driver<I2C>
 	 * @return \c Return_t::Timeout on timeout.
 	 * @return \c Return_t::OK on success.
 	 */
-	Return_t write(uint8_t* data, const uint8_t len)
+	Return_t write(uint8_t* data, const uint8_t len) const
 	{
 		if (wait() != Return_t::OK)
 		{
