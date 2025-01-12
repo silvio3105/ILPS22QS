@@ -27,7 +27,6 @@
 
 // ----- INCLUDE FILES
 #include			<stdint.h>
-#include			<string.h>
 
 
 // ----- NAMESPACES
@@ -60,6 +59,75 @@ enum class Semaphore_t : uint8_t
 	Taken = 1 /**< @brief Semaphore value when process is taken. */
 };
 
+/**
+ * @brief Enable/Disable state enum class.
+ * 
+ */
+enum class State_t : uint8_t
+{
+	Disable = 0,
+	Enable = 1
+};
+
+/**
+ * @brief Interrupt latch values.
+ * 
+ */
+enum class InterruptLatch_t : uint8_t
+{
+	NotLatch = 0, /**< @brief Interrupt is not latched. */
+	Latch = 1 /**< @brief Interrupt is latched. */
+};
+
+/**
+ * @brief Temperature unit values.
+ * 
+ */
+enum class TemperatureScale_t : uint8_t
+{
+	Celsius = 0, /**< @brief Value for temperature in centideegres celsius. */
+	Fahrenheit = 1, /**< @brief Value for temperature in centideegres fahrenheit. */
+};
+
+/**
+ * @brief Pressure scale values.
+ * 
+ */
+enum class PressureScale_t : uint8_t
+{
+	Scale1260hPa = 0, /**< @brief Value for pressure scale up to 1260hPa. */
+	Scale4060hPa = 1 /**< @brief Value for pressure scale up to 4060hPa. */
+};
+
+
+// ----- STRUCTS
+/**
+ * @brief Interrupt config struct.
+ * 
+ */
+struct interrupt_cfg_t
+{
+	State_t autoREFP; /**< @brief Enable or disable AutoREFP feature. */
+	State_t resetARP; /**< @brief Reset autoREFP feature. */
+	State_t autoZero; /**< @brief Enable or disable auto zero feature. */
+	State_t resetAZ; /**< @brief Reset auto zero feature. */
+	InterruptLatch_t interruptLatch; /**< @brief Configure  */
+	State_t pressureLowInterrupt; /**< @brief Generate interrupt on low pressure. */
+	State_t pressureHighInterrupt; /**< @brief Generate interrupt on high pressure. */
+};
+
+/**
+ * @brief Interface config struct.
+ * 
+ */
+struct interface_cfg_t
+{
+	State_t i2ci3cOff; /**< @brief Turn off I2C/I3C interface. */
+	State_t SPIRead; /**< @brief Turn on 3-wire SPI read. */
+	State_t sdaPullUp; /**< @brief Enable or disable pull-up on SDA line. */
+	State_t ssPullUpOff; /**< @brief Turn off pull-up on SS line. */
+};
+
 
 // ----- TYPEDEFS
 /**
@@ -84,12 +152,8 @@ typedef Return_t (*Select_f)(void);
 template<class E>
 class Driver
 {
-	protected:
-	// ----- METHOD DECLARATIONS
-
-
+	public:
 	// ----- METHOD DEFINITIONS
-	#ifdef ILPS22QS_IMPLEMENTATION
 	~Driver(void)
 	{
 		if (mspDeinitHandler)
@@ -99,6 +163,18 @@ class Driver
 
 		memset(this, 0, sizeof(E));
 	}	
+
+	/**
+	 * @brief Take semaphore for read and write operations.
+	 * 
+	 * This is required if async read and/or write is used(interrupt driven or DMA).
+	 * 
+	 * @return No return value.
+	 */
+	inline void takeSemaphore(void)
+	{
+		semaphore = Semaphore_t::Taken;
+	}
 
 	/**
 	 * @brief Free semaphore for read and write operations.
@@ -112,16 +188,176 @@ class Driver
 		semaphore = Semaphore_t::Free;
 	}	
 
-	inline Return_t init(void) const
+	/**
+	 * @brief Check does ILPS22QS sensor work.
+	 * 
+	 * @param interfaceCfg Pointer to interface config. Optional.
+	 * 
+	 * @return \c Return_t::NOK on failed init.
+	 * @return \c Return::OK on successful init. 
+	 */
+	inline Return_t init(const interface_cfg_t* interfaceCfg = nullptr) const
 	{
-		if (whoAmI() == chipID)
+		if (interfaceCfg)
 		{
-			return Return_t::OK;			
+			if (interfaceConfig(interfaceCfg) != Return_t::OK)
+			{
+				return Return_t::NOK;
+			}
+		}
+
+		uint8_t tmp = 0;
+		if (whoAmI(tmp) == Return_t::OK)
+		{
+			if (tmp == chipID)
+			{
+				return Return_t::OK;
+			}		
 		}
 
 		return Return_t::NOK;
-	}	
-	#endif // ILPS22QS_IMPLEMENTATION
+	}
+
+	/**
+	 * @brief Configure sensor interrupts.
+	 * 
+	 * @param config Reference to interrupt config. See \ref interrupt_cfg_t
+	 * 
+	 * @return Everything other than \c Return::OK means interrupts are not configured. 
+	 * @return \c Return_t::OK on success.
+	 */
+	Return_t interruptConfig(const interrupt_cfg_t& config) const
+	{	
+		uint8_t tmp[2];	
+		tmp[0] = Register_t::Interrupt;
+		tmp[1] = 	(config.autoREFP << InterruptBitmap_t::AutoREFP) |
+					(config.autoZero << InterruptBitmap_t::AutoZero) |
+					(config.interruptLatch << InterruptBitmap_t::InterruptLatch) |
+					(config.pressureHighInterrupt << InterruptBitmap_t::PressureHighEvent) |
+					(config.pressureLowInterrupt << InterruptBitmap_t::PressureLowEvent) |
+					(config.resetARP << InterruptBitmap_t::ResetAutoREFP) |
+					(config.resetAZ << InterruptBitmap_t::ResetAutoZero);
+
+		return writeRegister(tmp, sizeof(tmp));
+	}
+
+	/**
+	 * @brief Get pressure threshold for pressure interrupt.
+	 * 
+	 * @param output Reference for pressure threshold value output.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return::OK on success.
+	 */
+	Return_t getPressureInterruptThreshold(uint16_t& output) const
+	{
+		uint16_t tmpOutput = 0;
+		uint8_t tmp = 0;
+
+		if (readRegister(Register_t::PressureThresholdHigh, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+		tmpOutput = tmp << 8;		
+
+		// Read low byte
+		if (readRegister(Register_t::PressureThresholdLow, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+		tmpOutput |= tmp;
+
+		// Get pressure scale
+		static constexpr uint8_t scaleDivider[2] = { 16, 8 };
+		PressureScale_t scale = PressureScale_t::Scale1260hPa;
+
+		if (getPressureScale(scale) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		// Convert to output unit
+		output = tmpOutput / scaleDivider[scale];
+		return Return_t::OK;
+	}
+
+	/**
+	 * @brief Get measuing scale for pressure.
+	 * 
+	 * @param output Reference to pressure scale output. See \ref PressureScale_t
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return::OK on success.
+	 */
+	Return_t getPressureScale(PressureScale_t& output)
+	{
+		// Read control 2 register
+		uint8_t tmp = 0;
+
+		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		// Get pressure scale
+		if (tmp & (1 << Control2Bitmap_t::FullScale))
+		{
+			output = PressureScale_t::Scale4060hPa;
+		}
+		else
+		{
+			output = PressureScale_t::Scale1260hPa;
+		}
+
+		return Return_t::OK;
+	}
+
+	/**
+	 * @brief Set pressure scale.
+	 * 
+	 * @param scale Pressure scale. See \ref PressureScale_t
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return::OK on success.
+	 */
+	Return_t setPressureScale(const PressureScale_t scale) const
+	{
+		// Read control 2 register
+		uint8_t tmp[2];
+
+		if (readRegister(Register_t::Contorl2, tmp[1]) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		tmp[0] = Register_t::Contorl2;
+		tmp[1] &= ~(1 << Control2Bitmap_t::FullScale);
+		tmp[1] |= (scale << Control2Bitmap_t::FullScale);
+
+		return writeRegister(tmp, sizeof(tmp));		
+	}
+
+	/**
+	 * @brief Get temperature scale.
+	 * 
+	 * @return See \ref TemperatureScale_t 
+	 */
+	inline TemperatureScale_t getTemperatureScale(void) const
+	{
+		return temperatureScale;
+	}
+
+	/**
+	 * @brief Set temperature scale.
+	 * 
+	 * @param scale Output temperature scale.
+	 * 
+	 * @return No return values.
+	 */
+	inline void setTemperatureScale(const TemperatureScale_t scale)
+	{
+		temperatureScale = scale;
+	}
 
 
 	private:
@@ -169,7 +405,7 @@ class Driver
 	{
 		PressureHighEvent = 0, /**< @brief Enable interrupt on pressure high event. */
 		PressureLowEvent = 1, /**< @brief Enable interrupt on pressure low event. */
-		LatchInterrupt = 2, /**< @brief Latch interrupt request. */
+		InterruptLatch = 2, /**< @brief Latch interrupt request. */
 		ResetAutoZero = 4, /**< @brief Reset autozero function. */
 		AutoZero = 5, /**< @brief Enable autozero function. */
 		ResetAutoREFP = 6, /**< @brief Reset auto REFP function. */
@@ -353,53 +589,123 @@ class Driver
 	Delay_f delayHandler = nullptr; /**< @brief Pointer to external function for wait operations. */
 	Tick_f tickHandler = nullptr; /**< @brief Pointer to external function for retrieving tick. */
 
-	uint8_t data[6];
-	Semaphore_t semaphore = Semaphore_t::Free; /**< @brief Bus process semaphore. */ 
-
-	// ----- METHOD DECLARATIONS
+	TemperatureScale_t temperatureScale = TemperatureScale_t::Celsius; /**< @brief Output scale for temperature. */
+	Semaphore_t semaphore = Semaphore_t::Free; /**< @brief Bus process semaphore. */
 
 
 	// ----- METHOD DEFINITIONS
-	uint8_t whoAmI(void) const
+	/**
+	 * @brief Read multiple bytes from register.
+	 * 
+	 * @param reg Register address to read from.
+	 * @param output Pointer to output buffer for bytes from \c reg
+	 * @param len Number of bytes to read from \c reg
+	 * 
+	 * @return \c Return_t::OK on success. 
+	 */
+	Return_t readRegister(const Register_t reg, uint8_t* output, const uint8_t len) const
 	{
-		const uint8_t tmp = (uint8_t)Register_t::WhoAmI;
-		if (interface->write(&tmp, 1) != Return_t::OK)
+		uint8_t tmp = reg;
+		if (interface->write(tmp, 1) != Return_t::OK)
 		{
-			return 0;
+			return Return_t::NOK
 		}
 
-		if (interface->read(data, 1) != Return_t::OK)
+		if (interface->read(output, len) != Return_t::OK)
 		{
-			return 0;
+			return Return_t::NOK;
 		}
 
-		return data[0];
+		return Return_t::OK;
+	}	
+
+	/**
+	 * @brief Read single byte from register
+	 * 
+	 * @param reg Register address to read from.
+	 * @param output Reference to output for value from \c reg
+	 * 
+	 * @return \c Return_t::OK on success.
+	 */
+	Return_t readRegister(const Register_t reg, uint8_t& output) const
+	{
+		uint8_t tmp = 0;
+		if (readRegister(reg, &tmp, sizeof(tmp)) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		output = tmp;
+		return Return_t::OK;
+	}
+
+	/**
+	 * @brief Write \c len bytes into register.
+	 * 
+	 * @param input Pointer to input bytes. \c input[0] must contain register address.
+	 * @param len Length of \c input
+	 * 
+	 * @return \c Return_t::OK on success.
+	 */
+	inline Return_t writeRegister(const uint8_t* input, const uint8_t len) const
+	{
+		return interface->write(input, len);
+	}
+
+	/**
+	 * @brief Read chip ID.
+	 * 
+	 * @param output Reference for output ID
+	 * 
+	 * @return \c Return_t::OK on success.
+	 */
+	inline Return_t whoAmI(uint8_t& output) const
+	{
+		return readRegister(Register_t::WhoAmI, output);
+	}
+
+	/**
+	 * @brief Set interface config.
+	 * 
+	 * @param config Pointer to interface config. See \ref interface_cfg_t
+	 * 
+	 * @return \c Return_t::OK on success.
+	 */
+	Return_t interfaceConfig(const interface_cfg_t* config) const
+	{
+		uint8_t tmp[2];
+
+		tmp[0] = Register_t::Interface;
+		tmp[1] =	(config->i2ci3cOff << InterfaceBitmap_t::I2CDisable) |
+					(config->sdaPullUp << InterfaceBitmap_t::SDAPullUpEnable) |
+					(config->SPIRead << InterfaceBitmap_t::SPIReadEnable) |
+					(config->ssPullUpOff << InterfaceBitmap_t::SSPullUpEnable);
+
+		return writeRegister(tmp, sizeof(tmp));
 	}
 
 
 	protected:
-	// ----- METHOD DECLARATIONS
-
-
 	// ----- METHOD DEFINITIONS
-	#ifdef ILPS22QS_IMPLEMENTATION
 	/**
 	 * @brief Object constructor.
 	 * 
 	 * @param mspInit Pointer to external function for MSP init.
 	 * @param mspDeinit Pointer to external function for MSP deinit.
+	 * @param tempScale Scale for temperature. See \ref TemperatureScale_t
 	 * @param wait Pointer to external function for handling wait state.
 	 * @param tick Pointer to external function for fetching tick.
 	 * 
 	 * @return No return value.
 	 */
-	Driver(const Void_f mspInit, const Void_f mspDeinit, const Delay_f wait, const Tick_f tick)
+	Driver(const Void_f mspInit, const Void_f mspDeinit, const TemperatureScale_t tempScale, const Delay_f wait, const Tick_f tick)
 	{
 		mspDeinitHandler = mspDeinit;
 		delayHandler = wait;
 		tickHandler = tick;
-		semaphore = Semaphore_t::Free;
-		memset(data, 0, sizeof(data));
+
+		freeSemaphore();
+		setTemperatureScale(tempScale);
 
 		if (mspInit)
 		{
@@ -458,21 +764,7 @@ class Driver
 		}
 
 		return Return_t::NOK;
-	}	
-
-	/**
-	 * @brief Take semaphore for read and write operations.
-	 * 
-	 * This is required if async read and/or write is used(interrupt driven or DMA).
-	 * 
-	 * @return No return value.
-	 */
-	inline void takeSemaphore(void)
-	{
-		semaphore = Semaphore_t::Taken;
 	}
-
-	#endif // ILPS22QS_IMPLEMENTATION	
 };
 
 /**
@@ -482,12 +774,25 @@ class Driver
 class I2C : protected Driver<I2C>
 {
 	public:
-	// ----- METHOD DECLARATIONS
-
-
 	// ----- METHOD DEFINITIONS
-	#ifdef ILPS22QS_IMPLEMENTATION
-	I2C(const I2CRW_f i2cRead, const I2CRW_f i2cWrite, const Void_f mspInit = nullptr, const Void_f mspDeinit = nullptr, const Delay_f wait = nullptr, const Tick_f tick = nullptr) : Driver<I2C>(mspInit, mspDeinit, wait, tick)
+	/**
+	 * @brief Object constructor.
+	 * 
+	 * @param i2cRead Pointer to external function for I2C read operations.
+	 * @param i2cWrite Pointer to external function for I2C write operations.
+	 * @param mspInit Pointer to external function for MSP init. Optional.
+	 * @param mspDeinit Pointer to external function for MSP deinit. Optional.
+	 * @param tempScale Temperature unit scale. Optional. See \ref TemperatureScale_t
+	 * @param wait Pointer to external function for handling wait state. Optional.
+	 * @param tick Pointer to external function for fetching tick. Optional.
+	 * 
+	 * @return No return value.
+	 */	
+	I2C(const I2CRW_f i2cRead, const I2CRW_f i2cWrite,
+		const Void_f mspInit = nullptr, const Void_f mspDeinit = nullptr,
+		const TemperatureScale_t tempScale = TemperatureScale_t::Celsius,
+		const Delay_f wait = nullptr, const Tick_f tick = nullptr) :
+		Driver<I2C>(mspInit, mspDeinit, tempScale, wait, tick)
 	{
 		readHandler = i2cRead;
 		writeHandler = i2cWrite;
@@ -505,7 +810,6 @@ class I2C : protected Driver<I2C>
 			return Return_t::Timeout;
 		}
 
-		takeSemaphore();
 		return readHandler(address, data, len, readTimeout);
 	}
 
@@ -516,11 +820,8 @@ class I2C : protected Driver<I2C>
 			return Return_t::Timeout;
 		}
 
-		takeSemaphore();
 		return writeHandler(address, data, len, writeTimeout);
 	}
-
-	#endif // ILPS22QS_IMPLEMENTATION
 
 	private:
 	static constexpr uint8_t address = 0x5C; /**< @brief ILPS22QS' address on I2C bus. */
