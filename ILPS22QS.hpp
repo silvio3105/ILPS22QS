@@ -1,7 +1,7 @@
 /**
  * @file ILPS22QS.hpp
  * @author silvio3105 (www.github.com/silvio3105)
- * @brief ILPS22QS driver header file.
+ * @brief ILPS22QS I2C/3-wire SPI driver header file.
  * 
  * @copyright Copyright (c) 2025, silvio3105
  * 
@@ -27,6 +27,25 @@
 
 // ----- INCLUDE FILES
 #include			<stdint.h>
+#include			<string.h>
+
+
+// ----- DEFINES
+#ifndef ILPS22QS_I2C_READ_TIMEOUT
+#define ILPS22QS_I2C_READ_TIMEOUT				10 /**< @brief Timeout in ms for I2C read operations. Can be changed during compile. */
+#endif // ILPS22QS_I2C_READ_TIMEOUT
+
+#ifndef ILPS22QS_I2C_WRITE_TIMEOUT
+#define ILPS22QS_I2C_WRITE_TIMEOUT				10 /**< @brief Timeout in ms for I2C write operations. Can be changed during compile. */
+#endif // ILPS22QS_I2C_WRITE_TIMEOUT
+
+#ifndef ILPS22QS_SPI_READ_TIMEOUT
+#define ILPS22QS_SPI_READ_TIMEOUT				10 /**< @brief Timeout in ms for SPI read operations. Can be changed during compile. */
+#endif // ILPS22QS_SPI_READ_TIMEOUT
+
+#ifndef ILPS22QS_SPI_WRITE_TIMEOUT
+#define ILPS22QS_SPI_WRITE_TIMEOUT				10 /**< @brief Timeout in ms for SPI write operations. Can be changed during compile. */
+#endif // ILPS22QS_SPI_WRITE_TIMEOUT
 
 
 // ----- NAMESPACES
@@ -133,12 +152,51 @@ struct interface_cfg_t
 /**
  * @brief Typedef for generic function without return value and arguments.
  * 
+ * @return No return value.
  */
 typedef void (*Void_f)(void);
 
+/**
+ * @brief Typedef for external delay/wait handler.
+ * 
+ * @param period Delay/wait period in ms.
+ * 
+ * @return No return value.
+ */
 typedef void (*Delay_f)(const uint32_t period);
+
+/**
+ * @brief Typedef for external handler for getting tick.
+ * 
+ * @return Tick count.
+ */
 typedef uint32_t (*Tick_f)(void);
+
+/**
+ * @brief Typedef for external handler for I2C read/write operations.
+ * 
+ * @param address Slave 7-bit I2C address.
+ * @param data Pointer to IO data.
+ * @param len Length of \c data in bytes.
+ * @param tiemout Read/write timeout in ms.
+ * 
+ * @return \c Return::NOK on fail.
+ * @return \c Return::OK on success.
+ */
 typedef Return_t (*I2CRW_f)(const uint8_t address, void* data, const uint8_t len, const uint8_t timeout);
+
+/**
+ * @brief Typedef for external handler for SPI read/write operations.
+ * 
+ * @param txData Pointer to output data.
+ * @param txLen Length of \c txData in bytes.
+ * @param rxData Pointer to input buffer for incoming data.
+ * @param rxLen Length of \c rxData buffer(number of bytes to receive).
+ * @param timeout Operation timeout in ms.
+ * 
+ * @return \c Return::NOK on fail.
+ * @return \c Return::OK on success.
+ */
 typedef Return_t (*SPIRXTX_f)(const void* txData, const uint8_t txLen, void* rxData, const uint8_t rxLen, const uint8_t timeout);
 typedef Return_t (*Select_f)(void);
 
@@ -147,13 +205,18 @@ typedef Return_t (*Select_f)(void);
 /**
  * @brief Class for ILPS22QS driver.
  * 
- * @tparam External Object for external operations.
+ * @tparam E Object for external operations.
  */
 template<class E>
 class Driver
 {
 	public:
 	// ----- METHOD DEFINITIONS
+	/**
+	 * @brief Object deconstructor
+	 * 
+	 * @return No return value.
+	 */
 	~Driver(void)
 	{
 		if (mspDeinitHandler)
@@ -167,7 +230,7 @@ class Driver
 	/**
 	 * @brief Take semaphore for read and write operations.
 	 * 
-	 * This is required if async read and/or write is used(interrupt driven or DMA).
+	 * This is required if async read and write is used(eg., interrupt driven or DMA).
 	 * 
 	 * @return No return value.
 	 */
@@ -179,7 +242,7 @@ class Driver
 	/**
 	 * @brief Free semaphore for read and write operations.
 	 * 
-	 * This is required if async read and/or write is used(interrupt driven or DMA).
+	 * This is required if async read and write is used(eg., interrupt driven or DMA).
 	 * 
 	 * @return No return value.
 	 */
@@ -254,6 +317,7 @@ class Driver
 		uint16_t tmpOutput = 0;
 		uint8_t tmp = 0;
 
+		// Read high byte
 		if (readRegister(Register_t::PressureThresholdHigh, tmp) != Return_t::OK)
 		{
 			return Return_t::NOK;
@@ -539,7 +603,7 @@ class Driver
 	 */
 	enum class OutputDataRate_t : uint8_t
 	{
-		OneShot = 0b0000,
+		OneShot = 0b0000, /**< @brief Power-down mode. */
 		ODR1Hz = 0b0001,
 		ODR4Hz = 0b0010,
 		ODR10Hz = 0b0011,
@@ -589,6 +653,7 @@ class Driver
 	Delay_f delayHandler = nullptr; /**< @brief Pointer to external function for wait operations. */
 	Tick_f tickHandler = nullptr; /**< @brief Pointer to external function for retrieving tick. */
 
+	uint8_t txBuffer[6]; /**< @brief Buffer for outgoing data. */
 	TemperatureScale_t temperatureScale = TemperatureScale_t::Celsius; /**< @brief Output scale for temperature. */
 	Semaphore_t semaphore = Semaphore_t::Free; /**< @brief Bus process semaphore. */
 
@@ -620,7 +685,7 @@ class Driver
 	}	
 
 	/**
-	 * @brief Read single byte from register
+	 * @brief Read single byte from register.
 	 * 
 	 * @param reg Register address to read from.
 	 * @param output Reference to output for value from \c reg
@@ -692,7 +757,7 @@ class Driver
 	 * 
 	 * @param mspInit Pointer to external function for MSP init.
 	 * @param mspDeinit Pointer to external function for MSP deinit.
-	 * @param tempScale Scale for temperature. See \ref TemperatureScale_t
+	 * @param tempScale Output temperature scale. See \ref TemperatureScale_t
 	 * @param wait Pointer to external function for handling wait state.
 	 * @param tick Pointer to external function for fetching tick.
 	 * 
@@ -706,6 +771,7 @@ class Driver
 
 		freeSemaphore();
 		setTemperatureScale(tempScale);
+		memset(txBuffer, 0, sizeof(txBuffer));
 
 		if (mspInit)
 		{
@@ -714,7 +780,7 @@ class Driver
 	}
 
 	/**
-	 * @brief Wait function for free semaphore.
+	 * @brief Wait for free semaphore.
 	 * 
 	 * @return \c Return_t::Timeout if function timeouted.
 	 * @return \c Return_t::OK if semaphore is released in time.
@@ -782,7 +848,7 @@ class I2C : protected Driver<I2C>
 	 * @param i2cWrite Pointer to external function for I2C write operations.
 	 * @param mspInit Pointer to external function for MSP init. Optional.
 	 * @param mspDeinit Pointer to external function for MSP deinit. Optional.
-	 * @param tempScale Temperature unit scale. Optional. See \ref TemperatureScale_t
+	 * @param tempScale Output temperature scale. Optional. See \ref TemperatureScale_t
 	 * @param wait Pointer to external function for handling wait state. Optional.
 	 * @param tick Pointer to external function for fetching tick. Optional.
 	 * 
@@ -798,11 +864,26 @@ class I2C : protected Driver<I2C>
 		writeHandler = i2cWrite;
 	}
 
+	/**
+	 * @brief Object deconstrctor.
+	 * 
+	 * @return No return value.
+	 */
 	~I2C(void)
 	{
 
 	}
 
+	/**
+	 * @brief Read from sensor.
+	 * 
+	 * @param data Pointer to output buffer for data from the sensor.
+	 * @param len Size of \c data buffer.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return::Timeout on timeout.
+	 * @return \c Return::OK on success.
+	 */
 	Return_t read(uint8_t* data, const uint8_t len)
 	{
 		if (wait() != Return_t::OK)
@@ -813,6 +894,16 @@ class I2C : protected Driver<I2C>
 		return readHandler(address, data, len, readTimeout);
 	}
 
+	/**
+	 * @brief Write to sensor.
+	 * 
+	 * @param data Pointer to data to write to the sensor.
+	 * @param len Size of \c data buffer.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return::Timeout on timeout.
+	 * @return \c Return::OK on success.
+	 */
 	Return_t write(uint8_t* data, const uint8_t len)
 	{
 		if (wait() != Return_t::OK)
@@ -825,15 +916,15 @@ class I2C : protected Driver<I2C>
 
 	private:
 	static constexpr uint8_t address = 0x5C; /**< @brief ILPS22QS' address on I2C bus. */
-	static constexpr uint8_t readTimeout = 10; /**< @brief Timeout in ms for read operation. */
-	static constexpr uint8_t writeTimeout = 10; /**< @brief Timeout in ms for write operation. */
+	static constexpr uint8_t readTimeout = ILPS22QS_I2C_READ_TIMEOUT; /**< @brief Timeout in ms for read operation. */
+	static constexpr uint8_t writeTimeout = ILPS22QS_I2C_WRITE_TIMEOUT; /**< @brief Timeout in ms for write operation. */
 
-	I2CRW_f readHandler = nullptr; /**< @brief Pointer to external function for I2C transmit. */
-	I2CRW_f writeHandler = nullptr; /**< @brief Pointer to external function for I2C receive. */
+	I2CRW_f readHandler = nullptr; /**< @brief Pointer to external function for I2C read. */
+	I2CRW_f writeHandler = nullptr; /**< @brief Pointer to external function for I2C write. */
 };
 
 /**
- * @brief Class for ILPS22QS SPI operations.
+ * @brief Class for ILPS22QS 3-wire SPI operations.
  * 
  */
 class SPI : protected Driver<SPI>
