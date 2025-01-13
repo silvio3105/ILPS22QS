@@ -360,7 +360,6 @@ class Driver
 		tmpOutput |= tmp;
 
 		// Get pressure scale
-		static constexpr uint8_t scaleDivider[2] = { 16, 8 };
 		PressureScale_t scale = PressureScale_t::Scale1260hPa;
 
 		if (getPressureScale(scale) != Return_t::OK)
@@ -369,11 +368,47 @@ class Driver
 		}
 
 		// Convert to output unit
-		output = tmpOutput / scaleDivider[scale];
+		output = tmpOutput / pressureScaleDivider[scale];
 		return Return_t::OK;
 	}
 
-	// SET THRESHOLD PRESSURE
+	/**
+	 * @brief Set pressure interrupt threshold.
+	 * 
+	 * @param threshold Pressure threshold in hPa(mbar).
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success.
+	 */
+	Return_t setPressureInterruptThreshold(const uint16_t threshold)
+	{
+		// Get current pressure scale
+		PressureScale_t scale;
+		if (getPressureScale(scale) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		// Calculate raw pressure value and set TX buffer
+		const uint16_t rawPressure = threshold * pressureScaleDivider[scale];
+		txBuffer[0] = Register_t::PressureThresholdHigh;
+		txBuffer[1] = rawPressure >> 8;
+
+		if (writeRegister(txBuffer, 2) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		txBuffer[0] = Register_t::PressureThresholdLow;
+		txBuffer[1] = rawPressure & 0xFF;
+
+		if (writeRegister(txBuffer, 2) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}	
+
+		return Return_t::OK;
+	}
 
 	/**
 	 * @brief Get measuing scale for pressure.
@@ -678,6 +713,7 @@ class Driver
 	static constexpr E& interface = static_cast<E&>(*this); /**< @brief Pointer to interface object. */
 	static constexpr uint8_t timeout = 10; /**< @brief Driver R/W timeout in ms. */
 	static constexpr uint8_t chipID = 0xB4; /**< @brief Chip ID from register \ref Register_t::WhoAmI. */
+	static constexpr uint8_t pressureScaleDivider[2] = { 16, 8 }; /**< @brief Pressure output scale dividers. */
 
 	MSP_f mspInitHandler = nullptr; /**< @brief Pointer to external function for MSP init. */
 	MSP_f mspDeinitHandler = nullptr; /**< @brief Pointer to external function for MSP deinit. */
