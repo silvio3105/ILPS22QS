@@ -1,5 +1,5 @@
 
-# SHT40 I2C Driver
+# ILPS22QS I2C/SPI Driver
 
 This is frameworkless I2C/3-wire SPI driver for ILPS22QS absolute pressure & temperature sensor. It is written in C++ using CRTP pattern.
 Driver does not depend on framework (eg., Arduino or nRF5 SDK). External handlers for interface operations have to be provided during object construction.
