@@ -118,6 +118,38 @@ enum class PressureScale_t : uint8_t
 	Scale4060hPa = 1 /**< @brief Value for pressure scale up to 4060hPa. */
 };
 
+/**
+ * @brief Enum class with average selection values.
+ * 
+ */
+enum class Average_t : uint8_t
+{
+	Average4 = 0b000,
+	Average8 = 0b001,
+	Average16 = 0b010,
+	Average32 = 0b011,
+	Average64 = 0b100,
+	Average128 = 0b101,
+	Average512 = 0b111
+};
+
+/**
+ * @brief Enum class with output data rate values.
+ * 
+ */
+enum class OutputDataRate_t : uint8_t
+{
+	OneShot = 0b0000, /**< @brief Power-down mode. */
+	ODR1Hz = 0b0001,
+	ODR4Hz = 0b0010,
+	ODR10Hz = 0b0011,
+	ODR25Hz = 0b0100,
+	ODR50Hz = 0b0101,
+	ODR75Hz = 0b0110,
+	ODR100Hz = 0b0111,
+	ODR200Hz = 0b1000
+};
+
 
 // ----- STRUCTS
 /**
@@ -145,6 +177,16 @@ struct interface_cfg_t
 	State_t SPIRead; /**< @brief Turn on 3-wire SPI read. */
 	State_t sdaPullUp; /**< @brief Enable or disable pull-up on SDA line. */
 	State_t ssPullUpOff; /**< @brief Turn off pull-up on SS line. */
+};
+
+/**
+ * @brief Data output config struct.
+ * 
+ */
+struct data_output_cfg_t
+{
+	OutputDataRate_t dataRate; /**< @brief Output data rate. See \ref OutputDataRate_t */
+	Average_t average; /**< @brief Output data average selection. See \ref Average_t */
 };
 
 
@@ -488,6 +530,62 @@ class Driver
 		temperatureScale = scale;
 	}
 
+	/**
+	 * @brief Configure data output.
+	 * 
+	 * @param config Reference to data output config.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success.
+	 */
+	Return_t setDataOutputConfig(const data_output_cfg_t& config)
+	{
+		txBuffer[0] = Register_t::Control1;
+		txBuffer[1] = (config.average << Control1Bitmap_t::Average) | (config.dataRate << Control1Bitmap_t::OutputDataRate);
+
+		return writeRegister(txBuffer, 2);
+	}
+
+	/**
+	 * @brief Get current data output config.
+	 * 
+	 * @param config Reference to output config.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success.
+	 */
+	Return_t getDataOutputConfig(data_output_cfg_t& config)
+	{
+		uint8_t tmp = 0;
+		if (readRegister(Register_t::Control1, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		config.average = tmp & averageMask;
+		config.dataRate = tmp >> Control1Bitmap_t::OutputDataRate;
+		return Return_t::OK;
+	}
+
+	/**
+	 * @brief Start pressure and temperature measurment when the sensor is in power-down/one-shot mode.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success. 
+	 */
+	Return_t measure(void)
+	{
+		uint8_t tmp = 0;
+		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		txBuffer[0] = Register_t::Contorl2;
+		txBuffer[1] = tmp | (1 << Control2Bitmap_t::OneShot);
+		return writeRegister(txBuffer, 2);
+	}
+
 
 	private:
 	// ----- ENUMS
@@ -647,40 +745,6 @@ class Driver
 	};
 
 	/**
-	 * @brief Enum class with average selection values.
-	 * 
-	 */
-	enum class Average_t : uint8_t
-	{
-		Average4 = 0b000,
-		Average8 = 0b001,
-		Average16 = 0b010,
-		Average32 = 0b011,
-		Average64 = 0b100,
-		Average128 = 0b101,
-		Average512 = 0b111
-	};
-	static constexpr uint8_t averageMask = 0b111; /**< @brief Bit mask for average selection. */
-
-	/**
-	 * @brief Enum class with output data rate values.
-	 * 
-	 */
-	enum class OutputDataRate_t : uint8_t
-	{
-		OneShot = 0b0000, /**< @brief Power-down mode. */
-		ODR1Hz = 0b0001,
-		ODR4Hz = 0b0010,
-		ODR10Hz = 0b0011,
-		ODR25Hz = 0b0100,
-		ODR50Hz = 0b0101,
-		ODR75Hz = 0b0110,
-		ODR100Hz = 0b0111,
-		ODR200Hz = 0b1000
-	};
-	static constexpr uint8_t outputDataRateMask = 0b1111; /**< @brief Bit mask for output data rate. */
-
-	/**
 	 * @brief Enum class with FIFO mode values.
 	 * 
 	 */
@@ -710,6 +774,8 @@ class Driver
 
 
 	// ----- VARIABLES
+	static constexpr uint8_t averageMask = 0b111; /**< @brief Bit mask for average selection. */
+	static constexpr uint8_t outputDataRateMask = 0b1111; /**< @brief Bit mask for output data rate. */
 	static constexpr E& interface = static_cast<E&>(*this); /**< @brief Pointer to interface object. */
 	static constexpr uint8_t timeout = 10; /**< @brief Driver R/W timeout in ms. */
 	static constexpr uint8_t chipID = 0xB4; /**< @brief Chip ID from register \ref Register_t::WhoAmI. */
