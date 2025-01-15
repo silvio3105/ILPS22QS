@@ -150,6 +150,26 @@ enum class OutputDataRate_t : uint8_t
 	ODR200Hz = 0b1000
 };
 
+/**
+ * @brief Enum class for low-pass filter config.
+ * 
+ */
+enum class FilterDiscard_t : uint8_t
+{
+	Discard1Sample = 0, /**< @brief Configure low-pass filter to discard 1 sample (ODR / 4). */
+	Discard6Samples = 1, /**< @brief Configure low-pass filter to discard 6 samples (ODR / 9). */
+};
+
+/**
+ * @brief Enum class with values for data update config.
+ * 
+ */
+enum class DataUpdate_t : uint8_t
+{
+	Continuous = 0, /**< @brief Update data continuously. */
+	BlockUntilRead = 1, /**< @brief Block data update until previously has been read. */
+};
+
 
 // ----- STRUCTS
 /**
@@ -187,6 +207,16 @@ struct data_output_cfg_t
 {
 	OutputDataRate_t dataRate; /**< @brief Output data rate. See \ref OutputDataRate_t */
 	Average_t average; /**< @brief Output data average selection. See \ref Average_t */
+};
+
+/**
+ * @brief Struct for low-pass config.
+ * 
+ */
+struct filter_config_t
+{
+	FilterDiscard_t discard; /**< @brief Low-pass filter discard config. See \ref FilterDiscard_t */
+	State_t filter; /**<@brief Enable or disable low-pass filter. */
 };
 
 
@@ -586,6 +616,101 @@ class Driver
 		return writeRegister(txBuffer, 2);
 	}
 
+	/**
+	 * @brief Set low-pass filter config.
+	 * 
+	 * @param config Reference to filter config struct.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success. 
+	 */
+	Return_t filterConfig(const filter_config_t& config)
+	{
+		uint8_t tmp = 0;
+		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		txBuffer[0] = Register_t::Contorl2;
+		tmp &= ~((1 << Control2Bitmap_t::LowPassFilterConfig) | (1 << Control2Bitmap_t::LowPassFilterEnable));
+		txBuffer[1] = tmp | ((config.filter << Control2Bitmap_t::LowPassFilterEnable) | (config.discard << Control2Bitmap_t::LowPassFilterConfig));
+		return writeRegister(txBuffer, 2);
+	}
+
+	/**
+	 * @brief Configure data update.
+	 * 
+	 * @param update Data update procedure.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success.
+	 */
+	Return_t dataUpdateConfig(const DataUpdate_t update)
+	{
+		uint8_t tmp = 0;
+		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		txBuffer[0] = Register_t::Contorl2;
+		tmp &= ~(1 << Control2Bitmap_t::BlockDataUpdate);
+		txBuffer[1] = tmp | (update << Control2Bitmap_t::BlockDataUpdate);
+		return writeRegister(txBuffer, 2);				
+	}
+
+	/**
+	 * @brief Trigger software reset.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success. 
+	 */
+	Return_t reset(void)
+	{
+		uint8_t tmp = 0;
+		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		txBuffer[0] = Register_t::Contorl2;
+		txBuffer[1] = tmp | (1 << Control2Bitmap_t::Reset);
+		return writeRegister(txBuffer, 2);	
+	}
+
+	/**
+	 * @brief Trigger reboot.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success. 
+	 */
+	Return_t reboot(void)
+	{
+		uint8_t tmp = 0;
+		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		txBuffer[0] = Register_t::Contorl2;
+		txBuffer[1] = tmp | (1 << Control2Bitmap_t::Boot);
+		return writeRegister(txBuffer, 2);			
+	}
+
+	/**
+	 * @brief Disable analog hub and Qvar feature to reduce power consumption.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success.
+	 */
+	Return_t disableAnalogHub(void)
+	{
+		txBuffer[0] = Register_t::AnalogHubDisable;
+		txBuffer[1] = 0;
+		return writeRegister(txBuffer, 2);
+	}
+
 
 	private:
 	// ----- ENUMS
@@ -621,7 +746,9 @@ class Driver
 		TemperatureOutHigh = 0x2C, /**< @brief Temperature MSB output (R). */
 		FIFOOutLow = 0x78, /**< @brief Either FIFO pressure or AH/Qvar output LSB data (R). */
 		FIFOOutMid = 0x79, /**< @brief Either FIFO pressure or AH/Qvar output middle data (R). */
-		FIFOOutHigh = 0x7A /**< @brief Either FIFO pressure or AH/Qvar output MSB data (R). */
+		FIFOOutHigh = 0x7A, /**< @brief Either FIFO pressure or AH/Qvar output MSB data (R). */
+
+		AnalogHubDisable = 0x5F, /**< @brief Non-listed register, controls analog hub (R/W?). Reboot realods this register. */ 
 	};
 
 	/**
