@@ -230,6 +230,18 @@ struct analog_hub_config_t
 	State_t addressIncrement; /**< @brief Enable or disable auto address increment. */
 };
 
+/**
+ * @brief Struct for interrupt sources.
+ * 
+ */
+struct interrupt_source_t
+{
+	uint8_t boot; /**<@brief If set to 1 boot phase is ongoing. */
+	uint8_t active; /**< @brief If set to 1 interrupt is active. */
+	uint8_t pressureLow; /**< @brief If set to 1 low pressure interrupt is active. */
+	uint8_t pressureHigh; /**< @brief If set to 1 high pressure interrupt is active. */
+}
+
 
 // ----- TYPEDEFS
 /**
@@ -823,6 +835,108 @@ class Driver
 		config.analogHub = (tmp >> Control3Bitmap_t::AnalogHubEnable) & 1;
 		config.addressIncrement = (tmp >> Control3Bitmap_t::AddressIncrement) & 1;
 		config.interleavedMode = (tmp >> Control3Bitmap_t::AnalogHubInterleaved) & 1;
+		return Return_t::OK;
+	}
+
+	/**
+	 * @brief Get reference pressure in hPa/mbar.
+	 * 
+	 * @param output Reference to output variable.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success. 
+	 */
+	Return_t getReferencePressure(uint16_t& output)
+	{
+		uint8_t tmp = 0;
+		if (readRegister(Register_t::PressureReferenceHigh, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}		
+		output = tmp << 8;
+
+		if (readRegister(Register_t::PressureReferenceLow, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}	
+		output |= tmp;
+
+		return Return_t::OK;	
+	}
+
+	/**
+	 * @brief Set pressure offset measured in one point calibration.
+	 * 
+	 * @param offset Pressure offset in N/A unit(unclear datasheet).
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success. 
+	 */
+	Return_t setPressureOffset(const int16_t offset)
+	{
+		txBuffer[0] = Register_t::PressureOffsetHigh;
+		txBuffer[1] = offset >> 8;
+		if (writeRegister(txBuffer, 2) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		txBuffer[0] = Register_t::PressureOffsetLow;
+		txBuffer[1] = offset;
+		if (writeRegister(txBuffer, 2) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		return Return_t::OK;		
+	}
+
+	/**
+	 * @brief Get pressure offset.
+	 * 
+	 * @param output Reference to output for pressure offset in N/A unit(unclear datasheet).
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success. 
+	 */
+	Return_t getPressureOffset(int16_t& output)
+	{
+		int8_t tmp = 0;
+		if (readRegister(Register_t::PressureOffsetHigh, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+		output = tmp << 8;
+
+		if (readRegister(Register_t::PressureOffsetLow, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+		output |= tmp;	
+
+		return Return_t::OK;
+	}
+
+	/**
+	 * @brief Get interrupt source
+	 * 
+	 * @param source Reference to output for interrupt source.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success. 
+	 */
+	Return_t getInterruptSource(interrupt_source_t& source)
+	{
+		uint8_t tmp = 0;
+		if (readRegister(Register_t::InterruptSource, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		source.active = (tmp >> InterruptSourceBitmap_t::ActiveInterrupt) & 1;
+		source.boot = (tmp >> InterruptSourceBitmap_t::Boot) & 1;
+		source.pressureHigh = (tmp >> InterruptSourceBitmap_t::PressureHigh) & 1;
+		source.pressureLow = (tmp >> InterruptSourceBitmap_t::PressureLow) & 1;
 		return Return_t::OK;
 	}
 
