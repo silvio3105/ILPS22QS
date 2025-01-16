@@ -219,6 +219,17 @@ struct filter_config_t
 	State_t filter; /**<@brief Enable or disable low-pass filter. */
 };
 
+/**
+ * @brief Struct for analog hub/qvar config.
+ * 
+ */
+struct analog_hub_config_t
+{
+	State_t analogHub; /**< @brief Enable or disable analog hub/Qvar. */
+	State_t interleavedMode; /**< @brief Enable or disable interleaved mode. */
+	State_t addressIncrement; /**< @brief Enable or disable auto address increment. */
+};
+
 
 // ----- TYPEDEFS
 /**
@@ -383,14 +394,14 @@ class Driver
 	}
 
 	/**
-	 * @brief Configure sensor interrupts.
+	 * @brief Set interrupt config.
 	 * 
 	 * @param config Reference to interrupt config. See \ref interrupt_cfg_t
 	 * 
-	 * @return Everything other than \c Return_t::OK means interrupts are not configured. 
+	 * @return \c Return_t::NOK on fail.
 	 * @return \c Return_t::OK on success.
 	 */
-	Return_t interruptConfig(const interrupt_cfg_t& config)
+	Return_t setInterruptConfig(const interrupt_cfg_t& config)
 	{	
 		txBuffer[0] = Register_t::Interrupt;
 		txBuffer[1] = 	(config.autoREFP << InterruptBitmap_t::AutoREFP) |
@@ -402,6 +413,70 @@ class Driver
 						(config.resetAZ << InterruptBitmap_t::ResetAutoZero);
 
 		return writeRegister(txBuffer, 2);
+	}
+
+	/**
+	 * @brief Get interrupt config.
+	 * 
+	 * @param config Reference to output config.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success.
+	 */
+	Return_t getInterruptConfig(interrupt_cfg_t& config)
+	{
+		uint8_t tmp = 0;
+		if (readRegister(Register_t::Interrupt, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK
+		}
+
+		config.autoREFP = (tmp >> InterruptBitmap_t::AutoREFP) & 1;
+		config.autoZero = (tmp >> InterruptBitmap_t::AutoZero) & 1;
+		config.interruptLatch = (tmp >> InterruptBitmap_t::InterruptLatch) & 1;
+		config.pressureHighInterrupt = (tmp >> InterruptBitmap_t::PressureHighEvent) & 1;
+		config.pressureLowInterrupt = (tmp >> InterruptBitmap_t::PressureLowEvent) & 1;
+		config.resetARP = (tmp >> InterruptBitmap_t::ResetAutoREFP) & 1;
+		config.resetAZ = (tmp >> InterruptBitmap_t::ResetAutoZero) & 1;
+		return Return_t::OK;
+	}
+
+	/**
+	 * @brief Set pressure interrupt threshold.
+	 * 
+	 * @param threshold Pressure threshold in hPa(mbar).
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success.
+	 */
+	Return_t setPressureInterruptThreshold(const uint16_t threshold)
+	{
+		// Get current pressure scale
+		PressureScale_t scale;
+		if (getPressureScale(scale) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		// Calculate raw pressure value and set TX buffer
+		const uint16_t rawPressure = threshold * pressureScaleDivider[scale];
+		txBuffer[0] = Register_t::PressureThresholdHigh;
+		txBuffer[1] = rawPressure >> 8;
+
+		if (writeRegister(txBuffer, 2) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		txBuffer[0] = Register_t::PressureThresholdLow;
+		txBuffer[1] = rawPressure & 0xFF;
+
+		if (writeRegister(txBuffer, 2) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}	
+
+		return Return_t::OK;
 	}
 
 	/**
@@ -445,41 +520,28 @@ class Driver
 	}
 
 	/**
-	 * @brief Set pressure interrupt threshold.
+	 * @brief Set pressure scale.
 	 * 
-	 * @param threshold Pressure threshold in hPa(mbar).
+	 * @param scale Pressure scale. See \ref PressureScale_t
 	 * 
 	 * @return \c Return_t::NOK on fail.
 	 * @return \c Return_t::OK on success.
 	 */
-	Return_t setPressureInterruptThreshold(const uint16_t threshold)
+	Return_t setPressureScale(const PressureScale_t scale)
 	{
-		// Get current pressure scale
-		PressureScale_t scale;
-		if (getPressureScale(scale) != Return_t::OK)
+		// Read control 2 register
+		uint8_t tmp = 0;
+
+		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
 		{
 			return Return_t::NOK;
 		}
 
-		// Calculate raw pressure value and set TX buffer
-		const uint16_t rawPressure = threshold * pressureScaleDivider[scale];
-		txBuffer[0] = Register_t::PressureThresholdHigh;
-		txBuffer[1] = rawPressure >> 8;
+		txBuffer[0] = Register_t::Contorl2;
+		txBuffer[1] = tmp & ~(1 << Control2Bitmap_t::FullScale);
+		txBuffer[1] |= (scale << Control2Bitmap_t::FullScale);
 
-		if (writeRegister(txBuffer, 2) != Return_t::OK)
-		{
-			return Return_t::NOK;
-		}
-
-		txBuffer[0] = Register_t::PressureThresholdLow;
-		txBuffer[1] = rawPressure & 0xFF;
-
-		if (writeRegister(txBuffer, 2) != Return_t::OK)
-		{
-			return Return_t::NOK;
-		}	
-
-		return Return_t::OK;
+		return writeRegister(txBuffer, 2);		
 	}
 
 	/**
@@ -514,31 +576,6 @@ class Driver
 	}
 
 	/**
-	 * @brief Set pressure scale.
-	 * 
-	 * @param scale Pressure scale. See \ref PressureScale_t
-	 * 
-	 * @return \c Return_t::NOK on fail.
-	 * @return \c Return_t::OK on success.
-	 */
-	Return_t setPressureScale(const PressureScale_t scale)
-	{
-		// Read control 2 register
-		uint8_t tmp = 0;
-
-		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
-		{
-			return Return_t::NOK;
-		}
-
-		txBuffer[0] = Register_t::Contorl2;
-		txBuffer[1] = tmp & ~(1 << Control2Bitmap_t::FullScale);
-		txBuffer[1] |= (scale << Control2Bitmap_t::FullScale);
-
-		return writeRegister(txBuffer, 2);		
-	}
-
-	/**
 	 * @brief Get temperature scale.
 	 * 
 	 * @return See \ref TemperatureScale_t 
@@ -563,7 +600,7 @@ class Driver
 	/**
 	 * @brief Configure data output.
 	 * 
-	 * @param config Reference to data output config.
+	 * @param config Reference to data output config. See \ref data_output_cfg_t
 	 * 
 	 * @return \c Return_t::NOK on fail.
 	 * @return \c Return_t::OK on success.
@@ -579,7 +616,7 @@ class Driver
 	/**
 	 * @brief Get current data output config.
 	 * 
-	 * @param config Reference to output config.
+	 * @param config Reference to output config. See \ref data_output_cfg_t
 	 * 
 	 * @return \c Return_t::NOK on fail.
 	 * @return \c Return_t::OK on success.
@@ -617,14 +654,14 @@ class Driver
 	}
 
 	/**
-	 * @brief Set low-pass filter config.
+	 * @brief Set pressure low-pass filter config.
 	 * 
-	 * @param config Reference to filter config struct.
+	 * @param config Reference to filter config struct. See \ref filter_config_t
 	 * 
 	 * @return \c Return_t::NOK on fail.
 	 * @return \c Return_t::OK on success. 
 	 */
-	Return_t filterConfig(const filter_config_t& config)
+	Return_t setFilterConfig(const filter_config_t& config)
 	{
 		uint8_t tmp = 0;
 		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
@@ -639,14 +676,35 @@ class Driver
 	}
 
 	/**
-	 * @brief Configure data update.
+	 * @brief Get pressure low-pass filter config.
+	 * 
+	 * @param config Reference to output. See \ref filter_config_t
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success. 
+	 */
+	Return_t getFilterConfig(filter_config_t& config)
+	{
+		uint8_t tmp = 0;
+		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		config.discard = (tmp >> Control2Bitmap_t::LowPassFilterConfig) & 1;
+		config.filter = (tmp >> Control2Bitmap_t::LowPassFilterEnable) & 1;
+		return Return_t::OK;		
+	}
+
+	/**
+	 * @brief Set data update config.
 	 * 
 	 * @param update Data update procedure.
 	 * 
 	 * @return \c Return_t::NOK on fail.
 	 * @return \c Return_t::OK on success.
 	 */
-	Return_t dataUpdateConfig(const DataUpdate_t update)
+	Return_t setDataUpdateConfig(const DataUpdate_t update)
 	{
 		uint8_t tmp = 0;
 		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
@@ -658,6 +716,26 @@ class Driver
 		tmp &= ~(1 << Control2Bitmap_t::BlockDataUpdate);
 		txBuffer[1] = tmp | (update << Control2Bitmap_t::BlockDataUpdate);
 		return writeRegister(txBuffer, 2);				
+	}
+
+	/**
+	 * @brief Get data update config.
+	 * 
+	 * @param update Reference to config output.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success.
+	 */
+	Return_t getDataUpdateConfig(DataUpdate_t& update)
+	{
+		uint8_t tmp = 0;
+		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		update = (tmp >> Control2Bitmap_t::BlockDataUpdate) & 1;
+		return Return_t::OK;		
 	}
 
 	/**
@@ -709,6 +787,43 @@ class Driver
 		txBuffer[0] = Register_t::AnalogHubDisable;
 		txBuffer[1] = 0;
 		return writeRegister(txBuffer, 2);
+	}
+
+	/**
+	 * @brief Set analog hub/qvar config.
+	 * 
+	 * @param config Reference to analog hub config. See \ref analog_hub_config_t
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success.
+	 */
+	Return_t setAnalogHubConfig(const analog_hub_config_t& config)
+	{
+		txBuffer[0] = Register_t::Contorl3;
+		txBuffer[1] = (config.addressIncrement << Control3Bitmap_t::AddressIncrement) | (config.interleavedMode << Control3Bitmap_t::AnalogHubInterleaved) | (config.analogHub << Control3Bitmap_t::AnalogHubEnable);
+		return writeRegister(txBuffer, 2);		 
+	}
+
+	/**
+	 * @brief Get analog hub/qvar config.
+	 * 
+	 * @param config Reference to config output. See \ref analog_hub_config_t
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success.
+	 */
+	Return_t getAnalogHubConfig(analog_hub_config_t& config)
+	{
+		uint8_t tmp = 0;
+		if (readRegister(Register_t::Control3, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		config.analogHub = (tmp >> Control3Bitmap_t::AnalogHubEnable) & 1;
+		config.addressIncrement = (tmp >> Control3Bitmap_t::AddressIncrement) & 1;
+		config.interleavedMode = (tmp >> Control3Bitmap_t::AnalogHubInterleaved) & 1;
+		return Return_t::OK;
 	}
 
 
@@ -807,7 +922,7 @@ class Driver
 	 * @brief Enum class with bitmap for register \ref ILPS22QS::Register_t::Control3
 	 * 
 	 */
-	enum class Control3BitMap_t : uint8_t
+	enum class Control3Bitmap_t : uint8_t
 	{
 		AddressIncrement = 0, /**< @brief Register address automatically incremented during a multiple byte access with a serial interface. */
 		AnalogHubInterleaved = 5, /**<@brief Enables AH/Qvar and pressure hardware interleaved mode. */
