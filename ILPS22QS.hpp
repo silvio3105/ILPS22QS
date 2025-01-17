@@ -553,7 +553,13 @@ class Driver
 		txBuffer[1] = tmp & ~(1 << Control2Bitmap_t::FullScale);
 		txBuffer[1] |= (scale << Control2Bitmap_t::FullScale);
 
-		return writeRegister(txBuffer, 2);		
+		if (writeRegister(txBuffer, 2) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}	
+
+		pressureScale = scale;
+		return Return_t::OK;
 	}
 
 	/**
