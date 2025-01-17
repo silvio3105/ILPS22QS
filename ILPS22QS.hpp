@@ -236,11 +236,23 @@ struct analog_hub_config_t
  */
 struct interrupt_source_t
 {
-	uint8_t boot; /**<@brief If set to 1 boot phase is ongoing. */
-	uint8_t active; /**< @brief If set to 1 interrupt is active. */
-	uint8_t pressureLow; /**< @brief If set to 1 low pressure interrupt is active. */
-	uint8_t pressureHigh; /**< @brief If set to 1 high pressure interrupt is active. */
-}
+	uint8_t boot; /**<@brief If set to \c 1 boot phase is ongoing. */
+	uint8_t active; /**< @brief If set to \c 1 interrupt is active. */
+	uint8_t pressureLow; /**< @brief If set to \c 1 low pressure interrupt is active. */
+	uint8_t pressureHigh; /**< @brief If set to \c 1 high pressure interrupt is active. */
+};
+
+/**
+ * @brief Struct for data status.
+ * 
+ */
+struct data_status_t
+{
+	uint8_t pressureOverrun; /**< @brief If set to \c 1 pressure data overrun happend. */
+	uint8_t pressureAvailable; /**< @brief If set to \c 1 pressure data is available. */
+	uint8_t temperatureOverrun; /**< @brief If set to \c 1 temperature data overrun happend. */
+	uint8_t temperatureAvailable; /**< @brief If set to \c 1 temperature data is available. */
+};
 
 
 // ----- TYPEDEFS
@@ -352,6 +364,8 @@ class Driver
 	/**
 	 * @brief Init the sensor.
 	 * 
+	 * This should be called before interacting with the sensor.
+	 * 
 	 * @param interfaceCfg Pointer to interface config. Optional.
 	 * 
 	 * @return \c Return_t::NOK on failed init.
@@ -381,13 +395,14 @@ class Driver
 		uint8_t tmp = 0;
 		if (whoAmI(tmp) == Return_t::OK)
 		{
-			if (tmp == chipID)
+			if (tmp != chipID)
 			{
-				return Return_t::OK;
+				return Return_t::NOK;
 			}		
 		}
 
-		return Return_t::NOK;
+		// Cache pressure scale
+		return readPressureScale();
 	}
 
 	/**
@@ -463,15 +478,8 @@ class Driver
 	 */
 	Return_t setPressureInterruptThreshold(const uint16_t threshold)
 	{
-		// Get current pressure scale
-		PressureScale_t scale;
-		if (getPressureScale(scale) != Return_t::OK)
-		{
-			return Return_t::NOK;
-		}
-
 		// Calculate raw pressure value and set TX buffer
-		const uint16_t rawPressure = threshold * pressureScaleDivider[scale];
+		const uint16_t rawPressure = threshold * pressureScaleDivider[getPressureScale()];
 		txBuffer[0] = Register_t::PressureThresholdHigh;
 		txBuffer[1] = rawPressure >> 8;
 
@@ -518,16 +526,8 @@ class Driver
 		}
 		tmpOutput |= tmp;
 
-		// Get pressure scale
-		PressureScale_t scale = PressureScale_t::Scale1260hPa;
-
-		if (getPressureScale(scale) != Return_t::OK)
-		{
-			return Return_t::NOK;
-		}
-
 		// Convert to output unit
-		output = tmpOutput / pressureScaleDivider[scale];
+		output = tmpOutput / pressureScaleDivider[getPressureScale()];
 		return Return_t::OK;
 	}
 
@@ -559,32 +559,11 @@ class Driver
 	/**
 	 * @brief Get measuing scale for pressure.
 	 * 
-	 * @param output Reference to pressure scale output. See \ref PressureScale_t
-	 * 
-	 * @return \c Return_t::NOK on fail.
-	 * @return \c Return_t::OK on success.
+	 * @return Pressure scale. See \ref PressureScale_t
 	 */
-	Return_t getPressureScale(PressureScale_t& output)
+	inline PressureScale_t getPressureScale(void) const
 	{
-		// Read control 2 register
-		uint8_t tmp = 0;
-
-		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
-		{
-			return Return_t::NOK;
-		}
-
-		// Get pressure scale
-		if (tmp & (1 << Control2Bitmap_t::FullScale))
-		{
-			output = PressureScale_t::Scale4060hPa;
-		}
-		else
-		{
-			output = PressureScale_t::Scale1260hPa;
-		}
-
-		return Return_t::OK;
+		return pressureScale;
 	}
 
 	/**
@@ -940,6 +919,94 @@ class Driver
 		return Return_t::OK;
 	}
 
+	/**
+	 * @brief Get pressure and temperature data status.
+	 * 
+	 * @param output Reference to output. See \ref data_status_t
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success. 
+	 */
+	Return_t getDataStatus(data_status_t& output)
+	{
+		uint8_t tmp = 0;
+		if (readRegister(Register_t::Status, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		output.pressureAvailable = (tmp >> StatusBitmap_t::PressureAvailable) & 1;
+		output.pressureOverrun = (tmp >> StatusBitmap_t::PressureOverrun) & 1;
+		output.temperatureAvailable = (tmp >> StatusBitmap_t::TemperatureAvailable) & 1;
+		output.temperatureOverrun = (tmp >> StatusBitmap_t::TemperatureOverrun) & 1;
+		return Return_t::OK
+	}
+
+	/**
+	 * @brief Get measured pressure.
+	 * 
+	 * @param output Reference to output for pressure in hPa/mbar.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success. 
+	 */
+	Return_t getPressure(int16_t& output)
+	{
+		int32_t tmp = 0;
+		int8_t reg = 0;
+
+		if (readRegister(Register_t::PressureOutHigh, reg) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+		tmp = reg << 16;
+
+		if (readRegister(Register_t::PressureOutMid, reg) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+		tmp |= reg << 8;	
+
+		if (readRegister(Register_t::PressureOutLow, reg) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+		tmp |= reg;
+
+		static constexpr uint16_t pressureScale[] = { 4096, 2048 };
+		output = tmp / pressureScale[getPressureScale()];
+		return Return_t::OK;
+	}
+
+	/**
+	 * @brief Get measured temperature in configured scale and centideegres.
+	 * 
+	 * @param output Reference to temperature output.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success. 
+	 */
+	Return_t getTemperature(int16_t& output)
+	{
+		int16_t tmp = 0;
+		int8_t reg = 0;	
+
+		if (readRegister(Register_t::TemperatureOutHigh, reg) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+		tmp = reg << 8;	
+
+		if (readRegister(Register_t::TemperatureOutLow, reg) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+		tmp |= reg;	
+
+		output = convertTemperature(tmp);
+		return Return_t::OK;			
+	}
+
 
 	private:
 	// ----- ENUMS
@@ -1143,6 +1210,7 @@ class Driver
 	Tick_f tickHandler = nullptr; /**< @brief Pointer to external function for retrieving tick. */
 
 	uint8_t txBuffer[6]; /**< @brief Buffer for outgoing data. */
+	PressureScale_t pressureScale = PressureScale_t::Scale1260hPa; /**< @brief Pressure scale. */
 	TemperatureScale_t temperatureScale = TemperatureScale_t::Celsius; /**< @brief Output scale for temperature. */
 	Semaphore_t semaphore = Semaphore_t::Free; /**< @brief Bus process semaphore. */
 
@@ -1235,6 +1303,54 @@ class Driver
 
 		return writeRegister(txBuffer, 2);
 	}
+
+	/**
+	 * @brief Get measuing scale for pressure.
+	 * 
+	 * @return \c Return_t::NOK on fail.
+	 * @return \c Return_t::OK on success.
+	 */
+	Return_t readPressureScale(void)
+	{
+		// Read control 2 register
+		uint8_t tmp = 0;
+
+		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		{
+			return Return_t::NOK;
+		}
+
+		// Get pressure scale
+		if (tmp & (1 << Control2Bitmap_t::FullScale))
+		{
+			pressureScale = PressureScale_t::Scale4060hPa;
+		}
+		else
+		{
+			pressureScale = PressureScale_t::Scale1260hPa;
+		}
+
+		return Return_t::OK;
+	}
+
+	/**
+	 * @brief Convert temperature to configured scale.
+	 * 
+	 * @param input Input temperature.
+	 * 
+	 * @return int16_t Output temperature in configured scale.
+	 */
+	int16_t convertTemperature(const int16_t input) const
+	{
+		// Convert to fahrenheit if needed
+		if (getTemperatureScale() == TemperatureScale_t::Fahrenheit)
+		{
+			return 3200 + (input * 18 / 10);
+		}
+
+		// Just pass celsius
+		return input;
+	}	
 
 
 	protected:
