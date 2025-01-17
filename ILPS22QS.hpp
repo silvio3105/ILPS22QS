@@ -1215,7 +1215,7 @@ class Driver
 	Delay_f delayHandler = nullptr; /**< @brief Pointer to external function for wait operations. */
 	Tick_f tickHandler = nullptr; /**< @brief Pointer to external function for retrieving tick. */
 
-	uint8_t txBuffer[6]; /**< @brief Buffer for outgoing data. */
+	uint8_t txBuffer[2]; /**< @brief Buffer for outgoing data. */
 	PressureScale_t pressureScale = PressureScale_t::Scale1260hPa; /**< @brief Pressure scale. */
 	TemperatureScale_t temperatureScale = TemperatureScale_t::Celsius; /**< @brief Output scale for temperature. */
 	Semaphore_t semaphore = Semaphore_t::Free; /**< @brief Bus process semaphore. */
