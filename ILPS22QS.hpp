@@ -423,13 +423,13 @@ class Driver
 	Return_t setInterruptConfig(const interrupt_cfg_t& config)
 	{	
 		txBuffer[0] = (uint8_t)Register_t::Interrupt;
-		txBuffer[1] = 	(config.autoREFP << InterruptBitmap_t::AutoREFP) |
-						(config.autoZero << InterruptBitmap_t::AutoZero) |
-						(config.interruptLatch << InterruptBitmap_t::InterruptLatch) |
-						(config.pressureHighInterrupt << InterruptBitmap_t::PressureHighEvent) |
-						(config.pressureLowInterrupt << InterruptBitmap_t::PressureLowEvent) |
-						(config.resetARP << InterruptBitmap_t::ResetAutoREFP) |
-						(config.resetAZ << InterruptBitmap_t::ResetAutoZero);
+		txBuffer[1] = 	((uint8_t)config.autoREFP << (uint8_t)InterruptBitmap_t::AutoREFP) |
+						((uint8_t)config.autoZero << (uint8_t)InterruptBitmap_t::AutoZero) |
+						((uint8_t)config.interruptLatch << (uint8_t)InterruptBitmap_t::InterruptLatch) |
+						((uint8_t)config.pressureHighInterrupt << (uint8_t)InterruptBitmap_t::PressureHighEvent) |
+						((uint8_t)config.pressureLowInterrupt << (uint8_t)InterruptBitmap_t::PressureLowEvent) |
+						((uint8_t)config.resetARP << (uint8_t)InterruptBitmap_t::ResetAutoREFP) |
+						((uint8_t)config.resetAZ << (uint8_t)InterruptBitmap_t::ResetAutoZero);
 
 		return writeRegister(txBuffer, 2);
 	}
@@ -450,13 +450,13 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		config.autoREFP = (tmp >> InterruptBitmap_t::AutoREFP) & 1;
-		config.autoZero = (tmp >> InterruptBitmap_t::AutoZero) & 1;
-		config.interruptLatch = (tmp >> InterruptBitmap_t::InterruptLatch) & 1;
-		config.pressureHighInterrupt = (tmp >> InterruptBitmap_t::PressureHighEvent) & 1;
-		config.pressureLowInterrupt = (tmp >> InterruptBitmap_t::PressureLowEvent) & 1;
-		config.resetARP = (tmp >> InterruptBitmap_t::ResetAutoREFP) & 1;
-		config.resetAZ = (tmp >> InterruptBitmap_t::ResetAutoZero) & 1;
+		config.autoREFP = (tmp >> (uint8_t)InterruptBitmap_t::AutoREFP) & 1;
+		config.autoZero = (tmp >> (uint8_t)InterruptBitmap_t::AutoZero) & 1;
+		config.interruptLatch = (tmp >> (uint8_t)InterruptBitmap_t::InterruptLatch) & 1;
+		config.pressureHighInterrupt = (tmp >> (uint8_t)InterruptBitmap_t::PressureHighEvent) & 1;
+		config.pressureLowInterrupt = (tmp >> (uint8_t)InterruptBitmap_t::PressureLowEvent) & 1;
+		config.resetARP = (tmp >> (uint8_t)InterruptBitmap_t::ResetAutoREFP) & 1;
+		config.resetAZ = (tmp >> (uint8_t)InterruptBitmap_t::ResetAutoZero) & 1;
 		return Return_t::OK;
 	}
 
@@ -542,8 +542,8 @@ class Driver
 		}
 
 		txBuffer[0] = (uint8_t)Register_t::Contorl2;
-		txBuffer[1] = tmp & ~(1 << Control2Bitmap_t::FullScale);
-		txBuffer[1] |= (scale << Control2Bitmap_t::FullScale);
+		txBuffer[1] = tmp & ~(1 << (uint8_t)Control2Bitmap_t::FullScale);
+		txBuffer[1] |= ((uint8_t)scale << (uint8_t)Control2Bitmap_t::FullScale);
 
 		if (writeRegister(txBuffer, 2) != Return_t::OK)
 		{
@@ -597,7 +597,8 @@ class Driver
 	Return_t setDataOutputConfig(const data_output_cfg_t& config)
 	{
 		txBuffer[0] = (uint8_t)Register_t::Control1;
-		txBuffer[1] = (config.average << Control1Bitmap_t::Average) | (config.dataRate << Control1Bitmap_t::OutputDataRate);
+		txBuffer[1] = 	((uint8_t)config.average << (uint8_t)Control1Bitmap_t::Average) | 
+						((uint8_t)config.dataRate << (uint8_t)Control1Bitmap_t::OutputDataRate);
 
 		return writeRegister(txBuffer, 2);
 	}
@@ -619,7 +620,7 @@ class Driver
 		}
 
 		config.average = tmp & averageMask;
-		config.dataRate = tmp >> Control1Bitmap_t::OutputDataRate;
+		config.dataRate = tmp >> (uint8_t)Control1Bitmap_t::OutputDataRate;
 		return Return_t::OK;
 	}
 
@@ -638,7 +639,7 @@ class Driver
 		}
 
 		txBuffer[0] = (uint8_t)Register_t::Contorl2;
-		txBuffer[1] = tmp | (1 << Control2Bitmap_t::OneShot);
+		txBuffer[1] = tmp | (1 << (uint8_t)Control2Bitmap_t::OneShot);
 		return writeRegister(txBuffer, 2);
 	}
 
@@ -659,8 +660,8 @@ class Driver
 		}
 
 		txBuffer[0] = (uint8_t)Register_t::Contorl2;
-		tmp &= ~((1 << Control2Bitmap_t::LowPassFilterConfig) | (1 << Control2Bitmap_t::LowPassFilterEnable));
-		txBuffer[1] = tmp | ((config.filter << Control2Bitmap_t::LowPassFilterEnable) | (config.discard << Control2Bitmap_t::LowPassFilterConfig));
+		tmp &= ~((1 << (uint8_t)Control2Bitmap_t::LowPassFilterConfig) | (1 << (uint8_t)Control2Bitmap_t::LowPassFilterEnable));
+		txBuffer[1] = tmp | (((uint8_t)config.filter << (uint8_t)Control2Bitmap_t::LowPassFilterEnable) | ((uint8_t)config.discard << (uint8_t)Control2Bitmap_t::LowPassFilterConfig));
 		return writeRegister(txBuffer, 2);
 	}
 
@@ -680,8 +681,8 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		config.discard = (tmp >> Control2Bitmap_t::LowPassFilterConfig) & 1;
-		config.filter = (tmp >> Control2Bitmap_t::LowPassFilterEnable) & 1;
+		config.discard = (tmp >> (uint8_t)Control2Bitmap_t::LowPassFilterConfig) & 1;
+		config.filter = (tmp >> (uint8_t)Control2Bitmap_t::LowPassFilterEnable) & 1;
 		return Return_t::OK;		
 	}
 
@@ -702,8 +703,8 @@ class Driver
 		}
 
 		txBuffer[0] = (uint8_t)Register_t::Contorl2;
-		tmp &= ~(1 << Control2Bitmap_t::BlockDataUpdate);
-		txBuffer[1] = tmp | (update << Control2Bitmap_t::BlockDataUpdate);
+		tmp &= ~(1 << (uint8_t)Control2Bitmap_t::BlockDataUpdate);
+		txBuffer[1] = tmp | ((uint8_t)update << (uint8_t)Control2Bitmap_t::BlockDataUpdate);
 		return writeRegister(txBuffer, 2);				
 	}
 
@@ -723,7 +724,7 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		update = (tmp >> Control2Bitmap_t::BlockDataUpdate) & 1;
+		update = (tmp >> (uint8_t)Control2Bitmap_t::BlockDataUpdate) & 1;
 		return Return_t::OK;		
 	}
 
@@ -742,7 +743,7 @@ class Driver
 		}
 
 		txBuffer[0] = (uint8_t)Register_t::Contorl2;
-		txBuffer[1] = tmp | (1 << Control2Bitmap_t::Reset);
+		txBuffer[1] = tmp | (1 << (uint8_t)Control2Bitmap_t::Reset);
 		return writeRegister(txBuffer, 2);	
 	}
 
@@ -761,7 +762,7 @@ class Driver
 		}
 
 		txBuffer[0] = (uint8_t)Register_t::Contorl2;
-		txBuffer[1] = tmp | (1 << Control2Bitmap_t::Boot);
+		txBuffer[1] = tmp | (1 << (uint8_t)Control2Bitmap_t::Boot);
 		return writeRegister(txBuffer, 2);			
 	}
 
@@ -789,7 +790,9 @@ class Driver
 	Return_t setAnalogHubConfig(const analog_hub_config_t& config)
 	{
 		txBuffer[0] = (uint8_t)Register_t::Contorl3;
-		txBuffer[1] = (config.addressIncrement << Control3Bitmap_t::AddressIncrement) | (config.interleavedMode << Control3Bitmap_t::AnalogHubInterleaved) | (config.analogHub << Control3Bitmap_t::AnalogHubEnable);
+		txBuffer[1] =	((uint8_t)config.addressIncrement << (uint8_t)Control3Bitmap_t::AddressIncrement) | 
+						((uint8_t)config.interleavedMode << (uint8_t)Control3Bitmap_t::AnalogHubInterleaved) |
+						((uint8_t)config.analogHub << (uint8_t)Control3Bitmap_t::AnalogHubEnable);
 		return writeRegister(txBuffer, 2);		 
 	}
 
@@ -809,9 +812,9 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		config.analogHub = (tmp >> Control3Bitmap_t::AnalogHubEnable) & 1;
-		config.addressIncrement = (tmp >> Control3Bitmap_t::AddressIncrement) & 1;
-		config.interleavedMode = (tmp >> Control3Bitmap_t::AnalogHubInterleaved) & 1;
+		config.analogHub = (tmp >> (uint8_t)Control3Bitmap_t::AnalogHubEnable) & 1;
+		config.addressIncrement = (tmp >> (uint8_t)Control3Bitmap_t::AddressIncrement) & 1;
+		config.interleavedMode = (tmp >> (uint8_t)Control3Bitmap_t::AnalogHubInterleaved) & 1;
 		return Return_t::OK;
 	}
 
@@ -910,10 +913,10 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		source.active = (tmp >> InterruptSourceBitmap_t::ActiveInterrupt) & 1;
-		source.boot = (tmp >> InterruptSourceBitmap_t::Boot) & 1;
-		source.pressureHigh = (tmp >> InterruptSourceBitmap_t::PressureHigh) & 1;
-		source.pressureLow = (tmp >> InterruptSourceBitmap_t::PressureLow) & 1;
+		source.active = (tmp >> (uint8_t)InterruptSourceBitmap_t::ActiveInterrupt) & 1;
+		source.boot = (tmp >> (uint8_t)InterruptSourceBitmap_t::Boot) & 1;
+		source.pressureHigh = (tmp >> (uint8_t)InterruptSourceBitmap_t::PressureHigh) & 1;
+		source.pressureLow = (tmp >> (uint8_t)InterruptSourceBitmap_t::PressureLow) & 1;
 		return Return_t::OK;
 	}
 
@@ -933,10 +936,10 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		output.pressureAvailable = (tmp >> StatusBitmap_t::PressureAvailable) & 1;
-		output.pressureOverrun = (tmp >> StatusBitmap_t::PressureOverrun) & 1;
-		output.temperatureAvailable = (tmp >> StatusBitmap_t::TemperatureAvailable) & 1;
-		output.temperatureOverrun = (tmp >> StatusBitmap_t::TemperatureOverrun) & 1;
+		output.pressureAvailable = (tmp >> (uint8_t)StatusBitmap_t::PressureAvailable) & 1;
+		output.pressureOverrun = (tmp >> (uint8_t)StatusBitmap_t::PressureOverrun) & 1;
+		output.temperatureAvailable = (tmp >> (uint8_t)StatusBitmap_t::TemperatureAvailable) & 1;
+		output.temperatureOverrun = (tmp >> (uint8_t)StatusBitmap_t::TemperatureOverrun) & 1;
 		return Return_t::OK;
 	}
 
@@ -1295,10 +1298,10 @@ class Driver
 	Return_t interfaceConfig(const interface_cfg_t* config)
 	{
 		txBuffer[0] = (uint8_t)Register_t::Interface;
-		txBuffer[1] =	((uint8_t)config->i2ci3cOff << (uint8_t)InterfaceBitmap_t::I2CDisable) |
-					((uint8_t)config->sdaPullUp << (uint8_t)InterfaceBitmap_t::SDAPullUpEnable) |
-					((uint8_t)config->SPIRead << (uint8_t)InterfaceBitmap_t::SPIReadEnable) |
-					((uint8_t)config->ssPullUpOff << (uint8_t)InterfaceBitmap_t::SSPullUpEnable);
+		txBuffer[1] =	((uint8_t)config->i2ci3cOff << (uint8_t)(uint8_t)InterfaceBitmap_t::I2CDisable) |
+					((uint8_t)config->sdaPullUp << (uint8_t)(uint8_t)InterfaceBitmap_t::SDAPullUpEnable) |
+					((uint8_t)config->SPIRead << (uint8_t)(uint8_t)InterfaceBitmap_t::SPIReadEnable) |
+					((uint8_t)config->ssPullUpOff << (uint8_t)(uint8_t)InterfaceBitmap_t::SSPullUpEnable);
 
 		return writeRegister(txBuffer, 2);
 	}
@@ -1320,7 +1323,7 @@ class Driver
 		}
 
 		// Get pressure scale
-		if (tmp & (1 << (uint8_t)Control2Bitmap_t::FullScale))
+		if (tmp & (1 << (uint8_t)(uint8_t)Control2Bitmap_t::FullScale))
 		{
 			pressureScale = PressureScale_t::Scale4060hPa;
 		}
