@@ -416,8 +416,10 @@ class Driver
 		// Call deinit handler if provided
 		if (mspDeinitHandler)
 		{
-			mspDeinitHandler();
+			return mspDeinitHandler();
 		}
+
+		return Return_t::OK;
 	}
 
 	/**
@@ -455,7 +457,7 @@ class Driver
 		uint8_t tmp = 0;
 		if (readRegister(Register_t::Interrupt, tmp) != Return_t::OK)
 		{
-			return Return_t::NOK
+			return Return_t::NOK;
 		}
 
 		config.autoREFP = (tmp >> InterruptBitmap_t::AutoREFP) & 1;
@@ -945,7 +947,7 @@ class Driver
 		output.pressureOverrun = (tmp >> StatusBitmap_t::PressureOverrun) & 1;
 		output.temperatureAvailable = (tmp >> StatusBitmap_t::TemperatureAvailable) & 1;
 		output.temperatureOverrun = (tmp >> StatusBitmap_t::TemperatureOverrun) & 1;
-		return Return_t::OK
+		return Return_t::OK;
 	}
 
 	/**
@@ -979,8 +981,8 @@ class Driver
 		}
 		tmp |= reg;
 
-		static constexpr uint16_t pressureScale[] = { 4096, 2048 };
-		output = tmp / pressureScale[getPressureScale()];
+		static constexpr uint16_t scaleDivider[] = { 4096, 2048 };
+		output = tmp / scaleDivider[getPressureScale()];
 		return Return_t::OK;
 	}
 
@@ -1205,7 +1207,6 @@ class Driver
 	// ----- VARIABLES
 	static constexpr uint8_t averageMask = 0b111; /**< @brief Bit mask for average selection. */
 	static constexpr uint8_t outputDataRateMask = 0b1111; /**< @brief Bit mask for output data rate. */
-	static constexpr E& interface = static_cast<E&>(*this); /**< @brief Pointer to interface object. */
 	static constexpr uint8_t timeout = 10; /**< @brief Driver R/W timeout in ms. */
 	static constexpr uint8_t chipID = 0xB4; /**< @brief Chip ID from register \ref Register_t::WhoAmI. */
 	static constexpr uint8_t pressureScaleDivider[2] = { 16, 8 }; /**< @brief Pressure output scale dividers. */
@@ -1234,12 +1235,12 @@ class Driver
 	Return_t readRegister(const Register_t reg, uint8_t* output, const uint8_t len)
 	{
 		txBuffer[0] = reg;
-		if (interface->write(txBuffer, 1) != Return_t::OK)
+		if (static_cast<E>(this)->write(txBuffer, 1) != Return_t::OK)
 		{
-			return Return_t::NOK
+			return Return_t::NOK;
 		}
 
-		if (interface->read(output, len) != Return_t::OK)
+		if (static_cast<E>(this)->read(output, len) != Return_t::OK)
 		{
 			return Return_t::NOK;
 		}
@@ -1277,7 +1278,7 @@ class Driver
 	 */
 	inline Return_t writeRegister(const uint8_t* input, const uint8_t len) const
 	{
-		return interface->write(input, len);
+		return static_cast<E>(this)->write(input, len);
 	}
 
 	/**
@@ -1367,16 +1368,16 @@ class Driver
 	 * @param mspInit Pointer to external function for MSP init.
 	 * @param mspDeinit Pointer to external function for MSP deinit.
 	 * @param tempScale Output temperature scale. See \ref TemperatureScale_t
-	 * @param wait Pointer to external function for handling wait state.
+	 * @param waitHandler Pointer to external function for handling wait state.
 	 * @param tick Pointer to external function for fetching tick.
 	 * 
 	 * @return No return value.
 	 */
-	Driver(const MSP_f mspInit, const MSP_f mspDeinit, const TemperatureScale_t tempScale, const Delay_f wait, const Tick_f tick)
+	Driver(const MSP_f mspInit, const MSP_f mspDeinit, const TemperatureScale_t tempScale, const Delay_f waitHandler, const Tick_f tick)
 	{
 		mspInitHandler = mspInit;
 		mspDeinitHandler = mspDeinit;
-		delayHandler = wait;
+		delayHandler = waitHandler;
 		tickHandler = tick;
 
 		freeSemaphore();
@@ -1454,7 +1455,7 @@ class I2C : protected Driver<I2C>
 	 * @param mspInit Pointer to external function for MSP init. Optional.
 	 * @param mspDeinit Pointer to external function for MSP deinit. Optional.
 	 * @param tempScale Output temperature scale. Optional. See \ref TemperatureScale_t
-	 * @param wait Pointer to external function for handling wait state. Optional.
+	 * @param waitHandler Pointer to external function for handling wait state. Optional.
 	 * @param tick Pointer to external function for fetching tick. Optional.
 	 * 
 	 * @return No return value.
@@ -1462,8 +1463,8 @@ class I2C : protected Driver<I2C>
 	I2C(const I2CRW_f i2cRead, const I2CRW_f i2cWrite,
 		const MSP_f mspInit = nullptr, const MSP_f mspDeinit = nullptr,
 		const TemperatureScale_t tempScale = TemperatureScale_t::Celsius,
-		const Delay_f wait = nullptr, const Tick_f tick = nullptr) :
-		Driver<I2C>(mspInit, mspDeinit, tempScale, wait, tick)
+		const Delay_f waitHandler = nullptr, const Tick_f tick = nullptr) :
+		Driver<I2C>(mspInit, mspDeinit, tempScale, waitHandler, tick)
 	{
 		readHandler = i2cRead;
 		writeHandler = i2cWrite;
