@@ -328,16 +328,6 @@ class Driver
 	public:
 	// ----- METHOD DEFINITIONS
 	/**
-	 * @brief Object deconstructor
-	 * 
-	 * @return No return value.
-	 */
-	~Driver(void)
-	{
-		memset(this, 0, sizeof(E));
-	}	
-
-	/**
 	 * @brief Take semaphore for read and write operations.
 	 * 
 	 * This is required if async read and write is used(eg., interrupt driven or DMA).
@@ -432,7 +422,7 @@ class Driver
 	 */
 	Return_t setInterruptConfig(const interrupt_cfg_t& config)
 	{	
-		txBuffer[0] = Register_t::Interrupt;
+		txBuffer[0] = (uint8_t)Register_t::Interrupt;
 		txBuffer[1] = 	(config.autoREFP << InterruptBitmap_t::AutoREFP) |
 						(config.autoZero << InterruptBitmap_t::AutoZero) |
 						(config.interruptLatch << InterruptBitmap_t::InterruptLatch) |
@@ -482,7 +472,7 @@ class Driver
 	{
 		// Calculate raw pressure value and set TX buffer
 		const uint16_t rawPressure = threshold * pressureScaleDivider[getPressureScale()];
-		txBuffer[0] = Register_t::PressureThresholdHigh;
+		txBuffer[0] = (uint8_t)Register_t::PressureThresholdHigh;
 		txBuffer[1] = rawPressure >> 8;
 
 		if (writeRegister(txBuffer, 2) != Return_t::OK)
@@ -490,7 +480,7 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		txBuffer[0] = Register_t::PressureThresholdLow;
+		txBuffer[0] = (uint8_t)Register_t::PressureThresholdLow;
 		txBuffer[1] = rawPressure & 0xFF;
 
 		if (writeRegister(txBuffer, 2) != Return_t::OK)
@@ -551,7 +541,7 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		txBuffer[0] = Register_t::Contorl2;
+		txBuffer[0] = (uint8_t)Register_t::Contorl2;
 		txBuffer[1] = tmp & ~(1 << Control2Bitmap_t::FullScale);
 		txBuffer[1] |= (scale << Control2Bitmap_t::FullScale);
 
@@ -606,7 +596,7 @@ class Driver
 	 */
 	Return_t setDataOutputConfig(const data_output_cfg_t& config)
 	{
-		txBuffer[0] = Register_t::Control1;
+		txBuffer[0] = (uint8_t)Register_t::Control1;
 		txBuffer[1] = (config.average << Control1Bitmap_t::Average) | (config.dataRate << Control1Bitmap_t::OutputDataRate);
 
 		return writeRegister(txBuffer, 2);
@@ -647,7 +637,7 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		txBuffer[0] = Register_t::Contorl2;
+		txBuffer[0] = (uint8_t)Register_t::Contorl2;
 		txBuffer[1] = tmp | (1 << Control2Bitmap_t::OneShot);
 		return writeRegister(txBuffer, 2);
 	}
@@ -668,7 +658,7 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		txBuffer[0] = Register_t::Contorl2;
+		txBuffer[0] = (uint8_t)Register_t::Contorl2;
 		tmp &= ~((1 << Control2Bitmap_t::LowPassFilterConfig) | (1 << Control2Bitmap_t::LowPassFilterEnable));
 		txBuffer[1] = tmp | ((config.filter << Control2Bitmap_t::LowPassFilterEnable) | (config.discard << Control2Bitmap_t::LowPassFilterConfig));
 		return writeRegister(txBuffer, 2);
@@ -711,7 +701,7 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		txBuffer[0] = Register_t::Contorl2;
+		txBuffer[0] = (uint8_t)Register_t::Contorl2;
 		tmp &= ~(1 << Control2Bitmap_t::BlockDataUpdate);
 		txBuffer[1] = tmp | (update << Control2Bitmap_t::BlockDataUpdate);
 		return writeRegister(txBuffer, 2);				
@@ -751,7 +741,7 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		txBuffer[0] = Register_t::Contorl2;
+		txBuffer[0] = (uint8_t)Register_t::Contorl2;
 		txBuffer[1] = tmp | (1 << Control2Bitmap_t::Reset);
 		return writeRegister(txBuffer, 2);	
 	}
@@ -770,7 +760,7 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		txBuffer[0] = Register_t::Contorl2;
+		txBuffer[0] = (uint8_t)Register_t::Contorl2;
 		txBuffer[1] = tmp | (1 << Control2Bitmap_t::Boot);
 		return writeRegister(txBuffer, 2);			
 	}
@@ -783,7 +773,7 @@ class Driver
 	 */
 	Return_t disableAnalogHub(void)
 	{
-		txBuffer[0] = Register_t::AnalogHubDisable;
+		txBuffer[0] = (uint8_t)Register_t::AnalogHubDisable;
 		txBuffer[1] = 0;
 		return writeRegister(txBuffer, 2);
 	}
@@ -798,7 +788,7 @@ class Driver
 	 */
 	Return_t setAnalogHubConfig(const analog_hub_config_t& config)
 	{
-		txBuffer[0] = Register_t::Contorl3;
+		txBuffer[0] = (uint8_t)Register_t::Contorl3;
 		txBuffer[1] = (config.addressIncrement << Control3Bitmap_t::AddressIncrement) | (config.interleavedMode << Control3Bitmap_t::AnalogHubInterleaved) | (config.analogHub << Control3Bitmap_t::AnalogHubEnable);
 		return writeRegister(txBuffer, 2);		 
 	}
@@ -861,14 +851,14 @@ class Driver
 	 */
 	Return_t setPressureOffset(const int16_t offset)
 	{
-		txBuffer[0] = Register_t::PressureOffsetHigh;
+		txBuffer[0] = (uint8_t)Register_t::PressureOffsetHigh;
 		txBuffer[1] = offset >> 8;
 		if (writeRegister(txBuffer, 2) != Return_t::OK)
 		{
 			return Return_t::NOK;
 		}
 
-		txBuffer[0] = Register_t::PressureOffsetLow;
+		txBuffer[0] = (uint8_t)Register_t::PressureOffsetLow;
 		txBuffer[1] = offset;
 		if (writeRegister(txBuffer, 2) != Return_t::OK)
 		{
@@ -1211,6 +1201,8 @@ class Driver
 	static constexpr uint8_t chipID = 0xB4; /**< @brief Chip ID from register \ref Register_t::WhoAmI. */
 	static constexpr uint8_t pressureScaleDivider[2] = { 16, 8 }; /**< @brief Pressure output scale dividers. */
 
+	E& interface = static_cast<E&>(*this);
+
 	MSP_f mspInitHandler = nullptr; /**< @brief Pointer to external function for MSP init. */
 	MSP_f mspDeinitHandler = nullptr; /**< @brief Pointer to external function for MSP deinit. */
 	Delay_f delayHandler = nullptr; /**< @brief Pointer to external function for wait operations. */
@@ -1234,13 +1226,13 @@ class Driver
 	 */
 	Return_t readRegister(const Register_t reg, uint8_t* output, const uint8_t len)
 	{
-		txBuffer[0] = reg;
-		if (static_cast<E>(this)->write(txBuffer, 1) != Return_t::OK)
+		txBuffer[0] = (uint8_t)reg;
+		if (interface.write(txBuffer, 1) != Return_t::OK)
 		{
 			return Return_t::NOK;
 		}
 
-		if (static_cast<E>(this)->read(output, len) != Return_t::OK)
+		if (interface.read(output, len) != Return_t::OK)
 		{
 			return Return_t::NOK;
 		}
@@ -1278,7 +1270,7 @@ class Driver
 	 */
 	inline Return_t writeRegister(const uint8_t* input, const uint8_t len) const
 	{
-		return static_cast<E>(this)->write(input, len);
+		return interface.write(input, len);
 	}
 
 	/**
@@ -1302,11 +1294,11 @@ class Driver
 	 */
 	Return_t interfaceConfig(const interface_cfg_t* config)
 	{
-		txBuffer[0] = Register_t::Interface;
-		txBuffer[1] =	(config->i2ci3cOff << InterfaceBitmap_t::I2CDisable) |
-					(config->sdaPullUp << InterfaceBitmap_t::SDAPullUpEnable) |
-					(config->SPIRead << InterfaceBitmap_t::SPIReadEnable) |
-					(config->ssPullUpOff << InterfaceBitmap_t::SSPullUpEnable);
+		txBuffer[0] = (uint8_t)Register_t::Interface;
+		txBuffer[1] =	((uint8_t)config->i2ci3cOff << (uint8_t)InterfaceBitmap_t::I2CDisable) |
+					((uint8_t)config->sdaPullUp << (uint8_t)InterfaceBitmap_t::SDAPullUpEnable) |
+					((uint8_t)config->SPIRead << (uint8_t)InterfaceBitmap_t::SPIReadEnable) |
+					((uint8_t)config->ssPullUpOff << (uint8_t)InterfaceBitmap_t::SSPullUpEnable);
 
 		return writeRegister(txBuffer, 2);
 	}
@@ -1328,7 +1320,7 @@ class Driver
 		}
 
 		// Get pressure scale
-		if (tmp & (1 << Control2Bitmap_t::FullScale))
+		if (tmp & (1 << (uint8_t)Control2Bitmap_t::FullScale))
 		{
 			pressureScale = PressureScale_t::Scale4060hPa;
 		}
@@ -1383,6 +1375,16 @@ class Driver
 		freeSemaphore();
 		setTemperatureScale(tempScale);
 		memset(txBuffer, 0, sizeof(txBuffer));
+	}
+
+	/**
+	 * @brief Object deconstructor
+	 * 
+	 * @return No return value.
+	 */
+	~Driver(void)
+	{
+
 	}
 
 	/**
@@ -1443,7 +1445,7 @@ class Driver
  * @brief Class for ILPS22QS I2C operations.
  * 
  */
-class I2C : protected Driver<I2C>
+class I2C : public Driver<I2C>
 {
 	public:
 	// ----- METHOD DEFINITIONS
@@ -1478,7 +1480,7 @@ class I2C : protected Driver<I2C>
 	~I2C(void)
 	{
 
-	}
+	}	
 
 	/**
 	 * @brief Read from sensor.
@@ -1510,15 +1512,15 @@ class I2C : protected Driver<I2C>
 	 * @return \c Return_t::Timeout on timeout.
 	 * @return \c Return_t::OK on success.
 	 */
-	Return_t write(uint8_t* data, const uint8_t len) const
+	Return_t write(const uint8_t* data, const uint8_t len) const
 	{
 		if (wait() != Return_t::OK)
 		{
 			return Return_t::Timeout;
 		}
 
-		return writeHandler(address, data, len, writeTimeout);
-	}
+		return writeHandler(address, (void*)data, len, writeTimeout);
+	}	
 
 	private:
 	static constexpr uint8_t address = 0x5C; /**< @brief ILPS22QS' address on I2C bus. */
