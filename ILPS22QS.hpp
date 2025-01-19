@@ -390,6 +390,10 @@ class Driver
 				return Return_t::NOK;
 			}		
 		}
+		else
+		{
+			return Return_t::NOK;
+		}
 
 		// Cache pressure scale
 		return readPressureScale();
@@ -954,7 +958,7 @@ class Driver
 	Return_t getPressure(int16_t& output)
 	{
 		int32_t tmp = 0;
-		int8_t reg = 0;
+		uint8_t reg = 0;
 
 		if (readRegister(Register_t::PressureOutHigh, reg) != Return_t::OK)
 		{
@@ -975,7 +979,7 @@ class Driver
 		tmp |= reg;
 
 		static constexpr uint16_t scaleDivider[] = { 4096, 2048 };
-		output = tmp / scaleDivider[getPressureScale()];
+		output = tmp / scaleDivider[(uint8_t)getPressureScale()];
 		return Return_t::OK;
 	}
 
@@ -990,7 +994,7 @@ class Driver
 	Return_t getTemperature(int16_t& output)
 	{
 		int16_t tmp = 0;
-		int8_t reg = 0;	
+		uint8_t reg = 0;	
 
 		if (readRegister(Register_t::TemperatureOutHigh, reg) != Return_t::OK)
 		{
