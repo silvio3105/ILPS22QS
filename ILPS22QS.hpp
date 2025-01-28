@@ -454,13 +454,13 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		config.autoREFP = (tmp >> (uint8_t)InterruptBitmap_t::AutoREFP) & 1;
-		config.autoZero = (tmp >> (uint8_t)InterruptBitmap_t::AutoZero) & 1;
-		config.interruptLatch = (tmp >> (uint8_t)InterruptBitmap_t::InterruptLatch) & 1;
-		config.pressureHighInterrupt = (tmp >> (uint8_t)InterruptBitmap_t::PressureHighEvent) & 1;
-		config.pressureLowInterrupt = (tmp >> (uint8_t)InterruptBitmap_t::PressureLowEvent) & 1;
-		config.resetARP = (tmp >> (uint8_t)InterruptBitmap_t::ResetAutoREFP) & 1;
-		config.resetAZ = (tmp >> (uint8_t)InterruptBitmap_t::ResetAutoZero) & 1;
+		config.autoREFP = (State_t)((tmp >> (uint8_t)InterruptBitmap_t::AutoREFP) & 1);
+		config.autoZero = (State_t)((tmp >> (uint8_t)InterruptBitmap_t::AutoZero) & 1);
+		config.interruptLatch = (InterruptLatch_t)((tmp >> (uint8_t)InterruptBitmap_t::InterruptLatch) & 1);
+		config.pressureHighInterrupt = (State_t)((tmp >> (uint8_t)InterruptBitmap_t::PressureHighEvent) & 1);
+		config.pressureLowInterrupt = (State_t)((tmp >> (uint8_t)InterruptBitmap_t::PressureLowEvent) & 1);
+		config.resetARP = (State_t)((tmp >> (uint8_t)InterruptBitmap_t::ResetAutoREFP) & 1);
+		config.resetAZ = (State_t)((tmp >> (uint8_t)InterruptBitmap_t::ResetAutoZero) & 1);
 		return Return_t::OK;
 	}
 
@@ -475,7 +475,7 @@ class Driver
 	Return_t setPressureInterruptThreshold(const uint16_t threshold)
 	{
 		// Calculate raw pressure value and set TX buffer
-		const uint16_t rawPressure = threshold * pressureScaleDivider[getPressureScale()];
+		const uint16_t rawPressure = threshold * pressureScaleDivider[(uint8_t)getPressureScale()];
 		txBuffer[0] = (uint8_t)Register_t::PressureThresholdHigh;
 		txBuffer[1] = rawPressure >> 8;
 
@@ -523,7 +523,7 @@ class Driver
 		tmpOutput |= tmp;
 
 		// Convert to output unit
-		output = tmpOutput / pressureScaleDivider[getPressureScale()];
+		output = tmpOutput / pressureScaleDivider[(uint8_t)getPressureScale()];
 		return Return_t::OK;
 	}
 
@@ -540,12 +540,12 @@ class Driver
 		// Read control 2 register
 		uint8_t tmp = 0;
 
-		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		if (readRegister(Register_t::Control2, tmp) != Return_t::OK)
 		{
 			return Return_t::NOK;
 		}
 
-		txBuffer[0] = (uint8_t)Register_t::Contorl2;
+		txBuffer[0] = (uint8_t)Register_t::Control2;
 		txBuffer[1] = tmp & ~(1 << (uint8_t)Control2Bitmap_t::FullScale);
 		txBuffer[1] |= ((uint8_t)scale << (uint8_t)Control2Bitmap_t::FullScale);
 
@@ -623,8 +623,8 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		config.average = tmp & averageMask;
-		config.dataRate = tmp >> (uint8_t)Control1Bitmap_t::OutputDataRate;
+		config.average = (Average_t)(tmp & averageMask);
+		config.dataRate = (OutputDataRate_t)(tmp >> (uint8_t)Control1Bitmap_t::OutputDataRate);
 		return Return_t::OK;
 	}
 
@@ -637,12 +637,12 @@ class Driver
 	Return_t measure(void)
 	{
 		uint8_t tmp = 0;
-		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		if (readRegister(Register_t::Control2, tmp) != Return_t::OK)
 		{
 			return Return_t::NOK;
 		}
 
-		txBuffer[0] = (uint8_t)Register_t::Contorl2;
+		txBuffer[0] = (uint8_t)Register_t::Control2;
 		txBuffer[1] = tmp | (1 << (uint8_t)Control2Bitmap_t::OneShot);
 		return writeRegister(txBuffer, 2);
 	}
@@ -658,12 +658,12 @@ class Driver
 	Return_t setFilterConfig(const filter_config_t& config)
 	{
 		uint8_t tmp = 0;
-		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		if (readRegister(Register_t::Control2, tmp) != Return_t::OK)
 		{
 			return Return_t::NOK;
 		}
 
-		txBuffer[0] = (uint8_t)Register_t::Contorl2;
+		txBuffer[0] = (uint8_t)Register_t::Control2;
 		tmp &= ~((1 << (uint8_t)Control2Bitmap_t::LowPassFilterConfig) | (1 << (uint8_t)Control2Bitmap_t::LowPassFilterEnable));
 		txBuffer[1] = tmp | (((uint8_t)config.filter << (uint8_t)Control2Bitmap_t::LowPassFilterEnable) | ((uint8_t)config.discard << (uint8_t)Control2Bitmap_t::LowPassFilterConfig));
 		return writeRegister(txBuffer, 2);
@@ -680,13 +680,13 @@ class Driver
 	Return_t getFilterConfig(filter_config_t& config)
 	{
 		uint8_t tmp = 0;
-		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		if (readRegister(Register_t::Control2, tmp) != Return_t::OK)
 		{
 			return Return_t::NOK;
 		}
 
-		config.discard = (tmp >> (uint8_t)Control2Bitmap_t::LowPassFilterConfig) & 1;
-		config.filter = (tmp >> (uint8_t)Control2Bitmap_t::LowPassFilterEnable) & 1;
+		config.discard = (FilterDiscard_t)((tmp >> (uint8_t)Control2Bitmap_t::LowPassFilterConfig) & 1);
+		config.filter = (State_t)((tmp >> (uint8_t)Control2Bitmap_t::LowPassFilterEnable) & 1);
 		return Return_t::OK;		
 	}
 
@@ -701,12 +701,12 @@ class Driver
 	Return_t setDataUpdateConfig(const DataUpdate_t update)
 	{
 		uint8_t tmp = 0;
-		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		if (readRegister(Register_t::Control2, tmp) != Return_t::OK)
 		{
 			return Return_t::NOK;
 		}
 
-		txBuffer[0] = (uint8_t)Register_t::Contorl2;
+		txBuffer[0] = (uint8_t)Register_t::Control2;
 		tmp &= ~(1 << (uint8_t)Control2Bitmap_t::BlockDataUpdate);
 		txBuffer[1] = tmp | ((uint8_t)update << (uint8_t)Control2Bitmap_t::BlockDataUpdate);
 		return writeRegister(txBuffer, 2);				
@@ -723,12 +723,12 @@ class Driver
 	Return_t getDataUpdateConfig(DataUpdate_t& update)
 	{
 		uint8_t tmp = 0;
-		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		if (readRegister(Register_t::Control2, tmp) != Return_t::OK)
 		{
 			return Return_t::NOK;
 		}
 
-		update = (tmp >> (uint8_t)Control2Bitmap_t::BlockDataUpdate) & 1;
+		update = (DataUpdate_t)((tmp >> (uint8_t)Control2Bitmap_t::BlockDataUpdate) & 1);
 		return Return_t::OK;		
 	}
 
@@ -741,12 +741,12 @@ class Driver
 	Return_t reset(void)
 	{
 		uint8_t tmp = 0;
-		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		if (readRegister(Register_t::Control2, tmp) != Return_t::OK)
 		{
 			return Return_t::NOK;
 		}
 
-		txBuffer[0] = (uint8_t)Register_t::Contorl2;
+		txBuffer[0] = (uint8_t)Register_t::Control2;
 		txBuffer[1] = tmp | (1 << (uint8_t)Control2Bitmap_t::Reset);
 		return writeRegister(txBuffer, 2);	
 	}
@@ -760,12 +760,12 @@ class Driver
 	Return_t reboot(void)
 	{
 		uint8_t tmp = 0;
-		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		if (readRegister(Register_t::Control2, tmp) != Return_t::OK)
 		{
 			return Return_t::NOK;
 		}
 
-		txBuffer[0] = (uint8_t)Register_t::Contorl2;
+		txBuffer[0] = (uint8_t)Register_t::Control2;
 		txBuffer[1] = tmp | (1 << (uint8_t)Control2Bitmap_t::Boot);
 		return writeRegister(txBuffer, 2);			
 	}
@@ -793,7 +793,7 @@ class Driver
 	 */
 	Return_t setAnalogHubConfig(const analog_hub_config_t& config)
 	{
-		txBuffer[0] = (uint8_t)Register_t::Contorl3;
+		txBuffer[0] = (uint8_t)Register_t::Control3;
 		txBuffer[1] =	((uint8_t)config.addressIncrement << (uint8_t)Control3Bitmap_t::AddressIncrement) | 
 						((uint8_t)config.interleavedMode << (uint8_t)Control3Bitmap_t::AnalogHubInterleaved) |
 						((uint8_t)config.analogHub << (uint8_t)Control3Bitmap_t::AnalogHubEnable);
@@ -816,9 +816,9 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		config.analogHub = (tmp >> (uint8_t)Control3Bitmap_t::AnalogHubEnable) & 1;
-		config.addressIncrement = (tmp >> (uint8_t)Control3Bitmap_t::AddressIncrement) & 1;
-		config.interleavedMode = (tmp >> (uint8_t)Control3Bitmap_t::AnalogHubInterleaved) & 1;
+		config.analogHub = (State_t)((tmp >> (uint8_t)Control3Bitmap_t::AnalogHubEnable) & 1);
+		config.addressIncrement = (State_t)((tmp >> (uint8_t)Control3Bitmap_t::AddressIncrement) & 1);
+		config.interleavedMode = (State_t)((tmp >> (uint8_t)Control3Bitmap_t::AnalogHubInterleaved) & 1);
 		return Return_t::OK;
 	}
 
@@ -885,7 +885,7 @@ class Driver
 	 */
 	Return_t getPressureOffset(int16_t& output)
 	{
-		int8_t tmp = 0;
+		uint8_t tmp = 0;
 		if (readRegister(Register_t::PressureOffsetHigh, tmp) != Return_t::OK)
 		{
 			return Return_t::NOK;
@@ -955,7 +955,7 @@ class Driver
 	 * @return \c Return_t::NOK on fail.
 	 * @return \c Return_t::OK on success. 
 	 */
-	Return_t getPressure(int16_t& output)
+	Return_t getPressure(uint16_t& output)
 	{
 		int32_t tmp = 0;
 		uint8_t reg = 0;
@@ -1027,7 +1027,7 @@ class Driver
 		Interface = 0x0E, /**< @brief Interface control (R/W). */
 		WhoAmI = 0x0F, /**< @brief Device ID (R). */
 		Control1 = 0x10, /**< @brief Control 1 (R/W). */
-		Contorl2 = 0x11, /**< @brief Control 2 (R/W). */
+		Control2 = 0x11, /**< @brief Control 2 (R/W). */
 		Control3 = 0x12, /**< @brief Control 3 (R/W). */
 		ControlFIFO = 0x14, /**< @brief FIFO control (R/W). */
 		FIFOWatermark = 0x15, /**< @brief FIFO watermark (R/W). */
@@ -1321,7 +1321,7 @@ class Driver
 		// Read control 2 register
 		uint8_t tmp = 0;
 
-		if (readRegister(Register_t::Contorl2, tmp) != Return_t::OK)
+		if (readRegister(Register_t::Control2, tmp) != Return_t::OK)
 		{
 			return Return_t::NOK;
 		}
