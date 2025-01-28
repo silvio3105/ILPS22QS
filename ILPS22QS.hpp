@@ -56,6 +56,8 @@
 namespace ILPS22QS
 {
 
+static constexpr char version[] = "v1.0rc1"; /**< @brief Driver version string. */
+
 // ----- ENUMS
 /**
  * @brief Return values for ILPS22QS driver.
