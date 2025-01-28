@@ -1,0 +1,5 @@
+<map id="ILPS22QS::I2C::read" name="ILPS22QS::I2C::read">
+<area shape="rect" id="Node000001" title="Read from sensor." alt="" coords="5,13,150,39"/>
+<area shape="rect" id="Node000002" href="$class_i_l_p_s22_q_s_1_1_driver.html#aace459ed86a2cd0b877717790c00126e" title="Wait for free semaphore." alt="" coords="198,5,355,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,23,182,23,182,28,150,28"/>
+</map>

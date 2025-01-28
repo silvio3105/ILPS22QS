@@ -1,0 +1,9 @@
+<map id="ILPS22QS::Driver::getPressureScale" name="ILPS22QS::Driver::getPressureScale">
+<area shape="rect" id="Node000001" title="Get measuing scale for pressure." alt="" coords="257,55,460,96"/>
+<area shape="rect" id="Node000002" href="$class_i_l_p_s22_q_s_1_1_driver.html#a4d60e1815e1ae51c1d0b7962f65f1dc9" title="Get measured pressure." alt="" coords="5,5,209,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="251,54,166,34,167,29,252,49"/>
+<area shape="rect" id="Node000003" href="$class_i_l_p_s22_q_s_1_1_driver.html#a29b2b2f7e1ca89c1cfa25283b90e7896" title="Get pressure threshold for pressure interrupt." alt="" coords="5,55,209,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="241,78,209,78,209,73,241,73"/>
+<area shape="rect" id="Node000004" href="$class_i_l_p_s22_q_s_1_1_driver.html#a4e2439788d47a29b121393bda85be633" title="Set pressure interrupt threshold." alt="" coords="5,121,209,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="263,103,189,122,187,117,262,98"/>
+</map>

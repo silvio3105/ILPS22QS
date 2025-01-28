@@ -1,0 +1,5 @@
+<map id="ILPS22QS::Driver::isSemaphoreFree" name="ILPS22QS::Driver::isSemaphoreFree">
+<area shape="rect" id="Node000001" title="Check is semaphore free." alt="" coords="210,5,445,31"/>
+<area shape="rect" id="Node000002" href="$class_i_l_p_s22_q_s_1_1_driver.html#aace459ed86a2cd0b877717790c00126e" title="Wait for free semaphore." alt="" coords="5,5,162,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,21,162,21,162,16,194,16"/>
+</map>
