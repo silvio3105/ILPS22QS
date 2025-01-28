@@ -86,8 +86,8 @@ enum class Semaphore_t : uint8_t
  */
 enum class State_t : uint8_t
 {
-	Disable = 0,
-	Enable = 1
+	Disable = 0, /**< @brief Disable feature / set to inactive state etc... */
+	Enable = 1 /**< @brief Enable feature / set to active state etc... */
 };
 
 /**
@@ -126,7 +126,7 @@ enum class PressureScale_t : uint8_t
  */
 enum class Average_t : uint8_t
 {
-	Average4 = 0b000,
+	Average4 = 0b000, 
 	Average8 = 0b001,
 	Average16 = 0b010,
 	Average32 = 0b011,
@@ -142,14 +142,14 @@ enum class Average_t : uint8_t
 enum class OutputDataRate_t : uint8_t
 {
 	OneShot = 0b0000, /**< @brief Power-down mode. */
-	ODR1Hz = 0b0001,
-	ODR4Hz = 0b0010,
-	ODR10Hz = 0b0011,
-	ODR25Hz = 0b0100,
-	ODR50Hz = 0b0101,
-	ODR75Hz = 0b0110,
-	ODR100Hz = 0b0111,
-	ODR200Hz = 0b1000
+	ODR1Hz = 0b0001, /**< @brief 1Hz data output. */
+	ODR4Hz = 0b0010, /**< @brief 4Hz data output. */
+	ODR10Hz = 0b0011, /**< @brief 10Hz data output. */
+	ODR25Hz = 0b0100, /**< @brief 25Hz data output. */
+	ODR50Hz = 0b0101, /**< @brief 50Hz data output. */
+	ODR75Hz = 0b0110, /**< @brief 75Hz data output. */
+	ODR100Hz = 0b0111, /**< @brief 100Hz data output. */
+	ODR200Hz = 0b1000 /**< @brief 200Hz data output. */
 };
 
 /**
