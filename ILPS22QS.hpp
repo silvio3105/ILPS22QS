@@ -3,10 +3,6 @@
  * @author silvio3105 (www.github.com/silvio3105)
  * @brief ILPS22QS I2C/3-wire SPI driver header file.
  * 
- * To enable debug mode, define \c ILPS22QS_DEBUG for verbose debug, \c ILPS22QS_DEBUG_INFO for info debug and \c ILPS22QS_DEBUG_ERROR for error debug. Debug output handlers must be defined with \c DEBUG_PRINT and \c DEBUG_PRINTF
- * Timeout for interface operations can be redefined with \c ILPS22QS_I2C_READ_TIMEOUT and \c ILPS22QS_I2C_WRITE_TIMEOUT or \c ILPS22QS_SPI_READ_TIMEOUT and \c ILPS22QS_SPI_WRITE_TIMEOUT. Default timeout is 10ms.
- * Driver examples are located in \c Examples folder.
- * 
  * @copyright Copyright (c) 2025, silvio3105
  * 
  */
