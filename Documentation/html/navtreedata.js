@@ -26,12 +26,15 @@ var NAVTREE =
 [
   [ "ILPS22QS", "index.html", [
     [ "ILPS22QS I2C/SPI Driver", "md__r_e_a_d_m_e.html", [
-      [ "License", "md__r_e_a_d_m_e.html#autotoc_md1", null ]
+      [ "Driver configuration", "md__r_e_a_d_m_e.html#driver-configuration", null ],
+      [ "Debug mode", "md__r_e_a_d_m_e.html#debug-mode", null ],
+      [ "License", "md__r_e_a_d_m_e.html#license", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
+        [ "Variables", "namespacemembers_vars.html", null ],
         [ "Typedefs", "namespacemembers_type.html", null ],
         [ "Enumerations", "namespacemembers_enum.html", null ]
       ] ]
@@ -59,7 +62,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_i_l_p_s22_q_s_8hpp.html",
-"struct_i_l_p_s22_q_s_1_1interrupt__cfg__t.html#a04ae6eef6538e37c5bd2489f9685d678"
+"struct_i_l_p_s22_q_s_1_1interface__cfg__t.html#abdcfef8f507664386bdc86b96ac52c36"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
