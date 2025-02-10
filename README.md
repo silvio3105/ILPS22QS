@@ -1,13 +1,23 @@
 
 # ILPS22QS I2C/SPI Driver
 
-This is frameworkless I2C/3-wire SPI driver for ILPS22QS absolute pressure & temperature sensor. It is written in C++ using CRTP pattern.
+This is frameworkless I2C/3-wire SPI driver for ILPS22QS absolute pressure & temperature sensor. It is written in C++ using CRTP pattern. 
 Driver does not depend on framework (eg., Arduino or nRF5 SDK). External handlers for interface operations have to be provided during object construction.
 
 Driver documentation is available at `Documentation/html/index.html`
 Example applications are available at `Examples` folder. All examples are made with STM HAL framework and tested with `ILPS22QSTR` sensor(on sTPMS_SEN1 PCB) and BluePill(`STM32F103C8`).
 
-The driver is developing by TPMS DIY project needs. Not every feature is supported and/or tested.
+**The driver is developing by TPMS DIY project needs. Not every feature is supported and/or tested.**
+
+# Driver configuration
+
+Timeout for interface operations can be redefined with `ILPS22QS_I2C_READ_TIMEOUT` and `ILPS22QS_I2C_WRITE_TIMEOUT` or `ILPS22QS_SPI_READ_TIMEOUT` and `ILPS22QS_SPI_WRITE_TIMEOUT`.
+Default timeout is 10ms.
+
+# Debug mode
+
+To enable debug mode, define `ILPS22QS_DEBUG` for verbose debug, `ILPS22QS_DEBUG_INFO` for info debug and `ILPS22QS_DEBUG_ERROR` for error debug.
+Name of debug output handlers must be defined with `DEBUG_PRINT` and `DEBUG_PRINTF`.
 
 # License
 
