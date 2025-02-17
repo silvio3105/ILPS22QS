@@ -26,6 +26,10 @@
 #define _ILPS22QS_HPP_
 
 // ----- INCLUDE FILES
+#ifdef DEBUG_SRC
+#include 			""DEBUG_SRC""
+#endif // DEBUG_SRC
+
 #include			<stdint.h>
 #include			<string.h>
 
@@ -47,41 +51,94 @@
 #define ILPS22QS_SPI_WRITE_TIMEOUT				10 /**< @brief Timeout in ms for SPI write operations. Can be changed during compile. */
 #endif // ILPS22QS_SPI_WRITE_TIMEOUT
 
-#ifndef ILPS22QS_DEBUG
-#define ILPS22QS_DEBUG_PRINT(...)
-#define ILPS22QS_DEBUG_PRINTF(...)
-#else
-#define ILPS22QS_DEBUG_PRINT(...) \
-	DEBUG_PRINT("[ILPS22QS] ", 11); \
-	DEBUG_PRINT(...)
-#define ILPS22QS_DEBUG_PRINTF(...) \
-	DEBUG_PRINT("[ILPS22QS] ", 11); \
-	DEBUG_PRINTF(...)
-#endif // ILPS22QS_DEBUG
 
-#ifndef ILPS22QS_DEBUG_INFO
-#define ILPS22QS_DEBUG_INFO_PRINT(...)
-#define ILPS22QS_DEBUG_INFO_PRINTF(...)
-#else
-#define ILPS22QS_DEBUG_INFO_PRINT(...) \
-	DEBUG_PRINT("[ILPS22QS] Info: ", 17); \
-	DEBUG_PRINT(...)
-#define ILPS22QS_DEBUG_INFO_PRINTF(...) \
-	DEBUG_PRINT("[ILPS22QS] Info: ", 17); \
-	DEBUG_PRINTF(...)
-#endif // ILPS22QS_DEBUG_INFO
+#ifdef DEBUG_ILPS22QS
 
-#ifndef ILPS22QS_DEBUG_ERROR
-#define ILPS22QS_DEBUG_ERROR_PRINT(...)
-#define ILPS22QS_DEBUG_ERROR_PRINTF(...)
-#else
-#define ILPS22QS_DEBUG_ERROR_PRINT(...) \
-	DEBUG_PRINT("[ILPS22QS] Error: ", 18); \
-	DEBUG_PRINT(...)
-#define ILPS22QS_DEBUG_ERROR_PRINTF(...) \
-	DEBUG_PRINT("[ILPS22QS] Error: ", 18); \
-	DEBUG_PRINTF(...)
-#endif // ILPS22QS_DEBUG_ERROR
+#ifdef DEBUG_ILPS22QS_VERBOSE
+	#ifdef DEBUG_PRINT_VERBOSE
+	#define DEBUG_ILPS22QS_PRINT(...) \
+		DEBUG_PRINT_VERBOSE("[ILPS22QS] ", 11); \
+		DEBUG_PRINT_VERBOSE(...)
+	#else // DEBUG_PRINT_VERBOSE
+	#define DEBUG_ILPS22QS_PRINT(...) \
+		DEBUG_PRINT("[ILPS22QS] ", 11); \
+		DEBUG_PRINT(...)
+	#endif // DEBUG_PRINT_VERBOSE
+
+	#ifdef DEBUG_PRINTF_VERBOSE
+	#define DEBUG_ILPS22QS_PRINTF(...) \
+		DEBUG_PRINTF_VERBOSE("[ILPS22QS] "); \
+		DEBUG_PRINTF_VERBOSE(...)
+	#else // DEBUG_PRINTF_VERBOSE
+	#define DEBUG_ILPS22QS_PRINTF(...) \
+		DEBUG_PRINTF("[ILPS22QS] "); \
+		DEBUG_PRINTF(...)
+	#endif // DEBUG_PRINTF_VERBOSE	
+#else // DEBUG_ILPS22QS_VERBOSE
+#define DEBUG_ILPS22QS_PRINT(...)
+#define DEBUG_ILPS22QS_PRINTF(...)
+#endif // DEBUG_ILPS22QS_VERBOSE
+
+#ifdef DEBUG_ILPS22QS_INFO
+	#ifdef DEBUG_PRINT_INFO
+	#define DEBUG_ILPS22QS_PRINT_INFO(...) \
+		DEBUG_PRINT_INFO("[ILPS22QS] info: ", 17); \
+		DEBUG_PRINT_INFO(...)
+	#else // DEBUG_PRINT_INFO
+	#define DEBUG_ILPS22QS_PRINT_INFO(...) \
+		DEBUG_PRINT("[ILPS22QS] info: ", 17); \
+		DEBUG_PRINT(...)
+	#endif // DEBUG_PRINT_INFO
+
+	#ifdef DEBUG_PRINTF_INFO
+	#define DEBUG_ILPS22QS_PRINTF_INFO(...) \
+		DEBUG_PRINTF_INFO("[ILPS22QS] info: "); \
+		DEBUG_PRINTF_INFO(...)
+	#else // DEBUG_PRINTF_INFO
+	#define DEBUG_ILPS22QS_PRINTF_INFO(...) \
+		DEBUG_PRINTF("[ILPS22QS] info: "); \
+		DEBUG_PRINTF(...)
+	#endif // DEBUG_PRINTF_INFO	
+#else // DEBUG_ILPS22QS_INFO
+#define DEBUG_ILPS22QS_PRINT_INFO(...)
+#define DEBUG_ILPS22QS_PRINTF_INFO(...)
+#endif // DEBUG_ILPS22QS_INFO
+
+#ifdef DEBUG_ILPS22QS_ERROR
+	#ifdef DEBUG_PRINT_ERROR
+	#define DEBUG_ILPS22QS_PRINT_ERROR(...) \
+		DEBUG_PRINT_ERROR("[ILPS22QS] error: ", 18); \
+		DEBUG_PRINT_ERROR(...)
+	#else // DEBUG_PRINT_ERROR
+	#define DEBUG_ILPS22QS_PRINT_ERROR(...) \
+		DEBUG_PRINT("[ILPS22QS] error: ", 18); \
+		DEBUG_PRINT(...)
+	#endif // DEBUG_PRINT_ERROR
+
+	#ifdef DEBUG_PRINTF_ERROR
+	#define DEBUG_ILPS22QS_PRINTF_ERROR(...) \
+		DEBUG_PRINTF_ERROR("[ILPS22QS] error: "); \
+		DEBUG_PRINTF_ERROR(...)
+	#else // DEBUG_PRINTF_ERROR
+	#define DEBUG_ILPS22QS_PRINTF_ERROR(...) \
+		DEBUG_PRINTF("[ILPS22QS] error: "); \
+		DEBUG_PRINTF(...)
+	#endif // DEBUG_PRINTF_ERROR	
+#else // DEBUG_ILPS22QS_ERROR
+#define DEBUG_ILPS22QS_PRINT_ERROR(...)
+#define DEBUG_ILPS22QS_PRINTF_ERROR(...)
+#endif // DEBUG_ILPS22QS_ERROR
+
+#else // DEBUG_ILPS22QS
+
+#define DEBUG_ILPS22QS_PRINT(...)
+#define DEBUG_ILPS22QS_PRINTF(...) 
+#define DEBUG_ILPS22QS_PRINT_INFO(...)
+#define DEBUG_ILPS22QS_PRINTF_INFO(...) 
+#define DEBUG_ILPS22QS_PRINT_ERROR(...)
+#define DEBUG_ILPS22QS_PRINTF_ERROR(...) 
+
+#endif // DEBUG_ILPS22QS
 
 
 // ----- NAMESPACES
@@ -375,7 +432,7 @@ class Driver
 	inline void takeSemaphore(void)
 	{
 		semaphore = Semaphore_t::Taken;
-		ILPS22QS_DEBUG_PRINT("Semaphore taken\n", 16);
+		DEBUG_ILPS22QS_PRINT("Semaphore taken\n", 16);
 	}
 
 	/**
@@ -388,7 +445,7 @@ class Driver
 	inline void freeSemaphore(void)
 	{
 		semaphore = Semaphore_t::Free;
-		ILPS22QS_DEBUG_PRINT("Semaphore free\n", 15);
+		DEBUG_ILPS22QS_PRINT("Semaphore free\n", 15);
 	}	
 
 	/**
@@ -403,16 +460,16 @@ class Driver
 	 */
 	Return_t init(const interface_cfg_t* interfaceCfg = nullptr)
 	{
-		ILPS22QS_DEBUG_INFO_PRINT("Version: ", 9);
-		ILPS22QS_DEBUG_INFO_PRINT(version, sizeof(version) - 1);
-		ILPS22QS_DEBUG_INFO_PRINT("\n", 1);
+		DEBUG_ILPS22QS_PRINT_INFO("Version: ", 9);
+		DEBUG_ILPS22QS_PRINT_INFO(version, sizeof(version) - 1);
+		DEBUG_ILPS22QS_PRINT_INFO("\n", 1);
 
 		// Call MSP init handler if provided
 		if (mspInitHandler)
 		{
 			if (mspInitHandler() != Return_t::OK)
 			{
-				ILPS22QS_DEBUG_ERROR_PRINT("MSP init fail\n", 14);
+				DEBUG_ILPS22QS_PRINT_ERROR("MSP init fail\n", 14);
 				return Return_t::NOK;
 			}
 		}
@@ -422,7 +479,7 @@ class Driver
 		{
 			if (interfaceConfig(interfaceCfg) != Return_t::OK)
 			{
-				ILPS22QS_DEBUG_ERROR_PRINT("Interface fail\n", 15);
+				DEBUG_ILPS22QS_PRINT_ERROR("Interface fail\n", 15);
 				return Return_t::NOK;
 			}
 		}
@@ -433,13 +490,13 @@ class Driver
 		{
 			if (tmp != chipID)
 			{
-				ILPS22QS_DEBUG_ERROR_PRINT("Invalid chip ID\n", 16);
+				DEBUG_ILPS22QS_PRINT_ERROR("Invalid chip ID\n", 16);
 				return Return_t::NOK;
 			}		
 		}
 		else
 		{
-			ILPS22QS_DEBUG_ERROR_PRINT("WhoAmI fail\n", 12);
+			DEBUG_ILPS22QS_PRINT_ERROR("WhoAmI fail\n", 12);
 			return Return_t::NOK;
 		}
 
@@ -458,7 +515,7 @@ class Driver
 		// Call deinit handler if provided
 		if (mspDeinitHandler)
 		{
-			ILPS22QS_DEBUG_ERROR_PRINT("MSP deinit fail\n", 16);
+			DEBUG_ILPS22QS_PRINT_ERROR("MSP deinit fail\n", 16);
 			return mspDeinitHandler();
 		}
 
@@ -484,7 +541,7 @@ class Driver
 						((uint8_t)config.resetARP << (uint8_t)InterruptBitmap_t::ResetAutoREFP) |
 						((uint8_t)config.resetAZ << (uint8_t)InterruptBitmap_t::ResetAutoZero);
 
-		ILPS22QS_DEBUG_INFO_PRINTF("Interrupt config set to %02X\n", txBuffer[1]);
+		DEBUG_ILPS22QS_PRINTF_INFO("Interrupt config set to %02X\n", txBuffer[1]);
 		return writeRegister(txBuffer, 2);
 	}
 
@@ -542,7 +599,7 @@ class Driver
 			return Return_t::NOK;
 		}	
 
-		ILPS22QS_DEBUG_INFO_PRINTF("Interrupt threshold set to %u\n", threshold);
+		DEBUG_ILPS22QS_PRINTF_INFO("Interrupt threshold set to %u\n", threshold);
 		return Return_t::OK;
 	}
 
@@ -606,7 +663,7 @@ class Driver
 		}	
 
 		pressureScale = scale;
-		ILPS22QS_DEBUG_INFO_PRINTF("Pressure scale set to %02X\n", txBuffer[1]);
+		DEBUG_ILPS22QS_PRINTF_INFO("Pressure scale set to %02X\n", txBuffer[1]);
 		return Return_t::OK;
 	}
 
@@ -639,7 +696,7 @@ class Driver
 	 */
 	inline void setTemperatureScale(const TemperatureScale_t scale)
 	{
-		ILPS22QS_DEBUG_INFO_PRINTF("Temp scale set to %c\n", scale == TemperatureScale_t::Celsius ? 'C' : 'F');
+		DEBUG_ILPS22QS_PRINTF_INFO("Temp scale set to %c\n", scale == TemperatureScale_t::Celsius ? 'C' : 'F');
 		temperatureScale = scale;
 	}
 
@@ -657,7 +714,7 @@ class Driver
 		txBuffer[1] = 	((uint8_t)config.average << (uint8_t)Control1Bitmap_t::Average) | 
 						((uint8_t)config.dataRate << (uint8_t)Control1Bitmap_t::OutputDataRate);
 
-		ILPS22QS_DEBUG_INFO_PRINTF("Data output config set to %02X\n", txBuffer[1]);
+		DEBUG_ILPS22QS_PRINTF_INFO("Data output config set to %02X\n", txBuffer[1]);
 		return writeRegister(txBuffer, 2);
 	}
 
@@ -699,7 +756,7 @@ class Driver
 		txBuffer[0] = (uint8_t)Register_t::Control2;
 		txBuffer[1] = tmp | (1 << (uint8_t)Control2Bitmap_t::OneShot);
 
-		ILPS22QS_DEBUG_PRINT("Measure started\n", 16);
+		DEBUG_ILPS22QS_PRINT("Measure started\n", 16);
 		return writeRegister(txBuffer, 2);
 	}
 
@@ -723,7 +780,7 @@ class Driver
 		tmp &= ~((1 << (uint8_t)Control2Bitmap_t::LowPassFilterConfig) | (1 << (uint8_t)Control2Bitmap_t::LowPassFilterEnable));
 		txBuffer[1] = tmp | (((uint8_t)config.filter << (uint8_t)Control2Bitmap_t::LowPassFilterEnable) | ((uint8_t)config.discard << (uint8_t)Control2Bitmap_t::LowPassFilterConfig));
 
-		ILPS22QS_DEBUG_INFO_PRINTF("Filter config set to %02X\n", txBuffer[1]);
+		DEBUG_ILPS22QS_PRINTF_INFO("Filter config set to %02X\n", txBuffer[1]);
 		return writeRegister(txBuffer, 2);
 	}
 
@@ -768,7 +825,7 @@ class Driver
 		tmp &= ~(1 << (uint8_t)Control2Bitmap_t::BlockDataUpdate);
 		txBuffer[1] = tmp | ((uint8_t)update << (uint8_t)Control2Bitmap_t::BlockDataUpdate);
 
-		ILPS22QS_DEBUG_INFO_PRINTF("Data update config set to %02X\n", txBuffer[1]);
+		DEBUG_ILPS22QS_PRINTF_INFO("Data update config set to %02X\n", txBuffer[1]);
 		return writeRegister(txBuffer, 2);				
 	}
 
@@ -809,7 +866,7 @@ class Driver
 		txBuffer[0] = (uint8_t)Register_t::Control2;
 		txBuffer[1] = tmp | (1 << (uint8_t)Control2Bitmap_t::Reset);
 
-		ILPS22QS_DEBUG_INFO_PRINT("Reset\n", 6);
+		DEBUG_ILPS22QS_PRINT_INFO("Reset\n", 6);
 		return writeRegister(txBuffer, 2);	
 	}
 
@@ -830,7 +887,7 @@ class Driver
 		txBuffer[0] = (uint8_t)Register_t::Control2;
 		txBuffer[1] = tmp | (1 << (uint8_t)Control2Bitmap_t::Boot);
 
-		ILPS22QS_DEBUG_INFO_PRINT("Reboot\n", 7);
+		DEBUG_ILPS22QS_PRINT_INFO("Reboot\n", 7);
 		return writeRegister(txBuffer, 2);			
 	}
 
@@ -845,7 +902,7 @@ class Driver
 		txBuffer[0] = (uint8_t)Register_t::AnalogHubDisable;
 		txBuffer[1] = 0;
 
-		ILPS22QS_DEBUG_INFO_PRINT("Analog hub disable\n", 19);
+		DEBUG_ILPS22QS_PRINT_INFO("Analog hub disable\n", 19);
 		return writeRegister(txBuffer, 2);
 	}
 
@@ -864,7 +921,7 @@ class Driver
 						((uint8_t)config.interleavedMode << (uint8_t)Control3Bitmap_t::AnalogHubInterleaved) |
 						((uint8_t)config.analogHub << (uint8_t)Control3Bitmap_t::AnalogHubEnable);
 
-		ILPS22QS_DEBUG_INFO_PRINTF("Analog hub config set to %02X\n", txBuffer[1]);
+		DEBUG_ILPS22QS_PRINTF_INFO("Analog hub config set to %02X\n", txBuffer[1]);
 		return writeRegister(txBuffer, 2);		 
 	}
 
@@ -940,7 +997,7 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		ILPS22QS_DEBUG_INFO_PRINTF("Pressure offset set to %d\n", offset);
+		DEBUG_ILPS22QS_PRINTF_INFO("Pressure offset set to %d\n", offset);
 		return Return_t::OK;		
 	}
 
@@ -1050,7 +1107,7 @@ class Driver
 		static constexpr uint16_t scaleDivider[] = { 4096, 2048 };
 		output = tmp / scaleDivider[(uint8_t)getPressureScale()];
 
-		ILPS22QS_DEBUG_PRINTF("Pressure %u\n", output);
+		DEBUG_ILPS22QS_PRINTF("Pressure %u\n", output);
 		return Return_t::OK;
 	}
 
@@ -1080,7 +1137,7 @@ class Driver
 		tmp |= reg;	
 
 		output = convertTemperature(tmp);
-		ILPS22QS_DEBUG_PRINTF("Temperature %d\n", output);
+		DEBUG_ILPS22QS_PRINTF("Temperature %d\n", output);
 		return Return_t::OK;			
 	}
 
@@ -1308,13 +1365,13 @@ class Driver
 		txBuffer[0] = (uint8_t)reg;
 		if (interface.write(txBuffer, 1) != Return_t::OK)
 		{
-			ILPS22QS_DEBUG_ERROR_PRINTF("Register %02X write fail\n", txBuffer[0]);
+			DEBUG_ILPS22QS_PRINTF_ERROR("Register %02X write fail\n", txBuffer[0]);
 			return Return_t::NOK;
 		}
 
 		if (interface.read(output, len) != Return_t::OK)
 		{
-			ILPS22QS_DEBUG_ERROR_PRINTF("Register %02X read fail\n", txBuffer[0]);
+			DEBUG_ILPS22QS_PRINTF_ERROR("Register %02X read fail\n", txBuffer[0]);
 			return Return_t::NOK;
 		}
 
@@ -1349,23 +1406,23 @@ class Driver
 	 * 
 	 * @return \c Return_t::OK on success.
 	 */
-	#ifdef ILPS22QS_DEBUG_ERROR
+	#ifdef DEBUG_ILPS22QS_ERROR
 	Return_t writeRegister(const uint8_t* input, const uint8_t len) const
 	#else
 	inline Return_t writeRegister(const uint8_t* input, const uint8_t len) const
-	#endif // ILPS22QS_DEBUG_ERROR
+	#endif // DEBUG_ILPS22QS_ERROR
 	{
-		#ifdef ILPS22QS_DEBUG_ERROR
+		#ifdef DEBUG_ILPS22QS_ERROR
 		if (interface.write(input, len) != Return_t::OK)
 		{
-			ILPS22QS_DEBUG_ERROR_PRINTF("Register write %02X fail\n", input[1]);
+			DEBUG_ILPS22QS_PRINTF_ERROR("Register write %02X fail\n", input[1]);
 			return Return_t::NOK;
 		}
 
 		return Return_t::OK;
 		#else
 		return interface.write(input, len);
-		#endif // ILPS22QS_DEBUG_ERROR
+		#endif // DEBUG_ILPS22QS_ERROR
 	}
 
 	/**
@@ -1395,7 +1452,7 @@ class Driver
 					((uint8_t)config->SPIRead << (uint8_t)(uint8_t)InterfaceBitmap_t::SPIReadEnable) |
 					((uint8_t)config->ssPullUpOff << (uint8_t)(uint8_t)InterfaceBitmap_t::SSPullUpEnable);
 
-		ILPS22QS_DEBUG_INFO_PRINT("Interface config set to %02X\n", txBuffer[1]);
+		DEBUG_ILPS22QS_PRINT_INFO("Interface config set to %02X\n", txBuffer[1]);
 		return writeRegister(txBuffer, 2);
 	}
 
@@ -1415,17 +1472,17 @@ class Driver
 			return Return_t::NOK;
 		}
 
-		ILPS22QS_DEBUG_INFO_PRINT("Pressure scale: ");
+		DEBUG_ILPS22QS_PRINT_INFO("Pressure scale: ");
 
 		// Get pressure scale
 		if (tmp & (1 << (uint8_t)(uint8_t)Control2Bitmap_t::FullScale))
 		{
-			ILPS22QS_DEBUG_INFO_PRINT("4060hPa\n", 8);
+			DEBUG_ILPS22QS_PRINT_INFO("4060hPa\n", 8);
 			pressureScale = PressureScale_t::Scale4060hPa;
 		}
 		else
 		{
-			ILPS22QS_DEBUG_INFO_PRINT("1260hPa\n", 8);
+			DEBUG_ILPS22QS_PRINT_INFO("1260hPa\n", 8);
 			pressureScale = PressureScale_t::Scale1260hPa;
 		}
 
@@ -1516,7 +1573,7 @@ class Driver
 			{
 				if ((tickHandler() - tick) > timeout)
 				{
-					ILPS22QS_DEBUG_ERROR_PRINT("Wait timeout\n", 13);
+					DEBUG_ILPS22QS_PRINT_ERROR("Wait timeout\n", 13);
 					return Return_t::Timeout;
 				}
 			}
