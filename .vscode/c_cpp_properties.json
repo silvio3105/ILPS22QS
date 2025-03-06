@@ -6,7 +6,11 @@
                 "${workspaceFolder}/**"
             ],
             "defines": [
-                "ILPS22QS_IMPLEMENTATION"
+				"DEBUG",
+                "DEBUG_ILPS22QS",
+				"DEBUG_ILPS22QS_VERBOSE",
+				"DEBUG_ILPS22QS_INFO",
+				"DEBUG_ILPS22QS_ERROR"
             ],
             "cStandard": "c17",
             "cppStandard": "c++17",
