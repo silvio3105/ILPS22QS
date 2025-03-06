@@ -16,8 +16,8 @@ Default timeout is 10ms.
 
 # Debug mode
 
-To enable debug mode, define `ILPS22QS_DEBUG` for verbose debug, `ILPS22QS_DEBUG_INFO` for info debug and `ILPS22QS_DEBUG_ERROR` for error debug.
-Name of debug output handlers must be defined with `DEBUG_PRINT` and `DEBUG_PRINTF`.
+To enable debug mode, define `DEBUG_ILPS22QS` and `DEBUG`. To enable debug levels, define `DEBUG_ILPS22QS_VERBOSE`, `DEBUG_ILPS22QS_INFO` or `DEBUG_ILPS22QS_ERROR`.
+[sDebug](https://github.com/silvio3105/sDebug) library is required.
 
 # License
 

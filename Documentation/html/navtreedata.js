@@ -30,6 +30,7 @@ var NAVTREE =
       [ "Debug mode", "md__r_e_a_d_m_e.html#debug-mode", null ],
       [ "License", "md__r_e_a_d_m_e.html#license", null ]
     ] ],
+    [ "Topics", "topics.html", "topics" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -62,7 +63,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_i_l_p_s22_q_s_8hpp.html",
-"struct_i_l_p_s22_q_s_1_1interface__cfg__t.html#abdcfef8f507664386bdc86b96ac52c36"
+"struct_i_l_p_s22_q_s_1_1_interface_config__s.html#a88bbaf8f039bf3fd626f70e4d094127b"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -4,7 +4,7 @@ var indexSectionsWithContent =
   1: "adfis",
   2: "i",
   3: "i",
-  4: "dfgimrstw~",
+  4: "cdfgimrstw~",
   5: "abdfiprstv",
   6: "dimst",
   7: "adfioprst",
@@ -24,7 +24,7 @@ var indexSectionNames =
   6: "typedefs",
   7: "enums",
   8: "enumvalues",
-  9: "defines",
+  9: "groups",
   10: "pages"
 };
 
@@ -39,7 +39,7 @@ var indexSectionLabels =
   6: "Typedefs",
   7: "Enumerations",
   8: "Enumerator",
-  9: "Macros",
+  9: "Modules",
   10: "Pages"
 };
 

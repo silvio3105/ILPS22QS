@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['data_5foutput_5fcfg_5ft_0',['data_output_cfg_t',['../struct_i_l_p_s22_q_s_1_1data__output__cfg__t.html',1,'ILPS22QS']]],
-  ['data_5fstatus_5ft_1',['data_status_t',['../struct_i_l_p_s22_q_s_1_1data__status__t.html',1,'ILPS22QS']]],
+  ['dataoutputconfig_5fs_0',['DataOutputConfig_s',['../struct_i_l_p_s22_q_s_1_1_data_output_config__s.html',1,'ILPS22QS']]],
+  ['datastatus_5fs_1',['DataStatus_s',['../struct_i_l_p_s22_q_s_1_1_data_status__s.html',1,'ILPS22QS']]],
   ['driver_2',['Driver',['../class_i_l_p_s22_q_s_1_1_driver.html',1,'ILPS22QS']]],
   ['driver_3c_20i2c_20_3e_3',['Driver&lt; I2C &gt;',['../class_i_l_p_s22_q_s_1_1_driver.html',1,'ILPS22QS']]],
   ['driver_3c_20spi_20_3e_4',['Driver&lt; SPI &gt;',['../class_i_l_p_s22_q_s_1_1_driver.html',1,'ILPS22QS']]]

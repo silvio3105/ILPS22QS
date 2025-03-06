@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">ILPS22QS<span id="projectnumber">&#160;v1.0rc2</span>
+   <div id="projectname">ILPS22QS<span id="projectnumber">&#160;v1.0rc3</span>
    </div>
    <div id="projectbrief">Frameworkless I2C/SPI driver for ILPS22QS absolute pressure &amp; temperature sensor.</div>
   </td>
@@ -97,6 +97,7 @@ $(document).ready(function(){initNavTree('_i_l_p_s22_q_s_8hpp.html',''); initRes
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">ILPS22QS.hpp File Reference</div></div>
 </div><!--header-->
@@ -104,18 +105,21 @@ $(document).ready(function(){initNavTree('_i_l_p_s22_q_s_8hpp.html',''); initRes
 
 <p><a class="el" href="namespace_i_l_p_s22_q_s.html" title="Namespace for ILPS22QS driver.">ILPS22QS</a> I2C/3-wire SPI driver header file.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
+<div class="textblock"><code>#include &quot;Debug.hpp&quot;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for ILPS22QS.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="_i_l_p_s22_q_s_8hpp__incl.png" border="0" usemap="#a_i_l_p_s22_q_s_8hpp" alt=""/></div>
 <map name="a_i_l_p_s22_q_s_8hpp" id="a_i_l_p_s22_q_s_8hpp">
-<area shape="rect" title="ILPS22QS I2C/3&#45;wire SPI driver header file." alt="" coords="27,5,136,31"/>
-<area shape="rect" title=" " alt="" coords="5,79,70,105"/>
-<area shape="poly" title=" " alt="" coords="77,33,55,67,51,64,72,30"/>
-<area shape="rect" title=" " alt="" coords="93,79,158,105"/>
-<area shape="poly" title=" " alt="" coords="91,30,112,64,108,67,86,33"/>
+<area shape="rect" title="ILPS22QS I2C/3&#45;wire SPI driver header file." alt="" coords="90,5,199,31"/>
+<area shape="rect" title=" " alt="" coords="5,79,89,105"/>
+<area shape="poly" title=" " alt="" coords="129,34,77,72,74,68,126,29"/>
+<area shape="rect" title=" " alt="" coords="112,79,177,105"/>
+<area shape="poly" title=" " alt="" coords="147,31,147,63,142,63,142,31"/>
+<area shape="rect" title=" " alt="" coords="200,79,265,105"/>
+<area shape="poly" title=" " alt="" coords="161,29,207,67,204,71,158,34"/>
 </map>
 </div>
 </div>
@@ -123,26 +127,26 @@ Include dependency graph for ILPS22QS.hpp:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_l_p_s22_q_s_1_1interrupt__cfg__t.html">ILPS22QS::interrupt_cfg_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt config struct.  <a href="struct_i_l_p_s22_q_s_1_1interrupt__cfg__t.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_l_p_s22_q_s_1_1_interrupt_config__s.html">ILPS22QS::InterruptConfig_s</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt config struct.  <a href="struct_i_l_p_s22_q_s_1_1_interrupt_config__s.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_l_p_s22_q_s_1_1interface__cfg__t.html">ILPS22QS::interface_cfg_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface config struct.  <a href="struct_i_l_p_s22_q_s_1_1interface__cfg__t.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_l_p_s22_q_s_1_1_interface_config__s.html">ILPS22QS::InterfaceConfig_s</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface config struct.  <a href="struct_i_l_p_s22_q_s_1_1_interface_config__s.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_l_p_s22_q_s_1_1data__output__cfg__t.html">ILPS22QS::data_output_cfg_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data output config struct.  <a href="struct_i_l_p_s22_q_s_1_1data__output__cfg__t.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_l_p_s22_q_s_1_1_data_output_config__s.html">ILPS22QS::DataOutputConfig_s</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data output config struct.  <a href="struct_i_l_p_s22_q_s_1_1_data_output_config__s.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_l_p_s22_q_s_1_1filter__config__t.html">ILPS22QS::filter_config_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for low-pass config.  <a href="struct_i_l_p_s22_q_s_1_1filter__config__t.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_l_p_s22_q_s_1_1_filter_config__s.html">ILPS22QS::FilterConfig_s</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for low-pass config.  <a href="struct_i_l_p_s22_q_s_1_1_filter_config__s.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_l_p_s22_q_s_1_1analog__hub__config__t.html">ILPS22QS::analog_hub_config_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for analog hub/qvar config.  <a href="struct_i_l_p_s22_q_s_1_1analog__hub__config__t.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_l_p_s22_q_s_1_1_analog_hub_config__s.html">ILPS22QS::AnalogHubConfig_s</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for analog hub/qvar config.  <a href="struct_i_l_p_s22_q_s_1_1_analog_hub_config__s.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_l_p_s22_q_s_1_1interrupt__source__t.html">ILPS22QS::interrupt_source_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for interrupt sources.  <a href="struct_i_l_p_s22_q_s_1_1interrupt__source__t.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_l_p_s22_q_s_1_1_interrupt_source__s.html">ILPS22QS::InterruptSource_s</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for interrupt sources.  <a href="struct_i_l_p_s22_q_s_1_1_interrupt_source__s.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_l_p_s22_q_s_1_1data__status__t.html">ILPS22QS::data_status_t</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for data status.  <a href="struct_i_l_p_s22_q_s_1_1data__status__t.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_i_l_p_s22_q_s_1_1_data_status__s.html">ILPS22QS::DataStatus_s</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct for data status.  <a href="struct_i_l_p_s22_q_s_1_1_data_status__s.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html">ILPS22QS::Driver&lt; E &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class for <a class="el" href="namespace_i_l_p_s22_q_s.html" title="Namespace for ILPS22QS driver.">ILPS22QS</a> driver.  <a href="class_i_l_p_s22_q_s_1_1_driver.html#details">More...</a><br /></td></tr>
@@ -162,30 +166,18 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:aad54e8c62bbf854f4a3f408a0ba1311f" id="r_aad54e8c62bbf854f4a3f408a0ba1311f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_i_l_p_s22_q_s_8hpp.html#aad54e8c62bbf854f4a3f408a0ba1311f">ILPS22QS_I2C_READ_TIMEOUT</a>&#160;&#160;&#160;10</td></tr>
-<tr class="memdesc:aad54e8c62bbf854f4a3f408a0ba1311f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timeout in ms for I2C read operations. Can be changed during compile.  <br /></td></tr>
-<tr class="separator:aad54e8c62bbf854f4a3f408a0ba1311f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26452c5860c354c56f3b91ae07b21e38" id="r_a26452c5860c354c56f3b91ae07b21e38"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_i_l_p_s22_q_s_8hpp.html#a26452c5860c354c56f3b91ae07b21e38">ILPS22QS_I2C_WRITE_TIMEOUT</a>&#160;&#160;&#160;10</td></tr>
-<tr class="memdesc:a26452c5860c354c56f3b91ae07b21e38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timeout in ms for I2C write operations. Can be changed during compile.  <br /></td></tr>
-<tr class="separator:a26452c5860c354c56f3b91ae07b21e38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1ad8feee58afc68d609126039c09721" id="r_aa1ad8feee58afc68d609126039c09721"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_i_l_p_s22_q_s_8hpp.html#aa1ad8feee58afc68d609126039c09721">ILPS22QS_SPI_READ_TIMEOUT</a>&#160;&#160;&#160;10</td></tr>
-<tr class="memdesc:aa1ad8feee58afc68d609126039c09721"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timeout in ms for SPI read operations. Can be changed during compile.  <br /></td></tr>
-<tr class="separator:aa1ad8feee58afc68d609126039c09721"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a664bdeaecddf612488ac72a34f45b6" id="r_a0a664bdeaecddf612488ac72a34f45b6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_i_l_p_s22_q_s_8hpp.html#a0a664bdeaecddf612488ac72a34f45b6">ILPS22QS_SPI_WRITE_TIMEOUT</a>&#160;&#160;&#160;10</td></tr>
-<tr class="memdesc:a0a664bdeaecddf612488ac72a34f45b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timeout in ms for SPI write operations. Can be changed during compile.  <br /></td></tr>
-<tr class="separator:a0a664bdeaecddf612488ac72a34f45b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9e045b3049bed5999a0d5dc19075a8b" id="r_ae9e045b3049bed5999a0d5dc19075a8b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_i_l_p_s22_q_s_8hpp.html#ae9e045b3049bed5999a0d5dc19075a8b">ILPS22QS_DEBUG_PRINT</a>(...)</td></tr>
-<tr class="separator:ae9e045b3049bed5999a0d5dc19075a8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f96aa376828bb0221ea157d97de92b2" id="r_a5f96aa376828bb0221ea157d97de92b2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_i_l_p_s22_q_s_8hpp.html#a5f96aa376828bb0221ea157d97de92b2">ILPS22QS_DEBUG_PRINTF</a>(...)</td></tr>
-<tr class="separator:a5f96aa376828bb0221ea157d97de92b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56f1bb36d2b0c7370e3511dee3b5dc9f" id="r_a56f1bb36d2b0c7370e3511dee3b5dc9f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_i_l_p_s22_q_s_8hpp.html#a56f1bb36d2b0c7370e3511dee3b5dc9f">ILPS22QS_DEBUG_INFO_PRINT</a>(...)</td></tr>
-<tr class="separator:a56f1bb36d2b0c7370e3511dee3b5dc9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2198e12eb1987ecfdd8e361b6686f1ff" id="r_a2198e12eb1987ecfdd8e361b6686f1ff"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_i_l_p_s22_q_s_8hpp.html#a2198e12eb1987ecfdd8e361b6686f1ff">ILPS22QS_DEBUG_INFO_PRINTF</a>(...)</td></tr>
-<tr class="separator:a2198e12eb1987ecfdd8e361b6686f1ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afac0390ad71877fd8339b53f78d6ac6a" id="r_afac0390ad71877fd8339b53f78d6ac6a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_i_l_p_s22_q_s_8hpp.html#afac0390ad71877fd8339b53f78d6ac6a">ILPS22QS_DEBUG_ERROR_PRINT</a>(...)</td></tr>
-<tr class="separator:afac0390ad71877fd8339b53f78d6ac6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefa3de914c8096ad153cb1c38d67ec35" id="r_aefa3de914c8096ad153cb1c38d67ec35"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_i_l_p_s22_q_s_8hpp.html#aefa3de914c8096ad153cb1c38d67ec35">ILPS22QS_DEBUG_ERROR_PRINTF</a>(...)</td></tr>
-<tr class="separator:aefa3de914c8096ad153cb1c38d67ec35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaad54e8c62bbf854f4a3f408a0ba1311f" id="r_gaad54e8c62bbf854f4a3f408a0ba1311f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___i_l_p_s22_q_s___driver.html#gaad54e8c62bbf854f4a3f408a0ba1311f">ILPS22QS_I2C_READ_TIMEOUT</a>&#160;&#160;&#160;10</td></tr>
+<tr class="memdesc:gaad54e8c62bbf854f4a3f408a0ba1311f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timeout in ms for I2C read operations. Can be changed during compile.  <br /></td></tr>
+<tr class="separator:gaad54e8c62bbf854f4a3f408a0ba1311f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga26452c5860c354c56f3b91ae07b21e38" id="r_ga26452c5860c354c56f3b91ae07b21e38"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___i_l_p_s22_q_s___driver.html#ga26452c5860c354c56f3b91ae07b21e38">ILPS22QS_I2C_WRITE_TIMEOUT</a>&#160;&#160;&#160;10</td></tr>
+<tr class="memdesc:ga26452c5860c354c56f3b91ae07b21e38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timeout in ms for I2C write operations. Can be changed during compile.  <br /></td></tr>
+<tr class="separator:ga26452c5860c354c56f3b91ae07b21e38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa1ad8feee58afc68d609126039c09721" id="r_gaa1ad8feee58afc68d609126039c09721"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___i_l_p_s22_q_s___driver.html#gaa1ad8feee58afc68d609126039c09721">ILPS22QS_SPI_READ_TIMEOUT</a>&#160;&#160;&#160;10</td></tr>
+<tr class="memdesc:gaa1ad8feee58afc68d609126039c09721"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timeout in ms for SPI read operations. Can be changed during compile.  <br /></td></tr>
+<tr class="separator:gaa1ad8feee58afc68d609126039c09721"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0a664bdeaecddf612488ac72a34f45b6" id="r_ga0a664bdeaecddf612488ac72a34f45b6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___i_l_p_s22_q_s___driver.html#ga0a664bdeaecddf612488ac72a34f45b6">ILPS22QS_SPI_WRITE_TIMEOUT</a>&#160;&#160;&#160;10</td></tr>
+<tr class="memdesc:ga0a664bdeaecddf612488ac72a34f45b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timeout in ms for SPI write operations. Can be changed during compile.  <br /></td></tr>
+<tr class="separator:ga0a664bdeaecddf612488ac72a34f45b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -281,9 +273,21 @@ Enumerations</h2></td></tr>
 <tr class="memdesc:aef587bbe8ebd471ca2d53b24ee7e1456"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum class with values for data update config.  <a href="namespace_i_l_p_s22_q_s.html#aef587bbe8ebd471ca2d53b24ee7e1456">More...</a><br /></td></tr>
 <tr class="separator:aef587bbe8ebd471ca2d53b24ee7e1456"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:aebf169319e9cc72298e99c0bbd9535be" id="r_aebf169319e9cc72298e99c0bbd9535be"><td class="memItemLeft" align="right" valign="top"><a id="aebf169319e9cc72298e99c0bbd9535be" name="aebf169319e9cc72298e99c0bbd9535be"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ILPS22QS::DEBUG_VERBOSE_DISABLE</b> ()</td></tr>
+<tr class="separator:aebf169319e9cc72298e99c0bbd9535be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3c77c29d878a9df7750fd452c525f41" id="r_aa3c77c29d878a9df7750fd452c525f41"><td class="memItemLeft" align="right" valign="top"><a id="aa3c77c29d878a9df7750fd452c525f41" name="aa3c77c29d878a9df7750fd452c525f41"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ILPS22QS::DEBUG_INFO_DISABLE</b> ()</td></tr>
+<tr class="separator:aa3c77c29d878a9df7750fd452c525f41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd05672aee75dee184d6601f6addb8f7" id="r_abd05672aee75dee184d6601f6addb8f7"><td class="memItemLeft" align="right" valign="top"><a id="abd05672aee75dee184d6601f6addb8f7" name="abd05672aee75dee184d6601f6addb8f7"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ILPS22QS::DEBUG_ERROR_DISABLE</b> ()</td></tr>
+<tr class="separator:abd05672aee75dee184d6601f6addb8f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:af09e2abe8bed1d3d0843899fcb8e46fa" id="r_af09e2abe8bed1d3d0843899fcb8e46fa"><td class="memItemLeft" align="right" valign="top">static constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i_l_p_s22_q_s.html#af09e2abe8bed1d3d0843899fcb8e46fa">ILPS22QS::version</a> [] = &quot;v1.0rc2&quot;</td></tr>
+<tr class="memitem:af09e2abe8bed1d3d0843899fcb8e46fa" id="r_af09e2abe8bed1d3d0843899fcb8e46fa"><td class="memItemLeft" align="right" valign="top">static constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespace_i_l_p_s22_q_s.html#af09e2abe8bed1d3d0843899fcb8e46fa">ILPS22QS::version</a> [] = &quot;v1.0rc3&quot;</td></tr>
 <tr class="memdesc:af09e2abe8bed1d3d0843899fcb8e46fa"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html" title="Class for ILPS22QS driver.">Driver</a> version string.  <br /></td></tr>
 <tr class="separator:af09e2abe8bed1d3d0843899fcb8e46fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -293,218 +297,13 @@ Variables</h2></td></tr>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2025, silvio3105 </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="afac0390ad71877fd8339b53f78d6ac6a" name="afac0390ad71877fd8339b53f78d6ac6a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afac0390ad71877fd8339b53f78d6ac6a">&#9670;&#160;</a></span>ILPS22QS_DEBUG_ERROR_PRINT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ILPS22QS_DEBUG_ERROR_PRINT</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    DEBUG_PRINT(<span class="stringliteral">&quot;[ILPS22QS] Error: &quot;</span>, 18); \</div>
-<div class="line">    DEBUG_PRINT(...)</div>
-</div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00078">78</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
-
-</div>
-</div>
-<a id="aefa3de914c8096ad153cb1c38d67ec35" name="aefa3de914c8096ad153cb1c38d67ec35"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aefa3de914c8096ad153cb1c38d67ec35">&#9670;&#160;</a></span>ILPS22QS_DEBUG_ERROR_PRINTF</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ILPS22QS_DEBUG_ERROR_PRINTF</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    DEBUG_PRINT(<span class="stringliteral">&quot;[ILPS22QS] Error: &quot;</span>, 18); \</div>
-<div class="line">    DEBUG_PRINTF(...)</div>
-</div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00081">81</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a56f1bb36d2b0c7370e3511dee3b5dc9f" name="a56f1bb36d2b0c7370e3511dee3b5dc9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a56f1bb36d2b0c7370e3511dee3b5dc9f">&#9670;&#160;</a></span>ILPS22QS_DEBUG_INFO_PRINT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ILPS22QS_DEBUG_INFO_PRINT</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    DEBUG_PRINT(<span class="stringliteral">&quot;[ILPS22QS] Info: &quot;</span>, 17); \</div>
-<div class="line">    DEBUG_PRINT(...)</div>
-</div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00066">66</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a2198e12eb1987ecfdd8e361b6686f1ff" name="a2198e12eb1987ecfdd8e361b6686f1ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2198e12eb1987ecfdd8e361b6686f1ff">&#9670;&#160;</a></span>ILPS22QS_DEBUG_INFO_PRINTF</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ILPS22QS_DEBUG_INFO_PRINTF</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    DEBUG_PRINT(<span class="stringliteral">&quot;[ILPS22QS] Info: &quot;</span>, 17); \</div>
-<div class="line">    DEBUG_PRINTF(...)</div>
-</div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00069">69</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
-
-</div>
-</div>
-<a id="ae9e045b3049bed5999a0d5dc19075a8b" name="ae9e045b3049bed5999a0d5dc19075a8b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae9e045b3049bed5999a0d5dc19075a8b">&#9670;&#160;</a></span>ILPS22QS_DEBUG_PRINT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ILPS22QS_DEBUG_PRINT</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    DEBUG_PRINT(<span class="stringliteral">&quot;[ILPS22QS] &quot;</span>, 11); \</div>
-<div class="line">    DEBUG_PRINT(...)</div>
-</div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00054">54</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a5f96aa376828bb0221ea157d97de92b2" name="a5f96aa376828bb0221ea157d97de92b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f96aa376828bb0221ea157d97de92b2">&#9670;&#160;</a></span>ILPS22QS_DEBUG_PRINTF</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ILPS22QS_DEBUG_PRINTF</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>...</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    DEBUG_PRINT(<span class="stringliteral">&quot;[ILPS22QS] &quot;</span>, 11); \</div>
-<div class="line">    DEBUG_PRINTF(...)</div>
-</div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00057">57</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
-
-</div>
-</div>
-<a id="aad54e8c62bbf854f4a3f408a0ba1311f" name="aad54e8c62bbf854f4a3f408a0ba1311f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad54e8c62bbf854f4a3f408a0ba1311f">&#9670;&#160;</a></span>ILPS22QS_I2C_READ_TIMEOUT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ILPS22QS_I2C_READ_TIMEOUT&#160;&#160;&#160;10</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Timeout in ms for I2C read operations. Can be changed during compile. </p>
-
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00035">35</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a26452c5860c354c56f3b91ae07b21e38" name="a26452c5860c354c56f3b91ae07b21e38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26452c5860c354c56f3b91ae07b21e38">&#9670;&#160;</a></span>ILPS22QS_I2C_WRITE_TIMEOUT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ILPS22QS_I2C_WRITE_TIMEOUT&#160;&#160;&#160;10</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Timeout in ms for I2C write operations. Can be changed during compile. </p>
-
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00039">39</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
-
-</div>
-</div>
-<a id="aa1ad8feee58afc68d609126039c09721" name="aa1ad8feee58afc68d609126039c09721"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa1ad8feee58afc68d609126039c09721">&#9670;&#160;</a></span>ILPS22QS_SPI_READ_TIMEOUT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ILPS22QS_SPI_READ_TIMEOUT&#160;&#160;&#160;10</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Timeout in ms for SPI read operations. Can be changed during compile. </p>
-
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00043">43</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
-
-</div>
-</div>
-<a id="a0a664bdeaecddf612488ac72a34f45b6" name="a0a664bdeaecddf612488ac72a34f45b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0a664bdeaecddf612488ac72a34f45b6">&#9670;&#160;</a></span>ILPS22QS_SPI_WRITE_TIMEOUT</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define ILPS22QS_SPI_WRITE_TIMEOUT&#160;&#160;&#160;10</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Timeout in ms for SPI write operations. Can be changed during compile. </p>
-
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00047">47</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
-
-</div>
-</div>
-</div><!-- contents -->
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="_i_l_p_s22_q_s_8hpp.html">ILPS22QS.hpp</a></li>
-    <li class="footer">Generated on Mon Feb 10 2025 02:43:49 for ILPS22QS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Thu Mar 6 2025 22:36:55 for ILPS22QS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

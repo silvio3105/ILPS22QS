@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">ILPS22QS<span id="projectnumber">&#160;v1.0rc2</span>
+   <div id="projectname">ILPS22QS<span id="projectnumber">&#160;v1.0rc3</span>
    </div>
    <div id="projectbrief">Frameworkless I2C/SPI driver for ILPS22QS absolute pressure &amp; temperature sensor.</div>
   </td>
@@ -112,18 +112,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2487902f56b9491e62f69cb07de57038" id="r_a2487902f56b9491e62f69cb07de57038"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a2487902f56b9491e62f69cb07de57038">freeSemaphore</a> (void)</td></tr>
 <tr class="memdesc:a2487902f56b9491e62f69cb07de57038"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free semaphore for read and write operations.  <br /></td></tr>
 <tr class="separator:a2487902f56b9491e62f69cb07de57038"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a90a5c54b437aa011cfae46e431890b" id="r_a6a90a5c54b437aa011cfae46e431890b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a6a90a5c54b437aa011cfae46e431890b">init</a> (const <a class="el" href="struct_i_l_p_s22_q_s_1_1interface__cfg__t.html">interface_cfg_t</a> *interfaceCfg=nullptr)</td></tr>
-<tr class="memdesc:a6a90a5c54b437aa011cfae46e431890b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Init the sensor.  <br /></td></tr>
-<tr class="separator:a6a90a5c54b437aa011cfae46e431890b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2c093c1bdbc89831076ae2ca3a2964d" id="r_af2c093c1bdbc89831076ae2ca3a2964d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#af2c093c1bdbc89831076ae2ca3a2964d">init</a> (const <a class="el" href="struct_i_l_p_s22_q_s_1_1_interface_config__s.html">InterfaceConfig_s</a> *interfaceCfg=nullptr)</td></tr>
+<tr class="memdesc:af2c093c1bdbc89831076ae2ca3a2964d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Init the sensor.  <br /></td></tr>
+<tr class="separator:af2c093c1bdbc89831076ae2ca3a2964d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af65a355d493e80d4ea823bf5724486cf" id="r_af65a355d493e80d4ea823bf5724486cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#af65a355d493e80d4ea823bf5724486cf">deinit</a> (void) const</td></tr>
 <tr class="memdesc:af65a355d493e80d4ea823bf5724486cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinit the sensor.  <br /></td></tr>
 <tr class="separator:af65a355d493e80d4ea823bf5724486cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae75f59ae2d0c0f0484da5dc18f095849" id="r_ae75f59ae2d0c0f0484da5dc18f095849"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#ae75f59ae2d0c0f0484da5dc18f095849">setInterruptConfig</a> (const <a class="el" href="struct_i_l_p_s22_q_s_1_1interrupt__cfg__t.html">interrupt_cfg_t</a> &amp;config)</td></tr>
-<tr class="memdesc:ae75f59ae2d0c0f0484da5dc18f095849"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set interrupt config.  <br /></td></tr>
-<tr class="separator:ae75f59ae2d0c0f0484da5dc18f095849"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ad1848cc19c1586222c4f92e562f954" id="r_a2ad1848cc19c1586222c4f92e562f954"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a2ad1848cc19c1586222c4f92e562f954">getInterruptConfig</a> (<a class="el" href="struct_i_l_p_s22_q_s_1_1interrupt__cfg__t.html">interrupt_cfg_t</a> &amp;config)</td></tr>
-<tr class="memdesc:a2ad1848cc19c1586222c4f92e562f954"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get interrupt config.  <br /></td></tr>
-<tr class="separator:a2ad1848cc19c1586222c4f92e562f954"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a450dbcdf4ac418ba029d0aabf8d5cf53" id="r_a450dbcdf4ac418ba029d0aabf8d5cf53"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a450dbcdf4ac418ba029d0aabf8d5cf53">setInterruptConfig</a> (const <a class="el" href="struct_i_l_p_s22_q_s_1_1_interrupt_config__s.html">InterruptConfig_s</a> &amp;config)</td></tr>
+<tr class="memdesc:a450dbcdf4ac418ba029d0aabf8d5cf53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set interrupt config.  <br /></td></tr>
+<tr class="separator:a450dbcdf4ac418ba029d0aabf8d5cf53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a831d8eef0189b5c09e2479251c2389b5" id="r_a831d8eef0189b5c09e2479251c2389b5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a831d8eef0189b5c09e2479251c2389b5">getInterruptConfig</a> (<a class="el" href="struct_i_l_p_s22_q_s_1_1_interrupt_config__s.html">InterruptConfig_s</a> &amp;config)</td></tr>
+<tr class="memdesc:a831d8eef0189b5c09e2479251c2389b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get interrupt config.  <br /></td></tr>
+<tr class="separator:a831d8eef0189b5c09e2479251c2389b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e2439788d47a29b121393bda85be633" id="r_a4e2439788d47a29b121393bda85be633"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a4e2439788d47a29b121393bda85be633">setPressureInterruptThreshold</a> (const uint16_t threshold)</td></tr>
 <tr class="memdesc:a4e2439788d47a29b121393bda85be633"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set pressure interrupt threshold.  <br /></td></tr>
 <tr class="separator:a4e2439788d47a29b121393bda85be633"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -142,21 +142,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a823884361284f7666289258cd0cc5114" id="r_a823884361284f7666289258cd0cc5114"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a823884361284f7666289258cd0cc5114">setTemperatureScale</a> (const <a class="el" href="namespace_i_l_p_s22_q_s.html#a4475592803701449729fd1be4fc1529d">TemperatureScale_t</a> scale)</td></tr>
 <tr class="memdesc:a823884361284f7666289258cd0cc5114"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set temperature scale.  <br /></td></tr>
 <tr class="separator:a823884361284f7666289258cd0cc5114"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a504c2bf566b13f49797c5ec00fe1001e" id="r_a504c2bf566b13f49797c5ec00fe1001e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a504c2bf566b13f49797c5ec00fe1001e">setDataOutputConfig</a> (const <a class="el" href="struct_i_l_p_s22_q_s_1_1data__output__cfg__t.html">data_output_cfg_t</a> &amp;config)</td></tr>
-<tr class="memdesc:a504c2bf566b13f49797c5ec00fe1001e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure data output.  <br /></td></tr>
-<tr class="separator:a504c2bf566b13f49797c5ec00fe1001e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e3cd93a2aa173fcd2b5e8c60e0b8f58" id="r_a9e3cd93a2aa173fcd2b5e8c60e0b8f58"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a9e3cd93a2aa173fcd2b5e8c60e0b8f58">getDataOutputConfig</a> (<a class="el" href="struct_i_l_p_s22_q_s_1_1data__output__cfg__t.html">data_output_cfg_t</a> &amp;config)</td></tr>
-<tr class="memdesc:a9e3cd93a2aa173fcd2b5e8c60e0b8f58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current data output config.  <br /></td></tr>
-<tr class="separator:a9e3cd93a2aa173fcd2b5e8c60e0b8f58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ed3389bd559022f4165d640b9bb71e7" id="r_a7ed3389bd559022f4165d640b9bb71e7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a7ed3389bd559022f4165d640b9bb71e7">setDataOutputConfig</a> (const <a class="el" href="struct_i_l_p_s22_q_s_1_1_data_output_config__s.html">DataOutputConfig_s</a> &amp;config)</td></tr>
+<tr class="memdesc:a7ed3389bd559022f4165d640b9bb71e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure data output.  <br /></td></tr>
+<tr class="separator:a7ed3389bd559022f4165d640b9bb71e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3acdca5a8e01a250d772f84805b3512" id="r_aa3acdca5a8e01a250d772f84805b3512"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#aa3acdca5a8e01a250d772f84805b3512">getDataOutputConfig</a> (<a class="el" href="struct_i_l_p_s22_q_s_1_1_data_output_config__s.html">DataOutputConfig_s</a> &amp;config)</td></tr>
+<tr class="memdesc:aa3acdca5a8e01a250d772f84805b3512"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get current data output config.  <br /></td></tr>
+<tr class="separator:aa3acdca5a8e01a250d772f84805b3512"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08e34cce434fc7cc35f3e59b3153dcc0" id="r_a08e34cce434fc7cc35f3e59b3153dcc0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a08e34cce434fc7cc35f3e59b3153dcc0">measure</a> (void)</td></tr>
 <tr class="memdesc:a08e34cce434fc7cc35f3e59b3153dcc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start pressure and temperature measurment when the sensor is in power-down/one-shot mode.  <br /></td></tr>
 <tr class="separator:a08e34cce434fc7cc35f3e59b3153dcc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af08f2dabf010cb2c5dbd6f7acf97e534" id="r_af08f2dabf010cb2c5dbd6f7acf97e534"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#af08f2dabf010cb2c5dbd6f7acf97e534">setFilterConfig</a> (const <a class="el" href="struct_i_l_p_s22_q_s_1_1filter__config__t.html">filter_config_t</a> &amp;config)</td></tr>
-<tr class="memdesc:af08f2dabf010cb2c5dbd6f7acf97e534"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set pressure low-pass filter config.  <br /></td></tr>
-<tr class="separator:af08f2dabf010cb2c5dbd6f7acf97e534"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a442598b68220776e8db47af7101ce4f0" id="r_a442598b68220776e8db47af7101ce4f0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a442598b68220776e8db47af7101ce4f0">getFilterConfig</a> (<a class="el" href="struct_i_l_p_s22_q_s_1_1filter__config__t.html">filter_config_t</a> &amp;config)</td></tr>
-<tr class="memdesc:a442598b68220776e8db47af7101ce4f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get pressure low-pass filter config.  <br /></td></tr>
-<tr class="separator:a442598b68220776e8db47af7101ce4f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac35d6c297ae938c2b17b3fb747d98f9e" id="r_ac35d6c297ae938c2b17b3fb747d98f9e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#ac35d6c297ae938c2b17b3fb747d98f9e">setFilterConfig</a> (const <a class="el" href="struct_i_l_p_s22_q_s_1_1_filter_config__s.html">FilterConfig_s</a> &amp;config)</td></tr>
+<tr class="memdesc:ac35d6c297ae938c2b17b3fb747d98f9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set pressure low-pass filter config.  <br /></td></tr>
+<tr class="separator:ac35d6c297ae938c2b17b3fb747d98f9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95e99477f4df191c9967f9569d7b9fef" id="r_a95e99477f4df191c9967f9569d7b9fef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a95e99477f4df191c9967f9569d7b9fef">getFilterConfig</a> (<a class="el" href="struct_i_l_p_s22_q_s_1_1_filter_config__s.html">FilterConfig_s</a> &amp;config)</td></tr>
+<tr class="memdesc:a95e99477f4df191c9967f9569d7b9fef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get pressure low-pass filter config.  <br /></td></tr>
+<tr class="separator:a95e99477f4df191c9967f9569d7b9fef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c92c04ca6a01aeb01c11fbe4e010bbd" id="r_a5c92c04ca6a01aeb01c11fbe4e010bbd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a5c92c04ca6a01aeb01c11fbe4e010bbd">setDataUpdateConfig</a> (const <a class="el" href="namespace_i_l_p_s22_q_s.html#aef587bbe8ebd471ca2d53b24ee7e1456">DataUpdate_t</a> update)</td></tr>
 <tr class="memdesc:a5c92c04ca6a01aeb01c11fbe4e010bbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set data update config.  <br /></td></tr>
 <tr class="separator:a5c92c04ca6a01aeb01c11fbe4e010bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -172,12 +172,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aeb1e877bfd7093288d1d3ed75f2bb2f9" id="r_aeb1e877bfd7093288d1d3ed75f2bb2f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#aeb1e877bfd7093288d1d3ed75f2bb2f9">disableAnalogHub</a> (void)</td></tr>
 <tr class="memdesc:aeb1e877bfd7093288d1d3ed75f2bb2f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable analog hub and Qvar feature to reduce power consumption.  <br /></td></tr>
 <tr class="separator:aeb1e877bfd7093288d1d3ed75f2bb2f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d4684c67c46e43ad6775d21dcc9271b" id="r_a1d4684c67c46e43ad6775d21dcc9271b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a1d4684c67c46e43ad6775d21dcc9271b">setAnalogHubConfig</a> (const <a class="el" href="struct_i_l_p_s22_q_s_1_1analog__hub__config__t.html">analog_hub_config_t</a> &amp;config)</td></tr>
-<tr class="memdesc:a1d4684c67c46e43ad6775d21dcc9271b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set analog hub/qvar config.  <br /></td></tr>
-<tr class="separator:a1d4684c67c46e43ad6775d21dcc9271b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0ffc90e6ecd78267a4c54b7be924bd1" id="r_ab0ffc90e6ecd78267a4c54b7be924bd1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#ab0ffc90e6ecd78267a4c54b7be924bd1">getAnalogHubConfig</a> (<a class="el" href="struct_i_l_p_s22_q_s_1_1analog__hub__config__t.html">analog_hub_config_t</a> &amp;config)</td></tr>
-<tr class="memdesc:ab0ffc90e6ecd78267a4c54b7be924bd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get analog hub/qvar config.  <br /></td></tr>
-<tr class="separator:ab0ffc90e6ecd78267a4c54b7be924bd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fb9cc6f2e721858a02ba23c9a0af75b" id="r_a3fb9cc6f2e721858a02ba23c9a0af75b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a3fb9cc6f2e721858a02ba23c9a0af75b">setAnalogHubConfig</a> (const <a class="el" href="struct_i_l_p_s22_q_s_1_1_analog_hub_config__s.html">AnalogHubConfig_s</a> &amp;config)</td></tr>
+<tr class="memdesc:a3fb9cc6f2e721858a02ba23c9a0af75b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set analog hub/qvar config.  <br /></td></tr>
+<tr class="separator:a3fb9cc6f2e721858a02ba23c9a0af75b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4578e5d251e3097cdaacce43fe83cbc3" id="r_a4578e5d251e3097cdaacce43fe83cbc3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a4578e5d251e3097cdaacce43fe83cbc3">getAnalogHubConfig</a> (<a class="el" href="struct_i_l_p_s22_q_s_1_1_analog_hub_config__s.html">AnalogHubConfig_s</a> &amp;config)</td></tr>
+<tr class="memdesc:a4578e5d251e3097cdaacce43fe83cbc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get analog hub/qvar config.  <br /></td></tr>
+<tr class="separator:a4578e5d251e3097cdaacce43fe83cbc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd28354162dfb73becd40883522dcf91" id="r_afd28354162dfb73becd40883522dcf91"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#afd28354162dfb73becd40883522dcf91">getReferencePressure</a> (uint16_t &amp;output)</td></tr>
 <tr class="memdesc:afd28354162dfb73becd40883522dcf91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get reference pressure in hPa/mbar.  <br /></td></tr>
 <tr class="separator:afd28354162dfb73becd40883522dcf91"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -187,12 +187,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad32b18534a2e57c9ad20b844efe07f6c" id="r_ad32b18534a2e57c9ad20b844efe07f6c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#ad32b18534a2e57c9ad20b844efe07f6c">getPressureOffset</a> (int16_t &amp;output)</td></tr>
 <tr class="memdesc:ad32b18534a2e57c9ad20b844efe07f6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get pressure offset.  <br /></td></tr>
 <tr class="separator:ad32b18534a2e57c9ad20b844efe07f6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b5349ce592adabe8bf969c9c7aeb676" id="r_a7b5349ce592adabe8bf969c9c7aeb676"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a7b5349ce592adabe8bf969c9c7aeb676">getInterruptSource</a> (<a class="el" href="struct_i_l_p_s22_q_s_1_1interrupt__source__t.html">interrupt_source_t</a> &amp;source)</td></tr>
-<tr class="memdesc:a7b5349ce592adabe8bf969c9c7aeb676"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get interrupt source.  <br /></td></tr>
-<tr class="separator:a7b5349ce592adabe8bf969c9c7aeb676"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a582bf095f6ee0ca515c555573b882e3c" id="r_a582bf095f6ee0ca515c555573b882e3c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a582bf095f6ee0ca515c555573b882e3c">getDataStatus</a> (<a class="el" href="struct_i_l_p_s22_q_s_1_1data__status__t.html">data_status_t</a> &amp;output)</td></tr>
-<tr class="memdesc:a582bf095f6ee0ca515c555573b882e3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get pressure and temperature data status.  <br /></td></tr>
-<tr class="separator:a582bf095f6ee0ca515c555573b882e3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64b958bc9a379ffb85b0608ee5c91028" id="r_a64b958bc9a379ffb85b0608ee5c91028"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a64b958bc9a379ffb85b0608ee5c91028">getInterruptSource</a> (<a class="el" href="struct_i_l_p_s22_q_s_1_1_interrupt_source__s.html">InterruptSource_s</a> &amp;source)</td></tr>
+<tr class="memdesc:a64b958bc9a379ffb85b0608ee5c91028"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get interrupt source.  <br /></td></tr>
+<tr class="separator:a64b958bc9a379ffb85b0608ee5c91028"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50516b5ce5353bbfa2a859412b5f8b3b" id="r_a50516b5ce5353bbfa2a859412b5f8b3b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a50516b5ce5353bbfa2a859412b5f8b3b">getDataStatus</a> (<a class="el" href="struct_i_l_p_s22_q_s_1_1_data_status__s.html">DataStatus_s</a> &amp;output)</td></tr>
+<tr class="memdesc:a50516b5ce5353bbfa2a859412b5f8b3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get pressure and temperature data status.  <br /></td></tr>
+<tr class="separator:a50516b5ce5353bbfa2a859412b5f8b3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d60e1815e1ae51c1d0b7962f65f1dc9" id="r_a4d60e1815e1ae51c1d0b7962f65f1dc9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html#a4d60e1815e1ae51c1d0b7962f65f1dc9">getPressure</a> (uint16_t &amp;output)</td></tr>
 <tr class="memdesc:a4d60e1815e1ae51c1d0b7962f65f1dc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get measured pressure.  <br /></td></tr>
 <tr class="separator:a4d60e1815e1ae51c1d0b7962f65f1dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -220,12 +220,12 @@ Protected Member Functions</h2></td></tr>
 class ILPS22QS::Driver&lt; E &gt;</div><p>Class for <a class="el" href="namespace_i_l_p_s22_q_s.html" title="Namespace for ILPS22QS driver.">ILPS22QS</a> driver. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">E</td><td>Object for external operations. </td></tr>
+    <tr><td class="paramname">E</td><td>Interface class for external operations. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00364">364</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00370">370</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af10f6bc4a444e795642f6046a26b79ba" name="af10f6bc4a444e795642f6046a26b79ba"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af10f6bc4a444e795642f6046a26b79ba">&#9670;&#160;</a></span>Driver()</h2>
@@ -294,19 +294,7 @@ template&lt;class E &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>No return value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l01468">1468</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_i_l_p_s22_q_s_1_1_driver_af10f6bc4a444e795642f6046a26b79ba_cgraph.png" border="0" usemap="#aclass_i_l_p_s22_q_s_1_1_driver_af10f6bc4a444e795642f6046a26b79ba_cgraph" alt=""/></div>
-<map name="aclass_i_l_p_s22_q_s_1_1_driver_af10f6bc4a444e795642f6046a26b79ba_cgraph" id="aclass_i_l_p_s22_q_s_1_1_driver_af10f6bc4a444e795642f6046a26b79ba_cgraph">
-<area shape="rect" title="Object constructor." alt="" coords="5,35,173,60"/>
-<area shape="rect" href="class_i_l_p_s22_q_s_1_1_driver.html#a2487902f56b9491e62f69cb07de57038" title="Free semaphore for read and write operations." alt="" coords="222,5,444,31"/>
-<area shape="poly" title=" " alt="" coords="173,35,206,31,207,36,174,40"/>
-<area shape="rect" href="class_i_l_p_s22_q_s_1_1_driver.html#a823884361284f7666289258cd0cc5114" title="Set temperature scale." alt="" coords="221,55,445,96"/>
-<area shape="poly" title=" " alt="" coords="174,54,205,58,205,63,173,60"/>
-</map>
-</div>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l01513">1513</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -339,7 +327,7 @@ template&lt;class E &gt; </div>
 <p>Object deconstructor. </p>
 <dl class="section return"><dt>Returns</dt><dd>No return value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l01485">1485</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l01530">1530</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -375,7 +363,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on successful init. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00456">456</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00478">478</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -410,7 +398,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00843">843</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00877">877</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -444,22 +432,12 @@ template&lt;class E &gt; </div>
 <p>This is required if async read and write is used(eg., interrupt driven or DMA).</p>
 <dl class="section return"><dt>Returns</dt><dd>No return value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00388">388</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_i_l_p_s22_q_s_1_1_driver_a2487902f56b9491e62f69cb07de57038_icgraph.png" border="0" usemap="#aclass_i_l_p_s22_q_s_1_1_driver_a2487902f56b9491e62f69cb07de57038_icgraph" alt=""/></div>
-<map name="aclass_i_l_p_s22_q_s_1_1_driver_a2487902f56b9491e62f69cb07de57038_icgraph" id="aclass_i_l_p_s22_q_s_1_1_driver_a2487902f56b9491e62f69cb07de57038_icgraph">
-<area shape="rect" title="Free semaphore for read and write operations." alt="" coords="221,5,442,31"/>
-<area shape="rect" href="class_i_l_p_s22_q_s_1_1_driver.html#af10f6bc4a444e795642f6046a26b79ba" title="Object constructor." alt="" coords="5,5,173,31"/>
-<area shape="poly" title=" " alt="" coords="205,21,173,21,173,16,205,16"/>
-</map>
-</div>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00396">396</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ab0ffc90e6ecd78267a4c54b7be924bd1" name="ab0ffc90e6ecd78267a4c54b7be924bd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0ffc90e6ecd78267a4c54b7be924bd1">&#9670;&#160;</a></span>getAnalogHubConfig()</h2>
+<a id="a4578e5d251e3097cdaacce43fe83cbc3" name="a4578e5d251e3097cdaacce43fe83cbc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4578e5d251e3097cdaacce43fe83cbc3">&#9670;&#160;</a></span>getAnalogHubConfig()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -472,7 +450,7 @@ template&lt;class E &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a> <a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html">ILPS22QS::Driver</a>&lt; E &gt;::getAnalogHubConfig </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_i_l_p_s22_q_s_1_1analog__hub__config__t.html">analog_hub_config_t</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_i_l_p_s22_q_s_1_1_analog_hub_config__s.html">AnalogHubConfig_s</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em></td><td>)</td>
           <td></td>
         </tr>
@@ -487,7 +465,7 @@ template&lt;class E &gt; </div>
 <p>Get analog hub/qvar config. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">config</td><td>Reference to config output. See <a class="el" href="struct_i_l_p_s22_q_s_1_1analog__hub__config__t.html">analog_hub_config_t</a></td></tr>
+    <tr><td class="paramname">config</td><td>Reference to config output. See <a class="el" href="struct_i_l_p_s22_q_s_1_1_analog_hub_config__s.html">AnalogHubConfig_s</a></td></tr>
   </table>
   </dd>
 </dl>
@@ -495,12 +473,12 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00879">879</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00915">915</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a9e3cd93a2aa173fcd2b5e8c60e0b8f58" name="a9e3cd93a2aa173fcd2b5e8c60e0b8f58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e3cd93a2aa173fcd2b5e8c60e0b8f58">&#9670;&#160;</a></span>getDataOutputConfig()</h2>
+<a id="aa3acdca5a8e01a250d772f84805b3512" name="aa3acdca5a8e01a250d772f84805b3512"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3acdca5a8e01a250d772f84805b3512">&#9670;&#160;</a></span>getDataOutputConfig()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -513,7 +491,7 @@ template&lt;class E &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a> <a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html">ILPS22QS::Driver</a>&lt; E &gt;::getDataOutputConfig </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_i_l_p_s22_q_s_1_1data__output__cfg__t.html">data_output_cfg_t</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_i_l_p_s22_q_s_1_1_data_output_config__s.html">DataOutputConfig_s</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em></td><td>)</td>
           <td></td>
         </tr>
@@ -528,7 +506,7 @@ template&lt;class E &gt; </div>
 <p>Get current data output config. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">config</td><td>Reference to output config. See <a class="el" href="struct_i_l_p_s22_q_s_1_1data__output__cfg__t.html">data_output_cfg_t</a></td></tr>
+    <tr><td class="paramname">config</td><td>Reference to output config. See <a class="el" href="struct_i_l_p_s22_q_s_1_1_data_output_config__s.html">DataOutputConfig_s</a></td></tr>
   </table>
   </dd>
 </dl>
@@ -536,12 +514,12 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00672">672</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00701">701</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a582bf095f6ee0ca515c555573b882e3c" name="a582bf095f6ee0ca515c555573b882e3c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a582bf095f6ee0ca515c555573b882e3c">&#9670;&#160;</a></span>getDataStatus()</h2>
+<a id="a50516b5ce5353bbfa2a859412b5f8b3b" name="a50516b5ce5353bbfa2a859412b5f8b3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50516b5ce5353bbfa2a859412b5f8b3b">&#9670;&#160;</a></span>getDataStatus()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -554,7 +532,7 @@ template&lt;class E &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a> <a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html">ILPS22QS::Driver</a>&lt; E &gt;::getDataStatus </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_i_l_p_s22_q_s_1_1data__status__t.html">data_status_t</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_i_l_p_s22_q_s_1_1_data_status__s.html">DataStatus_s</a> &amp;&#160;</td>
           <td class="paramname"><em>output</em></td><td>)</td>
           <td></td>
         </tr>
@@ -569,7 +547,7 @@ template&lt;class E &gt; </div>
 <p>Get pressure and temperature data status. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">output</td><td>Reference to output. See <a class="el" href="struct_i_l_p_s22_q_s_1_1data__status__t.html">data_status_t</a></td></tr>
+    <tr><td class="paramname">output</td><td>Reference to output. See <a class="el" href="struct_i_l_p_s22_q_s_1_1_data_status__s.html">DataStatus_s</a></td></tr>
   </table>
   </dd>
 </dl>
@@ -577,7 +555,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l01004">1004</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l01041">1041</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -618,12 +596,12 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00783">783</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00815">815</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a442598b68220776e8db47af7101ce4f0" name="a442598b68220776e8db47af7101ce4f0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a442598b68220776e8db47af7101ce4f0">&#9670;&#160;</a></span>getFilterConfig()</h2>
+<a id="a95e99477f4df191c9967f9569d7b9fef" name="a95e99477f4df191c9967f9569d7b9fef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95e99477f4df191c9967f9569d7b9fef">&#9670;&#160;</a></span>getFilterConfig()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -636,7 +614,7 @@ template&lt;class E &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a> <a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html">ILPS22QS::Driver</a>&lt; E &gt;::getFilterConfig </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_i_l_p_s22_q_s_1_1filter__config__t.html">filter_config_t</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_i_l_p_s22_q_s_1_1_filter_config__s.html">FilterConfig_s</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em></td><td>)</td>
           <td></td>
         </tr>
@@ -651,7 +629,7 @@ template&lt;class E &gt; </div>
 <p>Get pressure low-pass filter config. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">config</td><td>Reference to output. See <a class="el" href="struct_i_l_p_s22_q_s_1_1filter__config__t.html">filter_config_t</a></td></tr>
+    <tr><td class="paramname">config</td><td>Reference to output. See <a class="el" href="struct_i_l_p_s22_q_s_1_1_filter_config__s.html">FilterConfig_s</a></td></tr>
   </table>
   </dd>
 </dl>
@@ -659,12 +637,12 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00738">738</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00769">769</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a2ad1848cc19c1586222c4f92e562f954" name="a2ad1848cc19c1586222c4f92e562f954"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ad1848cc19c1586222c4f92e562f954">&#9670;&#160;</a></span>getInterruptConfig()</h2>
+<a id="a831d8eef0189b5c09e2479251c2389b5" name="a831d8eef0189b5c09e2479251c2389b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a831d8eef0189b5c09e2479251c2389b5">&#9670;&#160;</a></span>getInterruptConfig()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -677,7 +655,7 @@ template&lt;class E &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a> <a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html">ILPS22QS::Driver</a>&lt; E &gt;::getInterruptConfig </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_i_l_p_s22_q_s_1_1interrupt__cfg__t.html">interrupt_cfg_t</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_i_l_p_s22_q_s_1_1_interrupt_config__s.html">InterruptConfig_s</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em></td><td>)</td>
           <td></td>
         </tr>
@@ -700,12 +678,12 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00499">499</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00523">523</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a7b5349ce592adabe8bf969c9c7aeb676" name="a7b5349ce592adabe8bf969c9c7aeb676"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b5349ce592adabe8bf969c9c7aeb676">&#9670;&#160;</a></span>getInterruptSource()</h2>
+<a id="a64b958bc9a379ffb85b0608ee5c91028" name="a64b958bc9a379ffb85b0608ee5c91028"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64b958bc9a379ffb85b0608ee5c91028">&#9670;&#160;</a></span>getInterruptSource()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -718,7 +696,7 @@ template&lt;class E &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a> <a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html">ILPS22QS::Driver</a>&lt; E &gt;::getInterruptSource </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_i_l_p_s22_q_s_1_1interrupt__source__t.html">interrupt_source_t</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_i_l_p_s22_q_s_1_1_interrupt_source__s.html">InterruptSource_s</a> &amp;&#160;</td>
           <td class="paramname"><em>source</em></td><td>)</td>
           <td></td>
         </tr>
@@ -741,7 +719,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00981">981</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l01018">1018</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -782,7 +760,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l01027">1027</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l01064">1064</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -833,7 +811,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00557">557</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00582">582</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -884,7 +862,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00955">955</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00992">992</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -917,7 +895,7 @@ template&lt;class E &gt; </div>
 <p>Get measuing scale for pressure. </p>
 <dl class="section return"><dt>Returns</dt><dd>Pressure scale. See <a class="el" href="namespace_i_l_p_s22_q_s.html#a2f71fb97dd32250622784ae3f4eb6f8d">PressureScale_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00618">618</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00645">645</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -972,7 +950,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00901">901</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00937">937</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -1013,7 +991,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l01065">1065</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l01103">1103</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -1046,12 +1024,12 @@ template&lt;class E &gt; </div>
 <p>Get temperature scale. </p>
 <dl class="section return"><dt>Returns</dt><dd>See <a class="el" href="namespace_i_l_p_s22_q_s.html#a4475592803701449729fd1be4fc1529d">TemperatureScale_t</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00628">628</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00655">655</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a6a90a5c54b437aa011cfae46e431890b" name="a6a90a5c54b437aa011cfae46e431890b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a90a5c54b437aa011cfae46e431890b">&#9670;&#160;</a></span>init()</h2>
+<a id="af2c093c1bdbc89831076ae2ca3a2964d" name="af2c093c1bdbc89831076ae2ca3a2964d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2c093c1bdbc89831076ae2ca3a2964d">&#9670;&#160;</a></span>init()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1064,7 +1042,7 @@ template&lt;class E &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a> <a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html">ILPS22QS::Driver</a>&lt; E &gt;::init </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_i_l_p_s22_q_s_1_1interface__cfg__t.html">interface_cfg_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="struct_i_l_p_s22_q_s_1_1_interface_config__s.html">InterfaceConfig_s</a> *&#160;</td>
           <td class="paramname"><em>interfaceCfg</em> = <code>nullptr</code></td><td>)</td>
           <td></td>
         </tr>
@@ -1088,7 +1066,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on successful init. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00404">404</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00414">414</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -1123,7 +1101,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> if semaphore is free. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l01534">1534</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l01580">1580</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1168,7 +1146,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00691">691</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00720">720</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -1203,7 +1181,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00822">822</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00855">855</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -1238,12 +1216,12 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00801">801</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00833">833</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a1d4684c67c46e43ad6775d21dcc9271b" name="a1d4684c67c46e43ad6775d21dcc9271b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d4684c67c46e43ad6775d21dcc9271b">&#9670;&#160;</a></span>setAnalogHubConfig()</h2>
+<a id="a3fb9cc6f2e721858a02ba23c9a0af75b" name="a3fb9cc6f2e721858a02ba23c9a0af75b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fb9cc6f2e721858a02ba23c9a0af75b">&#9670;&#160;</a></span>setAnalogHubConfig()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1256,7 +1234,7 @@ template&lt;class E &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a> <a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html">ILPS22QS::Driver</a>&lt; E &gt;::setAnalogHubConfig </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_i_l_p_s22_q_s_1_1analog__hub__config__t.html">analog_hub_config_t</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="struct_i_l_p_s22_q_s_1_1_analog_hub_config__s.html">AnalogHubConfig_s</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1271,7 +1249,7 @@ template&lt;class E &gt; </div>
 <p>Set analog hub/qvar config. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">config</td><td>Reference to analog hub config. See <a class="el" href="struct_i_l_p_s22_q_s_1_1analog__hub__config__t.html">analog_hub_config_t</a></td></tr>
+    <tr><td class="paramname">config</td><td>Reference to analog hub config. See <a class="el" href="struct_i_l_p_s22_q_s_1_1_analog_hub_config__s.html">AnalogHubConfig_s</a></td></tr>
   </table>
   </dd>
 </dl>
@@ -1279,12 +1257,12 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00860">860</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00895">895</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a504c2bf566b13f49797c5ec00fe1001e" name="a504c2bf566b13f49797c5ec00fe1001e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a504c2bf566b13f49797c5ec00fe1001e">&#9670;&#160;</a></span>setDataOutputConfig()</h2>
+<a id="a7ed3389bd559022f4165d640b9bb71e7" name="a7ed3389bd559022f4165d640b9bb71e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ed3389bd559022f4165d640b9bb71e7">&#9670;&#160;</a></span>setDataOutputConfig()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1297,7 +1275,7 @@ template&lt;class E &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a> <a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html">ILPS22QS::Driver</a>&lt; E &gt;::setDataOutputConfig </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_i_l_p_s22_q_s_1_1data__output__cfg__t.html">data_output_cfg_t</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="struct_i_l_p_s22_q_s_1_1_data_output_config__s.html">DataOutputConfig_s</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1312,7 +1290,7 @@ template&lt;class E &gt; </div>
 <p>Configure data output. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">config</td><td>Reference to data output config. See <a class="el" href="struct_i_l_p_s22_q_s_1_1data__output__cfg__t.html">data_output_cfg_t</a></td></tr>
+    <tr><td class="paramname">config</td><td>Reference to data output config. See <a class="el" href="struct_i_l_p_s22_q_s_1_1_data_output_config__s.html">DataOutputConfig_s</a></td></tr>
   </table>
   </dd>
 </dl>
@@ -1320,7 +1298,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00654">654</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00682">682</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -1361,12 +1339,12 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00759">759</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00790">790</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
-<a id="af08f2dabf010cb2c5dbd6f7acf97e534" name="af08f2dabf010cb2c5dbd6f7acf97e534"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af08f2dabf010cb2c5dbd6f7acf97e534">&#9670;&#160;</a></span>setFilterConfig()</h2>
+<a id="ac35d6c297ae938c2b17b3fb747d98f9e" name="ac35d6c297ae938c2b17b3fb747d98f9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac35d6c297ae938c2b17b3fb747d98f9e">&#9670;&#160;</a></span>setFilterConfig()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1379,7 +1357,7 @@ template&lt;class E &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a> <a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html">ILPS22QS::Driver</a>&lt; E &gt;::setFilterConfig </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_i_l_p_s22_q_s_1_1filter__config__t.html">filter_config_t</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="struct_i_l_p_s22_q_s_1_1_filter_config__s.html">FilterConfig_s</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1394,7 +1372,7 @@ template&lt;class E &gt; </div>
 <p>Set pressure low-pass filter config. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">config</td><td>Reference to filter config struct. See <a class="el" href="struct_i_l_p_s22_q_s_1_1filter__config__t.html">filter_config_t</a></td></tr>
+    <tr><td class="paramname">config</td><td>Reference to filter config struct. See <a class="el" href="struct_i_l_p_s22_q_s_1_1_filter_config__s.html">FilterConfig_s</a></td></tr>
   </table>
   </dd>
 </dl>
@@ -1402,12 +1380,12 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00714">714</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00744">744</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ae75f59ae2d0c0f0484da5dc18f095849" name="ae75f59ae2d0c0f0484da5dc18f095849"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae75f59ae2d0c0f0484da5dc18f095849">&#9670;&#160;</a></span>setInterruptConfig()</h2>
+<a id="a450dbcdf4ac418ba029d0aabf8d5cf53" name="a450dbcdf4ac418ba029d0aabf8d5cf53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a450dbcdf4ac418ba029d0aabf8d5cf53">&#9670;&#160;</a></span>setInterruptConfig()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1420,7 +1398,7 @@ template&lt;class E &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00dd">Return_t</a> <a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html">ILPS22QS::Driver</a>&lt; E &gt;::setInterruptConfig </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_i_l_p_s22_q_s_1_1interrupt__cfg__t.html">interrupt_cfg_t</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="struct_i_l_p_s22_q_s_1_1_interrupt_config__s.html">InterruptConfig_s</a> &amp;&#160;</td>
           <td class="paramname"><em>config</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1435,7 +1413,7 @@ template&lt;class E &gt; </div>
 <p>Set interrupt config. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">config</td><td>Reference to interrupt config. See <a class="el" href="struct_i_l_p_s22_q_s_1_1interrupt__cfg__t.html">interrupt_cfg_t</a></td></tr>
+    <tr><td class="paramname">config</td><td>Reference to interrupt config. See <a class="el" href="struct_i_l_p_s22_q_s_1_1_interrupt_config__s.html">InterruptConfig_s</a></td></tr>
   </table>
   </dd>
 </dl>
@@ -1443,7 +1421,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00476">476</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00499">499</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -1484,7 +1462,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00525">525</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00549">549</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1535,7 +1513,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00927">927</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00963">963</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -1576,7 +1554,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> on success. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00589">589</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00614">614</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -1615,17 +1593,7 @@ template&lt;class E &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>No return values. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00640">640</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_i_l_p_s22_q_s_1_1_driver_a823884361284f7666289258cd0cc5114_icgraph.png" border="0" usemap="#aclass_i_l_p_s22_q_s_1_1_driver_a823884361284f7666289258cd0cc5114_icgraph" alt=""/></div>
-<map name="aclass_i_l_p_s22_q_s_1_1_driver_a823884361284f7666289258cd0cc5114_icgraph" id="aclass_i_l_p_s22_q_s_1_1_driver_a823884361284f7666289258cd0cc5114_icgraph">
-<area shape="rect" title="Set temperature scale." alt="" coords="221,5,445,46"/>
-<area shape="rect" href="class_i_l_p_s22_q_s_1_1_driver.html#af10f6bc4a444e795642f6046a26b79ba" title="Object constructor." alt="" coords="5,13,173,39"/>
-<area shape="poly" title=" " alt="" coords="205,28,173,28,173,23,205,23"/>
-</map>
-</div>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00667">667</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -1659,7 +1627,7 @@ template&lt;class E &gt; </div>
 <p>This is required if async read and write is used(eg., interrupt driven or DMA).</p>
 <dl class="section return"><dt>Returns</dt><dd>No return value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00375">375</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l00381">381</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 
 </div>
 </div>
@@ -1694,7 +1662,7 @@ template&lt;class E &gt; </div>
 <dd>
 <code><a class="el" href="namespace_i_l_p_s22_q_s.html#aadc3a61fcd32234836f24bc6688e00ddae0aa021e21dddbd6d8cecec71e9cf564" title="OK return value.">Return_t::OK</a></code> if semaphore is released in time. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l01496">1496</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html#l01541">1541</a> of file <a class="el" href="_i_l_p_s22_q_s_8hpp_source.html">ILPS22QS.hpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1717,7 +1685,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespace_i_l_p_s22_q_s.html">ILPS22QS</a></li><li class="navelem"><a class="el" href="class_i_l_p_s22_q_s_1_1_driver.html">Driver</a></li>
-    <li class="footer">Generated on Mon Feb 10 2025 02:43:49 for ILPS22QS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Thu Mar 6 2025 22:36:55 for ILPS22QS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>

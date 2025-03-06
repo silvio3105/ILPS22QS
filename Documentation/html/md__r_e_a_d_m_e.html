@@ -26,7 +26,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">ILPS22QS<span id="projectnumber">&#160;v1.0rc2</span>
+   <div id="projectname">ILPS22QS<span id="projectnumber">&#160;v1.0rc3</span>
    </div>
    <div id="projectbrief">Frameworkless I2C/SPI driver for ILPS22QS absolute pressure &amp; temperature sensor.</div>
   </td>
@@ -102,7 +102,7 @@ Driver configuration</h1>
 <p>Timeout for interface operations can be redefined with <code>ILPS22QS_I2C_READ_TIMEOUT</code> and <code>ILPS22QS_I2C_WRITE_TIMEOUT</code> or <code>ILPS22QS_SPI_READ_TIMEOUT</code> and <code>ILPS22QS_SPI_WRITE_TIMEOUT</code>. Default timeout is 10ms.</p>
 <h1><a class="anchor" id="debug-mode"></a>
 Debug mode</h1>
-<p>To enable debug mode, define <code>ILPS22QS_DEBUG</code> for verbose debug, <code>ILPS22QS_DEBUG_INFO</code> for info debug and <code>ILPS22QS_DEBUG_ERROR</code> for error debug. Name of debug output handlers must be defined with <code>DEBUG_PRINT</code> and <code>DEBUG_PRINTF</code>.</p>
+<p>To enable debug mode, define <code>DEBUG_ILPS22QS</code> and <code>DEBUG</code>. To enable debug levels, define <code>DEBUG_ILPS22QS_VERBOSE</code>, <code>DEBUG_ILPS22QS_INFO</code> or <code>DEBUG_ILPS22QS_ERROR</code>. <a href="https://github.com/silvio3105/sDebug">sDebug</a> library is required.</p>
 <h1><a class="anchor" id="license"></a>
 License</h1>
 <p>Copyright (c) 2025, silvio3105 (www.github.com/silvio3105)</p>
@@ -117,7 +117,7 @@ License</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Feb 10 2025 02:43:49 for ILPS22QS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+    <li class="footer">Generated on Thu Mar 6 2025 22:36:55 for ILPS22QS by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
   </ul>
 </div>
 </body>
